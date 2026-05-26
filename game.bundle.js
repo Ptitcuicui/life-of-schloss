@@ -1054,7 +1054,7 @@ function fullRender(){ drawFrame(); drawMinimap(); }
 // ── MINIMAP ───────────────────────────────────────────────────────────────────
 const minimapCanvas = document.getElementById('minimap-canvas');
 const mmCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
-const MM_W = 80, MM_H = 220;
+const MM_W = 130, MM_H = 360;
 if(minimapCanvas){ minimapCanvas.width = MM_W; minimapCanvas.height = MM_H; }
 
 function drawMinimap(){
@@ -1070,7 +1070,7 @@ function drawMinimap(){
   const minY = Math.min(...allY), maxY = Math.max(...allY);
   const rangeX = maxX - minX || 1, rangeY = maxY - minY || 1;
 
-  const PAD = 6;
+  const PAD = 10;
   function toMM(cx, cy){
     return {
       x: PAD + (cx - minX) / rangeX * (MM_W - PAD*2),
@@ -1084,27 +1084,27 @@ function drawMinimap(){
   mmCtx.fillStyle = 'rgba(11,11,23,.6)';
   mmCtx.fillRect(0, 0, MM_W, MM_H);
 
-  // Draw stops as small dots
-  Object.entries(STOP_LAYOUT).forEach(([id, sl]) => {
-    const s = STOP_MAP.get(id);
-    if(!s) return;
-    const { x, y } = toMM(sl.cx, sl.cy);
-    const r = s.type === 'finale' ? 4 : s.type === 'fork' ? 3 : 2;
-    const col = s.type === 'finale' ? '#ffd700' : s.type === 'fork' ? '#c084f5' : (CHAPTER_COLORS[s.ch] || '#3a3a5a');
-    mmCtx.beginPath();
-    mmCtx.arc(x, y, r, 0, Math.PI*2);
-    mmCtx.fillStyle = col + 'cc';
-    mmCtx.fill();
-  });
-
   // Draw edges as faint lines
-  mmCtx.strokeStyle = 'rgba(255,255,255,.08)';
-  mmCtx.lineWidth = .8;
+  mmCtx.strokeStyle = 'rgba(255,255,255,.12)';
+  mmCtx.lineWidth = 1;
   EDGES.forEach(([fromId, toId]) => {
     const a = STOP_LAYOUT[fromId], b = STOP_LAYOUT[toId];
     if(!a || !b) return;
     const p1 = toMM(a.cx, a.cy), p2 = toMM(b.cx, b.cy);
     mmCtx.beginPath(); mmCtx.moveTo(p1.x, p1.y); mmCtx.lineTo(p2.x, p2.y); mmCtx.stroke();
+  });
+
+  // Draw stops as dots
+  Object.entries(STOP_LAYOUT).forEach(([id, sl]) => {
+    const s = STOP_MAP.get(id);
+    if(!s) return;
+    const { x, y } = toMM(sl.cx, sl.cy);
+    const r = s.type === 'finale' ? 6 : s.type === 'fork' ? 4.5 : s.type === 'story' ? 3.5 : 2.5;
+    const col = s.type === 'finale' ? '#ffd700' : s.type === 'fork' ? '#c084f5' : s.type === 'story' ? '#f8b500' : (CHAPTER_COLORS[s.ch] || '#3a3a5a');
+    mmCtx.beginPath();
+    mmCtx.arc(x, y, r, 0, Math.PI*2);
+    mmCtx.fillStyle = col + 'cc';
+    mmCtx.fill();
   });
 
   // Draw player pawns — group players on same stop
@@ -1116,17 +1116,17 @@ function drawMinimap(){
     const base = toMM(sl.cx, sl.cy);
     players.forEach((p, i) => {
       const angle = (i / players.length) * Math.PI * 2;
-      const offset = players.length > 1 ? 5 : 0;
+      const offset = players.length > 1 ? 7 : 0;
       const px = base.x + Math.cos(angle) * offset;
       const py = base.y + Math.sin(angle) * offset;
       // Glow ring for current player
       if(p.id === cp().id){
-        mmCtx.beginPath(); mmCtx.arc(px, py, 5, 0, Math.PI*2);
+        mmCtx.beginPath(); mmCtx.arc(px, py, 8, 0, Math.PI*2);
         mmCtx.fillStyle = p.color + '44'; mmCtx.fill();
       }
-      mmCtx.beginPath(); mmCtx.arc(px, py, 3.5, 0, Math.PI*2);
+      mmCtx.beginPath(); mmCtx.arc(px, py, 5, 0, Math.PI*2);
       mmCtx.fillStyle = p.color; mmCtx.fill();
-      mmCtx.strokeStyle = '#fff'; mmCtx.lineWidth = .8;
+      mmCtx.strokeStyle = '#fff'; mmCtx.lineWidth = 1;
       mmCtx.stroke();
     });
   });
