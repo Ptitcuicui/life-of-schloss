@@ -720,7 +720,12 @@ const BETS = [
   { src:'invented', title:'⛽ Pari Station-Service',    question:'La prochaine station-service est-elle ouverte ?', optA:"✅ Oui — enfin", optB:"🔒 Non — fermée le dimanche ou en travaux", outcome:'B', outcomeText:"Fermée. Depuis 3 mois. Pour travaux indéterminés.", winFx:[{t:'m',v:300}], loseFx:[{t:'m',v:-200},{t:'b',v:-1}] },
   { src:'invented', title:'📻 Pari Radio FM',          question:'France Bleu Champagne capte-t-elle dans ce coin reculé du 52 ?', optA:"📻 Oui — on capte encore", optB:"📺 Non — que du grésil", outcome:'B', outcomeText:"Que du grésil. Vous chantez a capella.", winFx:[{t:'b',v:2}], loseFx:[{t:'b',v:-1}] },
 ];
-function drawBet(){ return BETS[Math.floor(Math.random()*BETS.length)]; }
+function drawBet(){
+  if (!G.betPool || G.betPool.length === 0) G.betPool = BETS.map((_, i) => i);
+  const idx = Math.floor(Math.random() * G.betPool.length);
+  const betIdx = G.betPool.splice(idx, 1)[0];
+  return BETS[betIdx];
+}
 
 // ── DUELS — dé contre dé, bonheur en jeu ─────────────────────────────────────
 const STAT_LABELS = { gaming:'🎮 Gaming', finance:'💰 Finance', chance:'🍀 Chance', social:'❤️ Social' };
