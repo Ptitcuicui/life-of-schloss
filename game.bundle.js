@@ -542,7 +542,7 @@ const PLAYER_DEFS = [
   {id:'whitewarrior',name:'Whitewarrior', emoji:'⚔️', color:'#8ab8e0', bg:'#1a2a3a', role:'Le Gardien Loyal',           stats:{gaming:9,finance:6,chance:8,social:7}},
   {id:'sponge',      name:'Sponge',       emoji:'🧽', color:'#ff8c42', bg:'#3a1a00', role:'Le Gestionnaire',             stats:{gaming:9,finance:8,chance:6,social:7}},
   {id:'invoherence', name:'Incoherence',  emoji:'🐰', color:'#c084f5', bg:'#2a0a3a', role:'La Rêveuse 💍 future mariée',stats:{gaming:6,finance:6,chance:9,social:9}},
-  {id:'toutoon',     name:'Toutoon',      emoji:'😤', color:'#e05050', bg:'#3a0a0a', role:'Le Dormant 💍 futur marié',  stats:{gaming:8,finance:5,chance:8,social:9}},
+  {id:'toutoon',     name:'Toutoon',      emoji:'😤', color:'#f5c400', bg:'#2a1f00', role:'Le Dormant 💍 futur marié',  stats:{gaming:8,finance:5,chance:8,social:9}},
 ];
 function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, finished:false, order:null}; }
 
@@ -1430,8 +1430,9 @@ function updateUI(){
   // Side panel background — reflects current player
   const panel = document.querySelector('.side-panel');
   if(panel){
-    panel.style.background = `linear-gradient(180deg, ${p.bg} 0%, #0b0b17 18%)`;
-    panel.style.borderLeftColor = p.color+'55';
+    panel.style.background = `linear-gradient(180deg, ${p.color}22 0%, ${p.bg} 12%, #0b0b17 55%)`;
+    panel.style.borderLeftColor = p.color+'99';
+    panel.style.boxShadow = `inset -4px 0 32px ${p.color}18`;
   }
 
   // Current player card
