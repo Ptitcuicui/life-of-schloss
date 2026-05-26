@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCHLOSS — Le Jeu de la Vie du 52</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- LOBBY -->
+  <div id="screen-lobby" class="screen active">
+    <div class="lobby-bg"></div>
+    <div class="lobby-content">
+      <div class="title-block">
+        <div class="castle-icon">🏰</div>
+        <h1 class="game-title">SCHLOSS</h1>
+        <p class="game-sub">Le Jeu de la Vie · Haute-Marne · Département 52</p>
+        <p class="game-sub" style="color:#c084f5;font-size:13px;margin-top:4px">💍 Pour Toutoon &amp; Incoherence — Septembre 2026</p>
+      </div>
+      <div class="player-select-box">
+        <div class="mode-tabs">
+          <button class="mode-tab active" id="tab-local" onclick="NET.setMode('local')">🖥️ Local</button>
+          <button class="mode-tab" id="tab-online" onclick="NET.setMode('online')">🌐 En ligne</button>
+        </div>
+
+        <!-- Local -->
+        <div id="mode-local">
+          <h2 class="select-title">Choisir les Joueurs</h2>
+          <div id="player-grid" class="player-grid"></div>
+          <div class="lobby-footer">
+            <p class="select-hint" id="select-hint">Sélectionne au moins 2 joueurs</p>
+            <button id="btn-start" class="btn-gold" disabled>💍 Commencer la Vie</button>
+          </div>
+        </div>
+
+        <!-- Online -->
+        <div id="mode-online" class="hidden">
+          <div id="online-setup">
+            <h2 class="select-title">Partie en ligne</h2>
+            <div class="online-btns">
+              <button class="btn-gold" onclick="NET.createRoom()">✨ Créer une partie</button>
+              <button class="btn-gold" onclick="NET.showJoin()">🔗 Rejoindre</button>
+            </div>
+            <div id="join-form" class="hidden" style="margin-top:14px">
+              <input id="room-code-input" class="room-input" placeholder="Code (ex: AB3X)" maxlength="4" style="text-transform:uppercase">
+              <button class="btn-gold" onclick="NET.joinRoom()">→ Rejoindre</button>
+            </div>
+          </div>
+          <div id="online-room" class="hidden">
+            <div id="room-code-display" class="room-code-display"></div>
+            <h2 class="select-title">Choisir ton personnage</h2>
+            <div id="player-grid-online" class="player-grid"></div>
+            <div id="online-players-list" class="online-players-list"></div>
+            <div class="lobby-footer">
+              <p class="select-hint" id="select-hint-online">Attends les autres joueurs…</p>
+              <button id="btn-start-online" class="btn-gold hidden" onclick="NET.startOnline()">💍 Lancer la partie</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="color:#7a7a9a;font-size:11px;text-align:center;max-width:500px">
+        🗺️ Voyage sur les chemins de la Haute-Marne · Lance le dé · Vis ta destinée
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME -->
+  <div id="screen-game" class="screen">
+    <div class="canvas-wrap"><canvas id="game-canvas"></canvas></div>
+    <div class="side-panel">
+
+      <!-- Current player block -->
+      <div class="panel-block">
+        <div class="panel-title">Joueur Actif</div>
+        <div class="cur-player-header">
+          <span id="cur-emoji" class="cur-emoji"></span>
+          <div>
+            <div id="cur-name" class="cur-name">—</div>
+            <div id="cur-role" class="cur-role"></div>
+            <div id="cur-chapter" class="cur-chapter"></div>
+          </div>
+        </div>
+        <div class="cur-resources">
+          <div class="res-box">
+            <span class="res-label">Bonheur</span>
+            <span id="cur-bonheur" class="res-val res-bonheur">0</span>
+            <span class="res-unit">❤️</span>
+          </div>
+          <div class="res-box">
+            <span class="res-label">Argent</span>
+            <span id="cur-money" class="res-val res-money">0€</span>
+          </div>
+        </div>
+        <div id="phase-hint" class="phase-hint">Lance le dé !</div>
+      </div>
+
+      <!-- Dice -->
+      <div class="panel-block">
+        <div class="panel-title">Dé du Destin</div>
+        <div class="dice-row">
+          <div id="dice-display" class="dice-display">⚀</div>
+          <button id="btn-roll" class="btn-gold">🎲 Lancer</button>
+        </div>
+      </div>
+
+      <!-- Scoreboard -->
+      <div class="panel-block">
+        <div class="panel-title">Bonheur &amp; Argent</div>
+        <div id="scores-list"></div>
+      </div>
+
+      <!-- Event log -->
+      <div class="panel-block">
+        <div class="panel-title">Journal du Destin</div>
+        <div id="event-log" class="event-log"></div>
+      </div>
+
+      <!-- Legend -->
+      <div class="panel-block legend-block">
+        <div class="panel-title">Légende</div>
+        ⭐ Événement histoire<br>
+        🃏 Carte destin<br>
+        🔀 Carrefour de vie<br>
+        💍 Finale : Le Mariage
+      </div>
+
+    </div>
+  </div>
+
+  <!-- VICTORY -->
+  <div id="screen-victory" class="screen">
+    <div class="victory-bg"></div>
+    <div class="victory-card">
+      <div class="victory-crown">💍</div>
+      <h1 id="victory-name" class="victory-name"></h1>
+      <p id="victory-type" class="victory-type"></p>
+      <div id="victory-stats" class="victory-stats"></div>
+      <p style="color:#7a7a9a;font-size:13px;margin-top:16px">Jeu créé avec ❤️ pour Toutoon &amp; Incoherence — Schloss, Département 52</p>
+      <button id="btn-replay" class="btn-gold">↩ Rejouer</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- TURN TOAST -->
+<div id="turn-toast" class="turn-toast hidden"></div>
+
+<!-- EVENT MODAL (stories + cards) -->
+<div id="event-modal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div id="ev-icon" class="modal-icon">⭐</div>
+    <h2 id="ev-title" class="modal-title"></h2>
+    <p id="ev-body" class="modal-text"></p>
+    <div id="ev-effects" class="modal-effects"></div>
+    <button id="ev-btn" class="btn-gold">Continuer →</button>
+  </div>
+</div>
+
+<!-- FORK MODAL -->
+<div id="fork-modal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div class="modal-icon">🔀</div>
+    <h2 id="fork-title" class="modal-title">Carrefour de Vie</h2>
+    <p id="fork-subtitle" class="modal-text"></p>
+    <div id="fork-choices" class="fork-choices"></div>
+  </div>
+</div>
+
+<!-- PARI MODAL — tous les joueurs parient simultanément -->
+<div id="bet-modal" class="modal-overlay hidden">
+  <div class="modal-card modal-bet">
+    <div class="modal-icon">🎰</div>
+    <h2 id="bet-title" class="modal-title"></h2>
+    <p id="bet-question" class="modal-text bet-question-text"></p>
+    <div class="bet-choices-row">
+      <div class="bet-choice-label bet-opt-a" id="bet-opt-a-label"></div>
+      <div class="bet-choice-label bet-opt-b" id="bet-opt-b-label"></div>
+    </div>
+    <div id="bet-player-area" class="bet-player-area"></div>
+    <button id="bet-reveal" class="btn-gold">🎲 Révéler le Résultat !</button>
+    <div id="bet-result" class="modal-effects bet-result hidden"></div>
+    <button id="bet-continue" class="btn-gold hidden">Continuer →</button>
+  </div>
+</div>
+
+<!-- DUEL MODAL — dé contre dé -->
+<div id="duel-modal" class="modal-overlay hidden">
+  <div class="modal-card modal-duel">
+    <div class="modal-icon">⚔️</div>
+    <h2 id="duel-title" class="modal-title"></h2>
+    <p id="duel-desc" class="modal-text"></p>
+    <div id="duel-stake-info" class="duel-stake"></div>
+    <div id="duel-target-list" class="fork-choices"></div>
+    <div id="duel-dice-area" class="duel-dice-area hidden"></div>
+    <div id="duel-result" class="modal-effects hidden"></div>
+    <button id="duel-continue" class="btn-gold hidden">Continuer →</button>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js" onerror="window._noSocketIO=true"></script>
+<script src="game.bundle.js"></script>
+</body>
+</html>

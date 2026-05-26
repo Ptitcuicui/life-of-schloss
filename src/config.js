@@ -1,0 +1,11 @@
+export const HEX_SIZE = 30;           // pointy-top hex radius
+export const MAX_ROUNDS = 10;
+export const SIM_GENERATIONS = 12;    // GoL steps per simulation
+export const SIM_STEP_MS = 180;       // ms between generations
+export const PLACE_PER_TURN = 5;      // base cells per placement phase
+export const SETUP_CELLS = 10;        // starting cells per player
+export const MINIGAME_EVERY = 3;      // rounds between minigames
+export const DOMINATION_PCT = 0.60;   // fraction of map for domination win
+export const CULTURE_LANDMARKS = 5;   // landmarks needed for culture win
+export const PLACEMENT_TIMER_S = 60;  // seconds per placement phase
+export const TRIVIA_TIMER_S = 15;

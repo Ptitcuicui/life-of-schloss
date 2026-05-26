@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Start-Process \"C:\\\\Users\\\\Ptitcuicui\\\\schloss-game\\\\index.html\"; Start-Sleep -Seconds 2; Add-Type -AssemblyName System.Windows.Forms, System.Drawing; $s=[System.Windows.Forms.Screen]::PrimaryScreen.Bounds; $b=New-Object System.Drawing.Bitmap\\($s.Width,$s.Height\\); $g=[System.Drawing.Graphics]::FromImage\\($b\\); $g.CopyFromScreen\\($s.Location,[System.Drawing.Point]::Empty,$s.Size\\); $p=\"$env:TEMP\\\\schloss2.png\"; $b.Save\\($p\\); $g.Dispose\\(\\); $b.Dispose\\(\\); Write-Host $p)",
+      "PowerShell(Start-Process \"C:\\\\Users\\\\Ptitcuicui\\\\schloss-game\\\\index.html\"; Start-Sleep -Seconds 3; Add-Type -AssemblyName System.Windows.Forms, System.Drawing; $s=[System.Windows.Forms.Screen]::PrimaryScreen.Bounds; $b=New-Object System.Drawing.Bitmap\\($s.Width,$s.Height\\); $g=[System.Drawing.Graphics]::FromImage\\($b\\); $g.CopyFromScreen\\($s.Location,[System.Drawing.Point]::Empty,$s.Size\\); $p=\"$env:TEMP\\\\schloss3.png\"; $b.Save\\($p\\); $g.Dispose\\(\\); $b.Dispose\\(\\); Write-Host $p)",
+      "PowerShell(Start-Process \"c:\\\\Users\\\\Ptitcuicui\\\\schloss-game\\\\index.html\")",
+      "PowerShell(Get-Command node, npm -ErrorAction SilentlyContinue)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\npm.cmd\" --version)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" --version)",
+      "PowerShell(Start-Sleep -Seconds 2; try { \\(Invoke-WebRequest -Uri \"http://localhost:3000\" -TimeoutSec 3\\).StatusCode } catch { \"Erreur: $_\" })",
+      "PowerShell(\\(Get-Content \"c:\\\\Users\\\\Ptitcuicui\\\\schloss-game\\\\game.bundle.js\" | Measure-Object -Line\\).Lines)",
+      "PowerShell(Get-Process -Name \"node\" -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Seconds 1; Start-Process \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" -ArgumentList \"c:\\\\Users\\\\Ptitcuicui\\\\schloss-game\\\\server.js\"; Start-Sleep -Seconds 2; try { \\(Invoke-WebRequest -Uri \"http://localhost:3000\" -TimeoutSec 3\\).StatusCode } catch { \"Erreur: $_\" })"
+    ]
+  }
+}
