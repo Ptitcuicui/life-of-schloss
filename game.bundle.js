@@ -52,6 +52,107 @@ const SFX = (() => {
   };
 })();
 
+// ── BACKGROUND MUSIC ──────────────────────────────────────────────────────────
+const BGM = (() => {
+  let actx = null, masterGain = null;
+  let running = false, arpTime = 0, melTime = 0, arpIdx = 0, melIdx = 0;
+  let timer = null;
+  const droneOscs = [];
+  const BPM = 76, B = 60 / BPM, LOOKAHEAD = 0.3, TICK = 80;
+
+  function ctx() {
+    if (!actx) {
+      actx = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = actx.createGain();
+      masterGain.gain.value = 0.18;
+      // Soft delay reverb
+      const del = actx.createDelay(0.5); del.delayTime.value = 0.2;
+      const fb  = actx.createGain();     fb.gain.value = 0.32;
+      const wet = actx.createGain();     wet.gain.value = 0.2;
+      masterGain.connect(del); del.connect(fb); fb.connect(del);
+      del.connect(wet); wet.connect(actx.destination);
+      masterGain.connect(actx.destination);
+    }
+    return actx;
+  }
+
+  function note(freq, t, dur, vol, type = 'triangle') {
+    const c = ctx();
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.001, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.02);
+    g.gain.setValueAtTime(vol * 0.75, t + dur - Math.min(dur * 0.5, 0.45));
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    o.connect(g); g.connect(masterGain);
+    o.start(t); o.stop(t + dur + 0.05);
+  }
+
+  // D Dorian — arpège luth (8 temps)
+  const hz = { D3:146.83, E3:164.81, F3:174.61, G3:196, A3:220, C4:261.63,
+                D2:73.42, A2:110, D4:293.66, E4:329.63, F4:349.23, G4:392, A4:440 };
+  const ARP = [
+    [hz.D3,.5],[hz.F3,.5],[hz.A3,.5],[hz.D4,.5],
+    [hz.C4,.5],[hz.A3,.5],[hz.G3,.5],[hz.A3,.5],
+    [hz.D3,.5],[hz.F3,.5],[hz.G3,.5],[hz.F3,.5],
+    [hz.A3,.5],[hz.C4,.5],[hz.D4,.5],[hz.A3,.5],
+  ];
+  // Mélodie flûte (28 temps)
+  const MEL = [
+    {f:hz.D4,b:2},{f:hz.F4,b:1},{f:hz.G4,b:1},
+    {f:hz.A4,b:2},{f:hz.G4,b:1},{f:null,b:1},
+    {f:hz.F4,b:1.5},{f:hz.D4,b:2.5},
+    {f:null,b:4},
+    {f:hz.C4,b:1},{f:hz.D4,b:1},{f:hz.F4,b:1},{f:hz.E4,b:1},
+    {f:hz.D4,b:2},{f:null,b:2},
+    {f:null,b:8},
+  ];
+
+  function tick() {
+    if (!running) return;
+    const c = ctx(), now = c.currentTime;
+    while (arpTime < now + LOOKAHEAD) {
+      const [f, b] = ARP[arpIdx++ % ARP.length];
+      note(f, arpTime, b * B * 0.82, 0.07);
+      arpTime += b * B;
+    }
+    while (melTime < now + LOOKAHEAD) {
+      const ev = MEL[melIdx++ % MEL.length];
+      if (ev.f) note(ev.f, melTime, ev.b * B * 0.78, 0.11, 'sine');
+      melTime += ev.b * B;
+    }
+    timer = setTimeout(tick, TICK);
+  }
+
+  function start() {
+    if (running) return;
+    const c = ctx();
+    if (c.state === 'suspended') c.resume();
+    running = true;
+    [[hz.D2,.05],[hz.A2,.025]].forEach(([f,v]) => {
+      const o = c.createOscillator(), g = c.createGain();
+      o.type = 'sine'; o.frequency.value = f; g.gain.value = v;
+      o.connect(g); g.connect(masterGain); o.start(); droneOscs.push(o);
+    });
+    const now = c.currentTime;
+    arpTime = now + 0.1;
+    melTime = now + ARP.length * 0.5 * B * 2;
+    arpIdx = 0; melIdx = 0;
+    tick();
+  }
+
+  function stop() {
+    running = false;
+    clearTimeout(timer);
+    droneOscs.forEach(o => { try { o.stop(); } catch(e){} });
+    droneOscs.length = 0;
+  }
+
+  function toggle() { running ? stop() : start(); return running; }
+  function isPlaying() { return running; }
+  return { start, stop, toggle, isPlaying };
+})();
+
 // ── STOP POSITIONS (% of canvas width/height) ────────────────────────────────
 // Path winds through Haute-Marne from north (Lac du Der) to finale (Chaumont)
 const STOPS = [
@@ -130,13 +231,17 @@ const STOPS = [
   { id:'p_act8',   label:'Télétravail\nen Haute-Marne',         icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'surprise' },
   { id:'p_act9',   label:'Reconversion ?\nÀ la Croisée',       icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'money' },
   { id:'fork3',    label:'Carrefour\nCarrière',                 icon:'🔀', type:'fork',   ch:'💼 Carrière',
-    choices:[{label:'💻 Dev & Data',next:'f3a'},{label:'🏭 Tech & Industrie',next:'f3b'}] },
+    choices:[{label:'💻 Dev & Data',next:'f3a'},{label:'🏭 Tech & Industrie',next:'f3b'},{label:'🖥️ Ingénieur Système',next:'f3c'},{label:'⚡ Ingénieur Électronique',next:'f3d'}] },
 
   // ── CARRIÈRE (rows 13-14) ──
   { id:'f3a',      label:'Télétravail Dev\nHaute-Marne',        icon:'💻', type:'card',   ch:'💼 Carrière', deck:'career' },
   { id:'f3a2',     label:'Startup\nChampenoise',                icon:'💰', type:'card',   ch:'💼 Carrière', deck:'money' },
   { id:'f3b',      label:'Forge\nde Nogent',                    icon:'🏭', type:'card',   ch:'💼 Carrière', deck:'career' },
   { id:'f3b2',     label:'Industrie\nSaint-Dizier',             icon:'🏭', type:'card',   ch:'💼 Carrière', deck:'money' },
+  { id:'f3c',      label:'Ingénieur Système\nHaute-Marne',      icon:'🖥️', type:'card',   ch:'💼 Carrière', deck:'career' },
+  { id:'f3c2',     label:'Infrastructure\nChaumont',             icon:'🖥️', type:'card',   ch:'💼 Carrière', deck:'money' },
+  { id:'f3d',      label:'Ingénieur Électronique\nSaint-Dizier',icon:'⚡', type:'card',   ch:'💼 Carrière', deck:'career' },
+  { id:'f3d2',     label:'Bureau d\'Études\nNoisy-le-52',        icon:'⚡', type:'card',   ch:'💼 Carrière', deck:'money' },
   { id:'p_lang',   label:'Langres\nCité Fortifiée',             icon:'⭐', type:'story',  ch:'💼 Carrière', storyId:'langres' },
   { id:'p_car1',   label:'Conférence\nà Paris',                 icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'surprise' },
   { id:'p_car2',   label:'Nouveau Contrat\nSigné',              icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'money' },
@@ -220,9 +325,11 @@ const EDGES = [
   ['p_act5','p_act6'],
   // Row 12 L→R (Vie Active → Carrière)
   ['p_act6','p_act7'],['p_act7','p_act8'],['p_act8','p_act9'],['p_act9','fork3'],
-  // Fork3 branches (row 13 R←L) — branch A: Dev, branch B: Industrie
+  // Fork3 branches — A: Dev, B: Industrie, C: Sys, D: Elec
   ['fork3','f3a'],['f3a','f3a2'],['f3a2','p_lang'],
   ['fork3','f3b'],['f3b','f3b2'],['f3b2','p_lang'],
+  ['fork3','f3c'],['f3c','f3c2'],['f3c2','p_lang'],
+  ['fork3','f3d'],['f3d','f3d2'],['f3d2','p_lang'],
   // U-turn row13→row14
   ['p_lang','p_car1'],
   // Row 14 L→R (Carrière → Vie Adulte)
@@ -759,7 +866,7 @@ const BRANCH_STOPS = new Set([
   'f1a','f1a2','f1b','f1b2',
   'fe_a','fe_a2','fe_a3','fe_b','fe_b2','fe_b3','fe_b4',
   'f2a','f2a2','f2a3','f2b','f2b2',
-  'f3a','f3a2','f3b','f3b2',
+  'f3a','f3a2','f3b','f3b2','f3c','f3c2','f3d','f3d2',
   'f4a','f4a2','f4b','f4b2',
 ]);
 // Fork layout: two parallel tracks that split and rejoin
@@ -767,14 +874,16 @@ const FORK_LAYOUT = {
   fork1:   { pathA:['f1a','f1a2'],           pathB:['f1b','f1b2'],                   mergeId:'p_lycee' },
   fork_et: { pathA:['fe_a','fe_a2','fe_a3'], pathB:['fe_b','fe_b2','fe_b3','fe_b4'], mergeId:'p_arc' },
   fork2:   { pathA:['f2a','f2a2','f2a3'],    pathB:['f2b','f2b2'],                   mergeId:'f2b3' },
-  fork3:   { pathA:['f3a','f3a2'],           pathB:['f3b','f3b2'],                   mergeId:'p_lang' },
+  fork3:   { pathA:['f3a','f3a2'],           pathB:['f3b','f3b2'],   pathC:['f3c','f3c2'], pathD:['f3d','f3d2'], mergeId:'p_lang' },
   fork4:   { pathA:['f4a','f4a2'],           pathB:['f4b','f4b2'],                   mergeId:'p_adu9' },
 };
 const BRANCH_A_STOPS = new Set();
 const BRANCH_B_STOPS = new Set();
 for (const fl of Object.values(FORK_LAYOUT)) {
-  fl.pathA.forEach(id => BRANCH_A_STOPS.add(id));
-  fl.pathB.forEach(id => BRANCH_B_STOPS.add(id));
+  (fl.pathA||[]).forEach(id => BRANCH_A_STOPS.add(id));
+  (fl.pathB||[]).forEach(id => BRANCH_B_STOPS.add(id));
+  (fl.pathC||[]).forEach(id => BRANCH_A_STOPS.add(id));
+  (fl.pathD||[]).forEach(id => BRANCH_B_STOPS.add(id));
 }
 
 // Séquence ordonnée du chemin principal (stops + forks dans l'ordre)
@@ -814,10 +923,16 @@ function computeStopLayout() {
     const fl = FORK_LAYOUT[id];
     if (fl) {
       place(id, cx); y += step;
-      const maxLen = Math.max(fl.pathA.length, fl.pathB.length);
-      for (let j = 0; j < maxLen; j++) {
-        if (fl.pathA[j]) place(fl.pathA[j], lx);
-        if (fl.pathB[j]) place(fl.pathB[j], rx);
+      const maxAB = Math.max((fl.pathA||[]).length, (fl.pathB||[]).length);
+      for (let j = 0; j < maxAB; j++) {
+        if (fl.pathA?.[j]) place(fl.pathA[j], lx);
+        if (fl.pathB?.[j]) place(fl.pathB[j], rx);
+        y += step;
+      }
+      const maxCD = Math.max((fl.pathC||[]).length, (fl.pathD||[]).length);
+      for (let j = 0; j < maxCD; j++) {
+        if (fl.pathC?.[j]) place(fl.pathC[j], lx);
+        if (fl.pathD?.[j]) place(fl.pathD[j], rx);
         y += step;
       }
     } else {
@@ -1359,7 +1474,7 @@ function showEnd(){
   document.getElementById('victory-stats').innerHTML = podiumHTML + restHTML;
   showScreen('screen-victory');
 }
-document.getElementById('btn-replay').onclick=()=>{ G=null; PM=null; buildLobby(); showScreen('screen-lobby'); };
+document.getElementById('btn-replay').onclick=()=>{ BGM.stop(); G=null; PM=null; buildLobby(); showScreen('screen-lobby'); };
 
 // ── PARI ──────────────────────────────────────────────────────────────────────
 let activeBet = null;
@@ -1627,6 +1742,9 @@ function startGame(ids){
   updateUI();
   fullRender();
   document.getElementById('btn-roll').disabled=false;
+  BGM.start();
+  const btn = document.getElementById('btn-music');
+  if (btn) btn.textContent = '🔇';
 }
 
 window.addEventListener('resize',()=>{ resize(); fullRender(); });

@@ -131,7 +131,13 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-
 .phase-hint { font-size: 12px; color: var(--text-dim); text-align: center; padding: 4px 0; font-style: italic; }
 
 /* DICE */
-.dice-row { display: flex; align-items: center; gap: 12px; }
+.dice-row { display: flex; align-items: center; gap: 10px; }
+.btn-music {
+  background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.3);
+  border-radius: 50%; width: 34px; height: 34px; font-size: 16px;
+  cursor: pointer; transition: background .2s; flex-shrink: 0;
+}
+.btn-music:hover { background: rgba(201,168,76,.25); }
 .dice-display {
   font-size: 46px; width: 62px; height: 62px;
   display: flex; align-items: center; justify-content: center;
