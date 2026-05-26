@@ -110,6 +110,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-
   width: 280px; background: var(--panel); border-left: 1px solid var(--border);
   display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0;
   height: 100vh; position: sticky; top: 0;
+  transition: background .6s ease, border-color .6s ease;
 }
 .panel-block { padding: 12px; border-bottom: 1px solid rgba(201,168,76,.12); }
 .panel-title { font-size: 10px; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }

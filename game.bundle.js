@@ -1427,6 +1427,13 @@ function updateUI(){
   const p=cp();
   const n=STOP_MAP.get(p.nodeId);
 
+  // Side panel background — reflects current player
+  const panel = document.querySelector('.side-panel');
+  if(panel){
+    panel.style.background = `linear-gradient(180deg, ${p.bg} 0%, #0b0b17 18%)`;
+    panel.style.borderLeftColor = p.color+'55';
+  }
+
   // Current player card
   document.getElementById('cur-emoji').textContent=p.emoji;
   document.getElementById('cur-emoji').style.textShadow='0 0 20px '+p.color;
