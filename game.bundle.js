@@ -1,6 +1,57 @@
 // SCHLOSS — Le Jeu de la Vie · Haute-Marne · Cadeau mariage Toutoon & Incoherence 💍
 'use strict';
 
+// ── SOUND DESIGN ──────────────────────────────────────────────────────────────
+const SFX = (() => {
+  let ctx = null;
+  function getCtx() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    return ctx;
+  }
+  function beep(freq, dur, type = 'sine', gain = 0.3, delay = 0) {
+    try {
+      const c = getCtx();
+      const o = c.createOscillator();
+      const g = c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type = type;
+      o.frequency.setValueAtTime(freq, c.currentTime + delay);
+      g.gain.setValueAtTime(gain, c.currentTime + delay);
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + delay + dur);
+      o.start(c.currentTime + delay);
+      o.stop(c.currentTime + delay + dur + 0.01);
+    } catch (e) {}
+  }
+  function noise(dur, gain = 0.2) {
+    try {
+      const c = getCtx();
+      const buf = c.createBuffer(1, Math.ceil(c.sampleRate * dur), c.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      const s = c.createBufferSource();
+      const g = c.createGain();
+      s.buffer = buf; s.connect(g); g.connect(c.destination);
+      g.gain.setValueAtTime(gain, c.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + dur);
+      s.start(); s.stop(c.currentTime + dur + 0.01);
+    } catch (e) {}
+  }
+  return {
+    diceRoll()      { noise(0.13, 0.3); beep(160, 0.09, 'square', 0.12, 0.04); },
+    diceResult(v)   { beep(280 + v * 45, 0.18, 'sine', 0.35); },
+    step()          { beep(520, 0.04, 'square', 0.07); },
+    event()         { beep(523, 0.09, 'sine', 0.22); beep(659, 0.09, 'sine', 0.22, 0.11); beep(784, 0.22, 'sine', 0.28, 0.23); },
+    card()          { beep(440, 0.07, 'triangle', 0.18); beep(550, 0.12, 'triangle', 0.22, 0.09); },
+    turn()          { beep(880, 0.07, 'sine', 0.22); beep(1046, 0.14, 'sine', 0.28, 0.09); },
+    win()           { [523, 659, 784, 1046].forEach((f, i) => beep(f, 0.14, 'sine', 0.32, i * 0.11)); },
+    lose()          { beep(380, 0.1, 'sine', 0.22); beep(300, 0.14, 'sine', 0.22, 0.12); beep(220, 0.32, 'sine', 0.28, 0.28); },
+    fork()          { beep(660, 0.07, 'triangle', 0.2); beep(880, 0.14, 'triangle', 0.2, 0.1); },
+    bet()           { beep(440, 0.06, 'sawtooth', 0.14); beep(550, 0.06, 'sawtooth', 0.14, 0.08); beep(660, 0.11, 'sawtooth', 0.18, 0.16); },
+    duel()          { beep(200, 0.06, 'sawtooth', 0.2); beep(300, 0.06, 'sawtooth', 0.2, 0.07); beep(440, 0.18, 'sawtooth', 0.25, 0.15); },
+    finale()        { [392, 523, 659, 784, 1046, 1318].forEach((f, i) => beep(f, 0.18, 'sine', 0.35, i * 0.09)); },
+  };
+})();
+
 // ── STOP POSITIONS (% of canvas width/height) ────────────────────────────────
 // Path winds through Haute-Marne from north (Lac du Der) to finale (Chaumont)
 const STOPS = [
@@ -618,6 +669,7 @@ function nextTurn(){
   while(G.players[G.idx].finished && G.players.some(p=>!p.finished));
   G.phase=PH.ROLL;
   updateUI();
+  SFX.turn();
   showTurnToast(cp());
 }
 
@@ -1045,6 +1097,7 @@ function rollDice(cb){
   const el=document.getElementById('dice-display');
   el.classList.add('rolling');
   let steps=0;
+  SFX.diceRoll();
   diceInterval=setInterval(()=>{
     el.textContent=DICE_FACES[Math.floor(Math.random()*6)];
     if(++steps>=16){
@@ -1053,6 +1106,7 @@ function rollDice(cb){
       el.textContent=DICE_FACES[result-1];
       el.classList.remove('rolling');
       el.dataset.val=result;
+      SFX.diceResult(result);
       setTimeout(()=>cb(result),420);
     }
   },75);
@@ -1062,6 +1116,7 @@ function doRoll(){
   G.phase=PH.MOVE;
   document.getElementById('btn-roll').disabled=true;
   rollDice(v=>{
+    NET.emitDiceRoll(v);
     let extra='';
     if(v===1){ cp().bonheur=Math.max(0,cp().bonheur-1); extra=' 😬 Malchance ! -1 bonheur'; }
     if(v===6){ cp().bonheur+=2; extra=' 🍀 Coup de chance ! +2 bonheur'; }
@@ -1099,16 +1154,17 @@ function movePlayer(steps){
 
   function step(){
     const n=STOP_MAP.get(cur);
-    if(!n||moved>=steps){ player.nodeId=cur; fullRender(); arrive(STOP_MAP.get(cur)); return; }
-    if(n.type==='fork'){ player.nodeId=cur; fullRender(); showFork(n); return; }
+    if(!n||moved>=steps){ player.nodeId=cur; fullRender(); NET.emitMoveStep(player.id,cur); arrive(STOP_MAP.get(cur)); return; }
+    if(n.type==='fork'){ player.nodeId=cur; fullRender(); NET.emitMoveStep(player.id,cur); showFork(n); return; }
     if(n.next&&n.next.length===1){
       cur=n.next[0]; moved++;
-      player.nodeId=cur; fullRender();
+      player.nodeId=cur; fullRender(); NET.emitMoveStep(player.id,cur);
+      SFX.step();
       setTimeout(step,320);
     } else if(n.next&&n.next.length>1){
-      player.nodeId=cur; fullRender(); showFork(n);
+      player.nodeId=cur; fullRender(); NET.emitMoveStep(player.id,cur); showFork(n);
     } else {
-      player.nodeId=cur; fullRender(); arrive(n);
+      player.nodeId=cur; fullRender(); NET.emitMoveStep(player.id,cur); arrive(n);
     }
   }
   step();
@@ -1133,6 +1189,7 @@ function showFork(n){
     };
     btns.appendChild(b);
   });
+  SFX.fork();
   showModal('fork-modal');
 }
 
@@ -1140,8 +1197,8 @@ function arrive(n){
   if(!n){ endTurn(); return; }
   log(cp().name+' → '+(n.label||n.ch||''));
   updateUI(); fullRender();
-  if(n.type==='finale'){ handleFinale(); return; }
-  if(n.type==='story'){ showStory(n.storyId); return; }
+  if(n.type==='finale'){ SFX.finale(); handleFinale(); return; }
+  if(n.type==='story'){ SFX.event(); showStory(n.storyId); return; }
   if(n.type==='card'){ showCard(n.deck||'money'); return; }
   endTurn();
 }
@@ -1159,16 +1216,17 @@ function showCard(deck){
   const r = Math.random();
   // 15% paris collectif, 10% duel (seulement si 2+ joueurs non-finis)
   if(r < 0.15){
-    showBet(drawBet()); return;
+    SFX.bet(); showBet(drawBet()); return;
   }
   if(r < 0.25 && G.players.filter(p=>!p.finished).length >= 2){
-    showDuel(drawDuel()); return;
+    SFX.duel(); showDuel(drawDuel()); return;
   }
   const card=drawCard(deck);
   G.phase=PH.EVENT;
   const msgs=applyFx(card,cp().id);
   msgs.forEach(log);
   const icons={money:'💶',love:'❤️',gaming:'🎮',surprise:'🎴',career:'💼'};
+  SFX.card();
   openEvent(icons[deck]||'🃏',card.ti,card.tx,msgs);
 }
 
@@ -1214,6 +1272,7 @@ function calcScore(p){
   return p.bonheur + Math.floor(p.money/500) + p.wins;
 }
 function showEnd(){
+  SFX.finale();
   const scored = [...G.players].map(p=>({...p, score:calcScore(p)})).sort((a,b)=>b.score-a.score);
   const w = scored[0];
   const podium = scored.slice(0,3);
@@ -1350,6 +1409,8 @@ function revealBet(){
     }
   });
 
+  const myChoice = betChoicesLocal[cp().id] || cp()._onlineBetChoice;
+  if (myChoice === outcome) SFX.win(); else SFX.lose();
   const res = document.getElementById('bet-result');
   res.innerHTML = msgs.join('');
   res.classList.remove('hidden');
@@ -1461,6 +1522,9 @@ function resolveDuel(duel, challenger, target){
         log(`🤝 Duel nul : ${challenger.name} = ${target.name} (${rollA})`);
       }
 
+      if (rollA > rollB) SFX.win();
+      else if (rollB > rollA) SFX.lose();
+      else SFX.card();
       const res = document.getElementById('duel-result');
       res.innerHTML = resultLines.map(l=>`<div class="eff-line">${l}</div>`).join('');
       res.classList.remove('hidden');
@@ -1601,7 +1665,7 @@ const NET = (() => {
     fullRender();
     lockRollIfNotMyTurn();
     // Show toast when the active player changes
-    if (G.idx !== prevIdx) showTurnToast(cp());
+    if (G.idx !== prevIdx) { SFX.turn(); showTurnToast(cp()); }
   }
 
   // ── mode switch in lobby ──
@@ -1669,6 +1733,38 @@ const NET = (() => {
     socket.on('duel_complete', ({ duel, challengerPid, targetPid, rolls }) => {
       finalizeDuelOnline(duel, challengerPid, targetPid, rolls);
     });
+
+    // ── Animation relay events (waiting players see active player's moves) ──
+    socket.on('dice_rolled', ({ result }) => {
+      if (isMyTurn()) return; // already animated locally
+      SFX.diceRoll();
+      const el = document.getElementById('dice-display');
+      el.classList.add('rolling');
+      let steps = 0;
+      const iv = setInterval(() => {
+        el.textContent = DICE_FACES[Math.floor(Math.random() * 6)];
+        if (++steps >= 16) {
+          clearInterval(iv);
+          el.textContent = DICE_FACES[result - 1];
+          el.classList.remove('rolling');
+          SFX.diceResult(result);
+        }
+      }, 75);
+    });
+
+    socket.on('move_step', ({ playerId, nodeId }) => {
+      if (!G) return;
+      const p = G.players.find(x => x.id === playerId);
+      if (p) { p.nodeId = nodeId; fullRender(); drawMinimap(); SFX.step(); }
+    });
+  }
+
+  function emitDiceRoll(result) {
+    if (isOnline() && myPlayerId) socket.emit('dice_rolled', { playerId: myPlayerId, result });
+  }
+
+  function emitMoveStep(playerId, nodeId) {
+    if (isOnline()) socket.emit('move_step', { playerId, nodeId });
   }
 
   let onlineRoomInfo = { host: null, players: [] };
@@ -1997,5 +2093,5 @@ const NET = (() => {
     _startGame(ids);
   };
 
-  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, sync: syncState, isOnline, isMyTurn };
+  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep };
 })();

@@ -93,6 +93,10 @@ io.on('connection', socket => {
 
   socket.on('open_bet', data => socket.to(myRoom).emit('open_bet', data));
 
+  // ── Animation relay (dice + movement for waiting players) ──
+  socket.on('dice_rolled', data => socket.to(myRoom).emit('dice_rolled', data));
+  socket.on('move_step',   data => socket.to(myRoom).emit('move_step',   data));
+
   // ── DUELS ──
   // Challenger picks target → broadcast to ALL (io.to, not socket.to)
   socket.on('start_duel', ({ duel, challengerPid, targetPid }) => {
