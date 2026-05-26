@@ -60,12 +60,12 @@ const STOPS = [
   { id:'p_sd',     label:'Saint-Dizier',                        icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'money' },
   { id:'p_join',   label:'Joinville',                           icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'love' },
   { id:'p_col52',  label:'Chaumont\nCollège L. Michel',         icon:'⭐', type:'story',  ch:'🧒 Enfance', storyId:'college' },
-  { id:'p_wassy',  label:'Wassy',                               icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'gaming' },
+  { id:'p_wassy',  label:'Wassy\nLe Pseudo Légendaire',          icon:'⭐', type:'story',  ch:'🧒 Enfance', storyId:'sponge_pseudo' },
   { id:'p_tractor',label:'Bloqué derrière\nun Tracteur',        icon:'🚜', type:'card',   ch:'🧒 Enfance', deck:'surprise' },
   { id:'p_der',    label:'Lac du Der\nBaignade Estivale',       icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'love' },
   { id:'p_sd2',    label:'Saint-Dizier\nVélo le Week-end',      icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'gaming' },
   { id:'p_math',   label:'Cours de Maths\nAvancés',             icon:'⭐', type:'story',  ch:'🧒 Enfance', storyId:'maths_avances' },
-  { id:'p_chm1',   label:'Chaumont\nLa Bande se Forme',         icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'money' },
+  { id:'p_chm1',   label:'Serveur GTA SA RP\nLa Connexion Oubliée', icon:'⭐', type:'story', ch:'🧒 Enfance', storyId:'gta_sa_rencontre' },
   { id:'p_colo',   label:'Colonie de Vacances\nHaute-Marne',    icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'surprise' },
   { id:'p_join2',  label:'Joinville\nLe Vieux Quartier',        icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'money' },
   { id:'p_enf3',   label:'Piscine\nde Chaumont',                icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'love' },
@@ -81,9 +81,9 @@ const STOPS = [
   { id:'p_lycee',  label:'Lycée Ch. de Gaulle\nSection Scientifique', icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'lycee_manaa' },
   { id:'p_bac1',   label:'Révisions BAC\nSalle de Permanence',  icon:'🃏', type:'card',   ch:'🎒 Lycée', deck:'surprise' },
   { id:'p_lyc2',   label:'Cantine du Lycée\nLe Plateau Mythique', icon:'🃏', type:'card', ch:'🎒 Lycée', deck:'gaming' },
-  { id:'p_lyc3',   label:'Foire de Chaumont\nLe Grand Soir',    icon:'🃏', type:'card',   ch:'🎒 Lycée', deck:'love' },
-  { id:'p_lyc4',   label:'Soirée Boom\ndu Lycée',               icon:'🃏', type:'card',   ch:'🎒 Lycée', deck:'surprise' },
-  { id:'p_lyc5',   label:'Cours de Philo\nau Fil des Heures',   icon:'🃏', type:'card',   ch:'🎒 Lycée', deck:'money' },
+  { id:'p_lyc3',   label:'EPS Volley\nLe Binôme Officiel',       icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'volley_eps' },
+  { id:'p_lyc4',   label:'Le Gars\nde la 2GT7',                  icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'ptitcuicui_2gt7' },
+  { id:'p_lyc5',   label:'M. Martinot\nLa Ligne Droite',         icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'martinot' },
   { id:'p_lyc6',   label:'Bal de Promo\nde Terminale',          icon:'🃏', type:'card',   ch:'🎒 Lycée', deck:'love' },
   { id:'p_lyc7',   label:'Le Grand BAC\nJour J',                icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'bac' },
   { id:'p_lyc8',   label:'Résultats du BAC\nDevant le Lycée',   icon:'🃏', type:'card',   ch:'🎒 Lycée', deck:'surprise' },
@@ -380,6 +380,49 @@ const STORIES = {
     text:"Jour des résultats du BAC.\nToutoon sort de l\'épreuve d\'histoire-géographie.\n\n« C\'était trop bien. J\'ai tout su. »\n\nRésultats.\n\n2 / 20.\n\nUn silence.\nPuis tout le monde éclate de rire.\nToutoon aussi — mais après.",
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'anecdote du BAC est éternelle)'},{t:'m',v:500,l:'💶 +500€ (enveloppe de la famille malgré tout)'}],
     extra:{ toutoon:[{t:'b',v:-1,l:'😤 Toutoon : -1 bonheur (le 2/20 reste dans les annales)'}] }
+  },
+  martinot: {
+    src:'real',
+    title:'📐 M. Martinot — La Ligne Droite',
+    text:"Un cours au lycée Charles de Gaulle.\nM. Martinot pose la question :\n\n« Quel est le chemin le plus rapide pour aller d'un point A à un point B ? »\n\nLa réponse, il la connaît. Il l'a toujours sue.\n\nLa ligne droite.\n\nEt pour le prouver — il monte sur les tables.\n\nLa classe regarde, bouche bée.\nLe prof traverse la salle sur les bureaux, imperturbable.\nPoint A. Point B. Ligne droite.\n\nLeçon apprise.",
+    fx:[{t:'b',v:4,l:'📐 +4 bonheur (cours de géométrie inoubliable)'},{t:'m',v:300,l:'💶 +300€ (vendu l\'anecdote comme conférence de motivation)'}]
+  },
+  sponge_pseudo: {
+    src:'real',
+    title:'🧽 Pourquoi il s\'appelle Sponge',
+    text:"Au début, il n'y avait pas de pseudo.\nJuste un prénom sur les serveurs Minecraft — cracké, bien sûr.\n\nJusqu'au jour où il se fait ban d'un serveur PVP.\nIl faut un nouveau nom pour revenir.\n\nLe premier bloc qui lui passe par la tête :\nSponge. Le bloc qui servait à rien à l'époque.\n\nIl ne savait pas que ce nom allait lui coller à la peau pour 15 ans.\n\n🧽 Le bloc inutile. Le pseudo parfait.",
+    fx:[{t:'b',v:3,l:'🧽 +3 bonheur (le début d\'une légende)'},{t:'m',v:200,l:'💶 +200€ (acheté un compte premium pour ne plus se faire ban)'}],
+    extra:{ sponge:[{t:'b',v:3,l:'🧽 Sponge : +3 bonheur (le pseudo parfait pour le mauvais bloc)'}] }
+  },
+  gta_sa_rencontre: {
+    src:'real',
+    title:'🎮 GTA San Andreas RP — La Connexion Oubliée',
+    text:"Quelque part sur un serveur RP de GTA San Andreas.\nDeux gamins du 52 se croisent sans le savoir.\nPar l'intermédiaire d'une connaissance commune.\n\nIls auraient pu se rencontrer à De Gaulle l'année suivante.\nMais c'était déjà arrivé — virtuellement.\n\nIls ne découvriront la vérité que bien plus tard.\n\n« Attends... c'était toi ?! »",
+    fx:[{t:'b',v:4,l:'🎮 +4 bonheur (le destin commence sur un serveur cracké)'}],
+    extra:{
+      toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur (il mainait déjà à l\'époque)'}],
+      sponge:[{t:'b',v:2,l:'🧽 Sponge : +2 bonheur (première rencontre sans le savoir)'}]
+    }
+  },
+  volley_eps: {
+    src:'real',
+    title:'🏐 EPS Volley — Le Binôme Officiel',
+    text:"Cours d'EPS. Volley.\nLe prof constitue les binômes.\nToutoon et Sponge sont mis ensemble.\n\nC'est leur première vraie interaction.\nNi virtuelle. Ni par intermédiaire.\nJuste deux mecs du 52 qui se passent un ballon.\n\nIls ne savaient pas encore qu'ils s'étaient déjà croisés sur un serveur GTA.",
+    fx:[{t:'b',v:3,l:'🏐 +3 bonheur (les meilleures amitiés commencent au sport)'}],
+    extra:{
+      toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur (excellent au volley, c\'est lui qui le dit)'}],
+      sponge:[{t:'b',v:2,l:'🧽 Sponge : +2 bonheur (le binôme parfait)'}]
+    }
+  },
+  ptitcuicui_2gt7: {
+    src:'real',
+    title:'🐦 Le Gars de la 2GT7',
+    text:"Pour ceux qui arrivaient au lycée, Ptitcuicui était identifié simplement :\n« Le gars de la 2GT7 ».\n\nCelui qui venait voir ses anciens camarades le midi.\nQui passait, disait bonjour, repartait.\n\nOn ne savait pas trop d'où il venait.\nMais il était là.\n\nC'est peut-être ça, être du Schloss :\ntoujours présent, même sans raison officielle.",
+    fx:[{t:'b',v:3,l:'🐦 +3 bonheur (fidèle à ses amis même en changeant de classe)'}],
+    extra:{
+      ptitcuicui:[{t:'b',v:3,l:'🐦 Ptitcuicui : +3 bonheur (le gars de la 2GT7 est devenu le stratège du Schloss)'}],
+      sponge:[{t:'b',v:1,l:'🧽 Sponge : +1 bonheur (il l\'a remarqué dès le début)'}]
+    }
   },
   demande: {
     src:'invented', // à remplacer : racontez comment ça s'est vraiment passé !
