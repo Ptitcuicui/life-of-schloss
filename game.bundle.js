@@ -1181,58 +1181,80 @@ document.getElementById('btn-replay').onclick=()=>{ G=null; PM=null; buildLobby(
 // ── PARI ──────────────────────────────────────────────────────────────────────
 let activeBet = null;
 
+// betChoicesLocal: pid → 'A'|'B'  (secret until reveal)
+let betChoicesLocal = {};
+
 function showBet(bet){
   G.phase = PH.EVENT;
   activeBet = bet;
+  betChoicesLocal = {};
   document.getElementById('bet-title').textContent = bet.title;
   document.getElementById('bet-question').textContent = bet.question;
   document.getElementById('bet-opt-a-label').textContent = '🅰 ' + bet.optA;
   document.getElementById('bet-opt-b-label').textContent = '🅱 ' + bet.optB;
-
-  const area = document.getElementById('bet-player-area');
-  area.innerHTML = '';
-  G.players.forEach(p => {
-    const row = document.createElement('div');
-    row.className = 'bet-player-row';
-    row.dataset.pid = p.id;
-    row.innerHTML = `
-      <span class="bet-pname" style="color:${p.color}">${p.emoji} ${p.name}</span>
-      <button class="bet-btn" data-opt="A">🅰</button>
-      <button class="bet-btn" data-opt="B">🅱</button>
-      <span class="bet-chosen" style="font-size:11px;color:#666;min-width:20px"></span>`;
-    row.querySelectorAll('.bet-btn').forEach(btn => {
-      btn.onclick = () => {
-        row.querySelectorAll('.bet-btn').forEach(b => b.classList.remove('sel-a','sel-b'));
-        btn.classList.add(btn.dataset.opt==='A'?'sel-a':'sel-b');
-        row.querySelector('.bet-chosen').textContent = btn.dataset.opt==='A'?'🅰':'🅱';
-        row.dataset.choice = btn.dataset.opt;
-      };
-    });
-    area.appendChild(row);
-  });
-
   document.getElementById('bet-result').classList.add('hidden');
   document.getElementById('bet-continue').classList.add('hidden');
-  document.getElementById('bet-reveal').classList.remove('hidden');
-  document.getElementById('bet-reveal').onclick = revealBet;
+  document.getElementById('bet-reveal').classList.add('hidden');
   showModal('bet-modal');
+  showBetStepLocal(0);
   updateUI();
+}
+
+function showBetStepLocal(idx){
+  const players = G.players.filter(p => !p.finished);
+  const area = document.getElementById('bet-player-area');
+
+  if(idx >= players.length){
+    // Tous ont voté → afficher le résumé et le bouton révéler
+    area.innerHTML = players.map(p =>
+      `<div class="bet-player-row" data-pid="${p.id}" data-choice="${betChoicesLocal[p.id]||''}">
+        <span class="bet-pname" style="color:${p.color}">${p.emoji} ${p.name}</span>
+        <span style="font-size:18px">${betChoicesLocal[p.id] ? '✅ Prêt' : '⏭️ Passé'}</span>
+      </div>`
+    ).join('');
+    document.getElementById('bet-reveal').classList.remove('hidden');
+    document.getElementById('bet-reveal').onclick = revealBet;
+    return;
+  }
+
+  const p = players[idx];
+  area.innerHTML = `
+    <div style="text-align:center;margin-bottom:12px;font-size:13px;color:#aaa">
+      Passe le téléphone / l'écran à
+    </div>
+    <div style="text-align:center;font-size:28px;margin-bottom:4px">${p.emoji}</div>
+    <div style="text-align:center;font-size:18px;font-weight:bold;color:${p.color};margin-bottom:16px">${p.name}</div>
+    <div style="text-align:center;font-size:12px;color:#777;margin-bottom:12px">Ton choix est secret — les autres ne voient pas.</div>
+    <div class="bet-choices-row" style="justify-content:center;gap:20px">
+      <button class="bet-btn bet-big" id="local-btn-a">🅰 ${activeBet.optA}</button>
+      <button class="bet-btn bet-big" id="local-btn-b">🅱 ${activeBet.optB}</button>
+    </div>
+    <div style="text-align:center;margin-top:14px">
+      <button class="btn-choice" id="local-skip" style="font-size:11px;opacity:.5">⏭ Passer mon tour</button>
+    </div>`;
+
+  document.getElementById('local-btn-a').onclick = () => {
+    betChoicesLocal[p.id] = 'A';
+    showBetStepLocal(idx + 1);
+  };
+  document.getElementById('local-btn-b').onclick = () => {
+    betChoicesLocal[p.id] = 'B';
+    showBetStepLocal(idx + 1);
+  };
+  document.getElementById('local-skip').onclick = () => {
+    showBetStepLocal(idx + 1);
+  };
 }
 
 function revealBet(){
   const bet = activeBet;
   const outcome = Math.random() < .5 ? 'A' : 'B';
-
-  const rows = document.getElementById('bet-player-area').querySelectorAll('.bet-player-row');
   const msgs = [];
   msgs.push('<div class="bet-outcome-text">'+bet.outcomeText+'</div>');
   msgs.push('<div style="font-size:11px;color:#888;margin:4px 0">Réponse : <b style="color:#ffd700">'+(outcome==='A'?bet.optA:bet.optB)+'</b></div>');
 
-  rows.forEach(row => {
-    const pid = row.dataset.pid;
-    const choice = row.dataset.choice;
-    const p = G.players.find(x=>x.id===pid);
-    if(!p) return;
+  G.players.filter(p => !p.finished).forEach(p => {
+    const choice = betChoicesLocal[p.id] || p._onlineBetChoice;
     if(choice === outcome){
       (bet.winFx||[]).forEach(e=>{ if(e.t==='b') p.bonheur+=e.v; else if(e.t==='m') p.money+=e.v; });
       p.wins++;
