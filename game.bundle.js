@@ -539,7 +539,7 @@ function drawDuel(){ return DUELS[Math.floor(Math.random()*DUELS.length)]; }
 // stats: gaming🎮 finance💰 chance🍀 social❤️  (1–10)
 const PLAYER_DEFS = [
   {id:'ptitcuicui',  name:'Ptitcuicui',  emoji:'🐦', color:'#4a90e2', bg:'#0d2a4a', role:"L'Architecte & Matchmaker", stats:{gaming:10,finance:10,chance:5,social:5}},
-  {id:'whitewarrior',name:'Whitewarrior', emoji:'⚔️', color:'#8ab8e0', bg:'#1a2a3a', role:'Le Gardien Loyal',           stats:{gaming:9,finance:6,chance:8,social:7}},
+  {id:'whitewarrior',name:'Whitewarrior', emoji:'⚔️', color:'#555555', bg:'#0a0a0a', role:'Le Gardien Loyal',           stats:{gaming:9,finance:6,chance:8,social:7}},
   {id:'sponge',      name:'Sponge',       emoji:'🧽', color:'#ff8c42', bg:'#3a1a00', role:'Le Gestionnaire',             stats:{gaming:9,finance:8,chance:6,social:7}},
   {id:'invoherence', name:'Incoherence',  emoji:'🐰', color:'#c084f5', bg:'#2a0a3a', role:'La Rêveuse 💍 future mariée',stats:{gaming:6,finance:6,chance:9,social:9}},
   {id:'toutoon',     name:'Toutoon',      emoji:'😤', color:'#f5c400', bg:'#2a1f00', role:'Le Dormant 💍 futur marié',  stats:{gaming:8,finance:5,chance:8,social:9}},
