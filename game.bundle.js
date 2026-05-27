@@ -162,7 +162,7 @@ const STOPS = [
   { id:'p_join',   label:'Joinville',                           icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'love' },
   { id:'p_col52',  label:'Chaumont\nCollège L. Michel',         icon:'⭐', type:'story',  ch:'🧒 Enfance', storyId:'college' },
   { id:'p_wassy',  label:'Wassy\nLe Pseudo Légendaire',          icon:'⭐', type:'story',  ch:'🧒 Enfance', storyId:'sponge_pseudo' },
-  { id:'p_tractor',label:'Bloqué derrière\nun Tracteur',        icon:'🚜', type:'card',   ch:'🧒 Enfance', deck:'surprise' },
+  { id:'p_tractor',label:'PC HS\nLa LAN est ce soir',            icon:'💻', type:'story',  ch:'🧒 Enfance', storyId:'pc_hs' },
   { id:'p_der',    label:'Lac du Der\nBaignade Estivale',       icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'love' },
   { id:'p_sd2',    label:'Saint-Dizier\nVélo le Week-end',      icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'gaming' },
   { id:'p_math',   label:'Cours de Maths\nAvancés',             icon:'⭐', type:'story',  ch:'🧒 Enfance', storyId:'maths_avances' },
@@ -222,9 +222,9 @@ const STOPS = [
   { id:'p_job1',   label:'Premier Salaire !\nLa Fiche de Paie', icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'money' },
   { id:'p_job2',   label:'Open Space\nSaint-Dizier',            icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'surprise' },
   { id:'p_act1',   label:'Embouteillage D619\nDerrière un Engin', icon:'🚜', type:'card', ch:'💼 Vie Active', deck:'surprise' },
-  { id:'p_act2',   label:'Bloqué derrière\nun Tracteur #2',     icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'gaming' },
+  { id:'p_act2',   label:'Contrôle Technique\nRaté',             icon:'🚗', type:'story',  ch:'💼 Vie Active', storyId:'controle_technique' },
   { id:'p_act3',   label:'Raclette du Schloss\nFin de Semaine', icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'love' },
-  { id:'p_act4',   label:'Nostalgie du 52\nAu Bureau',          icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'surprise' },
+  { id:'p_act4',   label:'Impôts\ndu Département 52',            icon:'🧾', type:'story',  ch:'💼 Vie Active', storyId:'impots_52' },
   { id:'p_act5',   label:'Promotion !\nNouveau Palier',         icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'money' },
   { id:'p_act6',   label:'Réunion sans Fin\n9h → 18h',         icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'gaming' },
   { id:'p_act7',   label:'Apéro entre Collègues\nAprès le Boulot', icon:'🃏', type:'card', ch:'💼 Vie Active', deck:'love' },
@@ -255,7 +255,7 @@ const STOPS = [
   { id:'p_adu3',   label:'Remparts\nde Langres',                icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'gaming' },
   { id:'p_adu4',   label:'Cousinade\ndu 52',                    icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
   { id:'p_adu5',   label:'Soirée Nostalgie\nSchloss',           icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'gaming' },
-  { id:'p_adu6',   label:'Voisins\nAgriculteurs',               icon:'🚜', type:'card',   ch:'🏡 Vie Adulte', deck:'surprise' },
+  { id:'p_adu6',   label:'Chat chez\nle Véto — Urgence',         icon:'🐱', type:'story',  ch:'🏡 Vie Adulte', storyId:'veto_chat' },
   { id:'p_adu7',   label:'Lac du Der\nWeek-end Adulte',         icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
   { id:'p_adu8',   label:'Jardin\nen Haute-Marne',              icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'money' },
   { id:'p_viad',   label:'Viaduc de Chaumont\nCoucher de Soleil', icon:'⭐', type:'story', ch:'🏡 Vie Adulte', storyId:'viaduc' },
@@ -263,7 +263,7 @@ const STOPS = [
     choices:[{label:'🚗 Road Trip Haute-Marne',next:'f4a'},{label:'🏡 Acheter une Maison',next:'f4b'}] },
   { id:'f4a',      label:'Road Trip\nHaute-Marne',              icon:'🚗', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
   { id:'f4a2',     label:'Retour\naux Sources',                 icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'surprise' },
-  { id:'f4b',      label:'Achat de la Maison\ndu 52',           icon:'🏡', type:'card',   ch:'🏡 Vie Adulte', deck:'money' },
+  { id:'f4b',      label:'Achat de la Maison\ndu 52',           icon:'🏡', type:'story',  ch:'🏡 Vie Adulte', storyId:'achat_maison' },
   { id:'f4b2',     label:'Rénovation\nOldschool',               icon:'🔨', type:'card',   ch:'🏡 Vie Adulte', deck:'gaming' },
   { id:'p_adu9',   label:'Vie Rurale\nHaute-Marne',             icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
 
@@ -488,6 +488,42 @@ const STORIES = {
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'anecdote du BAC est éternelle)'},{t:'m',v:500,l:'💶 +500€ (enveloppe de la famille malgré tout)'}],
     extra:{ toutoon:[{t:'b',v:-1,l:'😤 Toutoon : -1 bonheur (le 2/20 reste dans les annales)'}] }
   },
+  pc_hs: {
+    src:'real',
+    title:'💻 PC HS — La LAN est ce soir',
+    text:"La soirée LAN est dans 2 heures.\nTout le monde arrive. Les pizzas sont commandées.\n\nTon PC fait un bruit terrible et s'éteint.\nPlus d'image. Plus de son. Plus rien.\n\nTu as 2 heures pour trouver une solution.\n\n(Tu en trouves une. Ça coûte.)",
+    fx:[{t:'m',v:-800,l:'💸 -800€ (PC de secours en urgence)'}],
+    assetLose:'pc',
+    assetGain:'pc',
+  },
+  controle_technique: {
+    src:'invented',
+    title:'🚗 Contrôle Technique Raté',
+    text:"Contrôle technique.\nTu arrives confiant.\n\nLe contrôleur sort avec une liste de points rouges.\nFreins. Silencieux. Amortisseurs.\n\nLa voiture repart sur un plateau.\nToi, tu rentres à pied sur la D619.",
+    fx:[{t:'m',v:-600,l:'💸 -600€ (réparations imposées)'}],
+    assetDamage:'car',
+  },
+  impots_52: {
+    src:'invented',
+    title:'🧾 Impôts du Département 52',
+    text:"La feuille bleue est arrivée dans la boîte aux lettres.\nLa déclaration. Le rappel. La note.\n\nLe percepteur de Chaumont n'oublie jamais.\nEt il frappe toujours en même temps pour tout le monde.\n\nBienvenue dans la vie adulte du 52.",
+    fx:[{t:'m',v:-500,l:'💸 -500€ (impôts, tout le monde paye)'}],
+    globalFx:[{t:'m',v:-500,l:'-500€ impôts'}],
+  },
+  veto_chat: {
+    src:'invented',
+    title:'🐱 Chat chez le Véto — Urgence',
+    text:"Minuit. Le chat fait un bruit bizarre.\n\nClinic vétérinaire d'urgence à Chaumont.\nSalle d'attente vide. Lumières froides.\nBip. Bip. Bip.\n\nLe chat va bien.\nTa carte bancaire, moins.",
+    fx:[{t:'m',v:-450,l:'💸 -450€ (vétérinaire urgence nuit)'},{t:'b',v:1,l:'❤️ +1 bonheur (le chat est ok)'}],
+    assetDamage:'cat',
+  },
+  achat_maison: {
+    src:'invented',
+    title:'🏠 Achat de la Maison du 52',
+    text:"C'est signé.\nUne maison en Haute-Marne.\nJardin. Cave. Grenier.\n\nPas cher pour Paris.\nHors de prix pour le 52.\n\nMais c'est à toi.\nLa pierre du Schloss.",
+    fx:[{t:'m',v:-18000,l:'💸 -18 000€ (apport + frais de notaire)'}],
+    assetGain:'maison',
+  },
   martinot: {
     src:'real',
     title:'📐 M. Martinot — La Ligne Droite',
@@ -551,8 +587,11 @@ const CARDS = {
     {src:'real',     ti:'🎲 Monopoly — Encore',  tx:"Ptitcuicui gagne le Monopoly. Encore.\nSes amis regardent le plafond.",fx:[{t:'m',v:3000,l:'💶 +3000€ (Ptitcuicui, roi du Monopoly)'},{t:'b',v:-1,l:'😑 -1 bonheur (les autres)'}], spe:'monopoly'},
     {src:'real',     ti:'🪙 Le Coin Truqué',      tx:"Ptitcuicui propose un pari à Sponge : « devine dans quelle main est la pièce ».\n\nSponge hésite. Réfléchit. Choisit.\n\nLa pièce n'était dans aucune des deux.\n\nClassique.", fx:[{t:'m',v:800,l:'💶 +800€ (escroquerie réussie !)'}], spe:'coin'},
     {src:'invented',     ti:'💰 Prime Surprise',      tx:"Ton employeur distribue une prime inattendue.\nLe viaduc de Chaumont t'inspire l'épargne.", fx:[{t:'m',v:2000,l:'💶 +2000€ (bienvenue dans le monde adulte)'}]},
-    {src:'invented',     ti:'💸 Réparation PC',       tx:"Ton ordinateur lâche la veille d'un rendu.\nLes larmes sèchent. La CB saigne.", fx:[{t:'m',v:-900,l:'💸 -900€ (nouveau PC)'},{t:'b',v:-1,l:'😞 -1 bonheur'}]},
-    {src:'real',         ti:'🏠 Investissement 52',   tx:"Tu achètes un bien en Haute-Marne.\nMoins cher qu'à Paris et tellement plus beau.", fx:[{t:'m',v:2500,l:'💶 +2500€ (investissement malin)'}]},
+    {src:'invented',     ti:'💸 Réparation PC',       tx:"Ton ordinateur lâche la veille d'un rendu.\nLes larmes sèchent. La CB saigne.", fx:[{t:'m',v:-900,l:'💸 -900€ (nouveau PC)'},{t:'b',v:-1,l:'😞 -1 bonheur'}], assetLose:'pc', assetGain:'pc'},
+    {src:'real',         ti:'🏠 Investissement 52',   tx:"Tu achètes un bien en Haute-Marne.\nMoins cher qu'à Paris et tellement plus beau.", fx:[{t:'m',v:-5000,l:'💸 -5000€ (investissement locatif)'}], assetGain:'maison'},
+    {src:'invented',     ti:'💻 Nouveau PC Gaming',   tx:"Après des années de lag, tu craques.\nUne tour neuve. Un écran 144Hz.\nLa LAN va enfin te respecter.", fx:[{t:'m',v:-1200,l:'💸 -1200€'}], assetGain:'pc'},
+    {src:'invented',     ti:'🚗 Achat Voiture 52',    tx:"Une occasion trouvée sur Le Bon Coin.\nVoisin de Nogent. Propre. Révisée.\nLa bagnole du Schloss.", fx:[{t:'m',v:-8000,l:'💸 -8000€'}], assetGain:'car'},
+    {src:'invented',     ti:'🎮 Nouvelle Console',    tx:"Les soldes. Une décision impulsive.\nTu ouvres la boîte dans ta voiture parce que tu ne peux pas attendre.", fx:[{t:'m',v:-450,l:'💸 -450€'},{t:'b',v:2,l:'🎮 +2 bonheur'}], assetGain:'console'},
     {src:'invented',     ti:'🧾 13ème Mois',          tx:"Enfin ! Le 13ème mois tombe.\nRaclette collective ce soir.", fx:[{t:'m',v:1500,l:'💶 +1500€'},{t:'b',v:1,l:'🧀 +1 bonheur (raclette !)'}]},
     {src:'real',     ti:'🔪 L\'Accident de Couteau',tx:"Un couteau. Un geste maladroit de Ptitcuicui.\nSponge regarde son doigt avec stupéfaction.\nUn silence. Puis le fou rire.",fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'histoire fait encore rire 10 ans après)'}], spe:'knife'},
     {src:'invented',     ti:'🎰 Pari Perdu',          tx:"Une soirée cartes avec le Schloss.\nToutoon entre en rage et gagne quand même.", fx:[{t:'m',v:-700,l:'💸 -700€'}]},
@@ -567,7 +606,7 @@ const CARDS = {
     {src:'real',         ti:'🍝 La Nuit Supinfo',      tx:"Coloc début Supinfo. Toutoon et Ptitcuicui.\nProjet dû le lendemain. Il est 2h du mat.\n\nL'eau des pâtes ? Oubliée.\nLe steak dans l'assiette ? Froid.\nTrop occupés à coder pour manger.", fx:[{t:'b',v:4,l:'😂 +4 bonheur (les vraies années galère)'}]},
     {src:'real',         ti:'🏧 Distributeur en Panne',  tx:"Le seul distributeur de billets du village est en panne.\nVous errez dans les rues de Fayl-Billot.\nHeureusement, Sponge a toujours du cash.", fx:[{t:'m',v:-50,l:'💸 -50€ (remboursement Sponge + intérêts)'},{t:'b',v:1,l:'😅 +1 bonheur (solidarité)'}]},
     {src:'invented',     ti:'🚜 Retard à Cause du Tracteur', tx:"La D67. Un John Deere. 12 kilomètres à 25km/h.\nImpossible de doubler — ligne continue.\nLe conducteur salue chaque voiture qui passe.\n\nTu arrives en retard. Le client est de Haute-Marne. Il comprend.", fx:[{t:'m',v:-300,l:'💸 -300€ (pénalité retard)'},{t:'b',v:1,l:'😅 +1 bonheur (c\'est une anecdote maintenant)'}]},
-    {src:'invented',     ti:'🏚️ Maison à 18 000€',        tx:"À vendre — village de Haute-Marne.\n5 pièces. Jardin. Vue dégagée sur les collines.\n18 000 euros.\n\nParis te rirait au nez.\nIci c\'est normal.", fx:[{t:'m',v:-18000,l:'💸 -18000€ (propriétaire !)'},{t:'b',v:4,l:'🏡 +4 bonheur (le rêve accompli)'}]},
+    {src:'invented',     ti:'🏚️ Maison à 18 000€',        tx:"À vendre — village de Haute-Marne.\n5 pièces. Jardin. Vue dégagée sur les collines.\n18 000 euros.\n\nParis te rirait au nez.\nIci c\'est normal.", fx:[{t:'m',v:-18000,l:'💸 -18000€ (propriétaire !)'},{t:'b',v:4,l:'🏡 +4 bonheur (le rêve accompli)'}], assetGain:'maison'},
     {src:'invented',     ti:'🍄 Cèpes du 52',              tx:"Un kilo de cèpes ramassés dans la forêt de Châteauvillain.\nLe marché de Chaumont. Les touristes se battent.\nTu vends tout en 20 minutes.", fx:[{t:'m',v:400,l:'💶 +400€ (cèpes bio du 52)'}]},
     {src:'invented',     ti:'⛽ Prochaine Station à 42km', tx:"Voyant rouge. GPS consulté.\nProchaine station : 42km.\n\nVous y arrivez.\nElle est fermée le dimanche.", fx:[{t:'m',v:-80,l:'💸 -80€ (dépannage honteux)'},{t:'b',v:-2,l:'😱 -2 bonheur (angoisse du 52)'}]},
   ],
@@ -636,7 +675,14 @@ const CARDS = {
     {src:'invented',     ti:'🎭 Erreur de Casting',       tx:"Tu joues un rôle que tu n\'aurais jamais pensé jouer.\nToutoon joue le calme. Ptitcuicui improvise.\nWhitewarrior est hilare.\n\nL\'imprévu, c\'est le meilleur scénario.", fx:[{t:'b',v:4,l:'🎭 +4 bonheur'}]},
     {src:'invented',     ti:'🏘️ Village Fantôme du 52',    tx:"Un village abandonné au bout d\'une route forestière.\nMaisons vides. Église condamnée.\nRoute qui finit dans les ronces.\n\nVous écoutez le silence.\nIl a une qualité qu\'on ne trouve nulle part ailleurs.", fx:[{t:'b',v:3,l:'👻 +3 bonheur (beauté mélancolique du 52)'}]},
     {src:'invented',     ti:'🌲 Forêt de Nuit',            tx:"Vous entrez dans la forêt à la tombée de la nuit.\nPas de réseau. Pas de lampe.\nJuste les arbres, la lune et les bruits du 52.\n\nToutoon fait semblant de ne pas avoir peur.\nÇa dure 10 minutes.", fx:[{t:'b',v:3,l:'🌲 +3 bonheur (aventure involontaire)'}]},
-    {src:'real',         ti:'❄️ Route Verglacée',           tx:"Novembre. D619 entre Langres et Fayl-Billot.\n-4°C. Verglas. Le sel n\'a pas encore été épandu.\n\nVous avancez à 30km/h.\nLe paysage givre. C\'est magnifique malgré tout.", fx:[{t:'b',v:1,l:'❄️ +1 bonheur (beauté hivernale)'},{t:'m',v:-200,l:'💸 -200€ (accrochage léger)'}]},
+    {src:'real',         ti:'❄️ Route Verglacée',           tx:"Novembre. D619 entre Langres et Fayl-Billot.\n-4°C. Verglas. Le sel n\'a pas encore été épandu.\n\nVous avancez à 30km/h.\nLe paysage givre. C\'est magnifique malgré tout.", fx:[{t:'b',v:1,l:'❄️ +1 bonheur (beauté hivernale)'},{t:'m',v:-200,l:'💸 -200€ (accrochage léger)'}], assetDamage:'car'},
+    {src:'invented',     ti:'💻 PC qui Rend l\'Âme',        tx:"En plein milieu d\'une LAN.\nEcran noir. Bruit de condensateur.\nTes potes continuent sans toi.\n\nCe soir tu joues sur le portable de ta mère.", fx:[{t:'b',v:-2,l:'😞 -2 bonheur'},{t:'m',v:-200,l:'💸 -200€ (dépannage d\'urgence)'}], assetDamage:'pc'},
+    {src:'invented',     ti:'🐱 Le Chat Renverse Tout',     tx:"Le chat traverse le bureau.\nKéyboard. Café. Câble USB.\nTout par terre.\n\nIl te regarde avec mépris et repart.", fx:[{t:'m',v:-300,l:'💸 -300€ (matériel HS)'},{t:'b',v:1,l:'🐱 +1 bonheur (c\'est trop con pour ne pas être drôle)'}]},
+    {src:'invented',     ti:'🚗 Panne sur la D619',         tx:"Fumée sous le capot.\nTu t\'arrêtes sur le bas-côté.\nUn tracteur passe sans s\'arrêter.\nUn autre passe.\n\nLe troisième s\'arrête. C\'est un voisin de ton cousin.", fx:[{t:'m',v:-500,l:'💸 -500€ (dépanneuse + réparation)'},{t:'b',v:-1,l:'😤 -1 bonheur'}], assetDamage:'car'},
+    {src:'invented',     ti:'📱 Téléphone à l\'Eau',        tx:"La rivière de Bourbonne.\nUne glissade.\nTon téléphone coule avant toi.\n\nLe riz ne suffit pas.", fx:[{t:'m',v:-700,l:'💸 -700€ (nouveau smartphone)'},{t:'b',v:-1,l:'😱 -1 bonheur'}], assetLose:'phone', assetGain:'phone'},
+    {src:'invented',     ti:'🎮 Console Grillée',           tx:"Surtension pendant un orage.\nLa console éteinte.\nLe disque dur aussi.\nLes sauvegardes aussi.\n\n70 heures de Farming Simulator perdues.", fx:[{t:'b',v:-3,l:'😭 -3 bonheur (les sauvegardes...)'},{t:'m',v:-200,l:'💸 -200€'}], assetDamage:'console'},
+    {src:'invented',     ti:'🐱 Adoption Coup de Cœur',     tx:"Un chat errant derrière la déchetterie de Fayl-Billot.\nNoir et blanc. Regard qui dit tout.\n\nIl vit chez toi maintenant.\nTu l\'as appelé Schloss.", fx:[{t:'b',v:3,l:'🐱 +3 bonheur'},{t:'m',v:-300,l:'💸 -300€ (vétérinaire + litière)'}], assetGain:'cat'},
+    {src:'invented',     ti:'🏍️ Moto d\'Occasion',          tx:"Un Bon Coin du 52 trop tentant.\nUne 600cm³. Révision faite.\nLe vendeur t\'assure que c\'est une affaire.\n\nC\'est une affaire.", fx:[{t:'m',v:-3500,l:'💸 -3500€'},{t:'b',v:2,l:'🏍️ +2 bonheur (la liberté du 52)'}], assetGain:'moto'},
   ],
   career:[
     {src:'invented',     ti:'💻 Merge Request Acceptée',  tx:"Ton PR est validé à 23h58.\nL'app part en prod. Pas de bug.\nCes moments valent de l'or.",             fx:[{t:'m',v:2500,l:'💶 +2500€ (prime de nuit)'},{t:'b',v:3,l:'✅ +3 bonheur (le green build, c\'est la paix)'}]},
@@ -750,7 +796,50 @@ const PLAYER_DEFS = [
   {id:'invoherence', name:'Incoherence',  emoji:'🐰', color:'#c084f5', bg:'#2a0a3a', role:'La Rêveuse 💍 future mariée',stats:{gaming:6,finance:6,chance:9,social:9}},
   {id:'toutoon',     name:'Toutoon',      emoji:'😤', color:'#f5c400', bg:'#2a1f00', role:'Le Dormant 💍 futur marié',  stats:{gaming:8,finance:5,chance:8,social:9}},
 ];
-function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, finished:false, order:null}; }
+function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, assets:[], finished:false, order:null}; }
+
+// ── PATRIMOINE ────────────────────────────────────────────────────────────────
+const ASSET_TYPES = {
+  pc:      { name:'PC Gaming',    emoji:'💻', baseValue:1200  },
+  console: { name:'Console',      emoji:'🎮', baseValue:450   },
+  car:     { name:'Voiture',      emoji:'🚗', baseValue:8000  },
+  moto:    { name:'Moto',         emoji:'🏍️', baseValue:3500  },
+  cat:     { name:'Chat du 52',   emoji:'🐱', baseValue:300   },
+  phone:   { name:'Smartphone',   emoji:'📱', baseValue:700   },
+  maison:  { name:'Maison du 52', emoji:'🏠', baseValue:18000 },
+  velo:    { name:'Vélo',         emoji:'🚲', baseValue:400   },
+};
+
+function totalAssets(p){ return (p.assets||[]).reduce((s,a)=>s+a.value,0); }
+
+function addAsset(player, type){
+  const def = ASSET_TYPES[type]; if(!def) return null;
+  const existing = (player.assets||[]).find(a=>a.type===type);
+  if(existing){ existing.value = Math.round(existing.value*1.15); return existing; }
+  const asset = { type, emoji:def.emoji, name:def.name, value:def.baseValue };
+  (player.assets = player.assets||[]).push(asset);
+  return asset;
+}
+
+function removeAsset(player, type){
+  const idx = (player.assets||[]).findIndex(a=>a.type===type);
+  if(idx>=0){ const a=player.assets.splice(idx,1)[0]; return a; }
+  return null;
+}
+
+function fluctuateAssets(player){
+  if(!(player.assets||[]).length) return;
+  const msgs = [];
+  player.assets.forEach(asset=>{
+    const pct = (Math.random()*4-2);
+    const delta = Math.round(asset.value*pct/100);
+    asset.value = Math.max(50, asset.value+delta);
+    if(Math.abs(delta)>0){
+      msgs.push(`${delta>=0?'📈':'📉'} ${asset.emoji} ${asset.name}: ${delta>=0?'+':''}${delta}€ (→ ${asset.value.toLocaleString('fr-FR')}€)`);
+    }
+  });
+  msgs.forEach(log);
+}
 
 // ── GAME STATE ────────────────────────────────────────────────────────────────
 const PH = {LOBBY:'lobby',ROLL:'roll',MOVE:'move',FORK:'fork',EVENT:'event',DONE:'done'};
@@ -778,6 +867,31 @@ function applyFx(card, playerId){
     card.extra[pid].forEach(e=>{
       if(e.t==='b') p.bonheur+=e.v; else if(e.t==='m') p.money+=e.v;
       msgs.push(p.name+' : '+e.l);
+    });
+  }
+  // Asset effects
+  if(card.assetGain){
+    const a = addAsset(p, card.assetGain);
+    if(a) msgs.push(`${a.emoji} ${p.name} acquiert ${a.name} — valeur ${a.value.toLocaleString('fr-FR')}€`);
+  }
+  if(card.assetLose){
+    const a = removeAsset(p, card.assetLose);
+    if(a) msgs.push(`💥 ${p.name} perd ${a.emoji} ${a.name} (valeur perdue: ${a.value.toLocaleString('fr-FR')}€)`);
+    else msgs.push(`(Tu n'as pas de ${ASSET_TYPES[card.assetLose]?.name||card.assetLose})`);
+  }
+  if(card.assetDamage){
+    const a = (p.assets||[]).find(x=>x.type===card.assetDamage);
+    if(a){ const loss=Math.round(a.value*0.3); a.value=Math.max(50,a.value-loss); msgs.push(`🔧 ${a.emoji} ${a.name} endommagé — perd ${loss}€ de valeur (→${a.value.toLocaleString('fr-FR')}€)`); }
+    else msgs.push(`(Pas de ${ASSET_TYPES[card.assetDamage]?.name||card.assetDamage})`);
+  }
+  // Global fx — appliqués à tous les joueurs actifs
+  if(card.globalFx){
+    G.players.filter(pl=>!pl.finished).forEach(pl=>{
+      card.globalFx.forEach(e=>{
+        if(e.t==='b') pl.bonheur=Math.max(0,pl.bonheur+e.v);
+        else if(e.t==='m') pl.money+=e.v;
+      });
+      if(pl.id!==pid) msgs.push(`${pl.emoji} ${pl.name} : ${card.globalFx.map(e=>e.l||'').join(', ')}`);
     });
   }
   // Special triggers
@@ -823,6 +937,7 @@ function nextTurn(){
   do { G.idx=(G.idx+1)%G.players.length; }
   while(G.players[G.idx].finished && G.players.some(p=>!p.finished));
   G.phase=PH.ROLL;
+  fluctuateAssets(cp());
   updateUI();
   SFX.turn();
   showTurnToast(cp());
@@ -1432,7 +1547,7 @@ function endTurn(){
 }
 
 function calcScore(p){
-  return p.bonheur + Math.floor(p.money/500) + p.wins;
+  return p.bonheur + Math.floor(p.money/500) + Math.floor(totalAssets(p)/500) + p.wins;
 }
 function showEnd(){
   SFX.finale();
@@ -1446,8 +1561,10 @@ function showEnd(){
   function scoreBreakdown(p){
     const bPts = p.bonheur;
     const mPts = Math.floor(p.money/500);
+    const aPts = Math.floor(totalAssets(p)/500);
     const wPts = p.wins;
-    return `<span class="score-detail">${bPts}❤️ + ${mPts}💰 + ${wPts}🏆 = <b>${p.score} pts</b></span>`;
+    const assetStr = aPts>0 ? ` + ${aPts}🏠` : '';
+    return `<span class="score-detail">${bPts}❤️ + ${mPts}💰${assetStr} + ${wPts}🏆 = <b>${p.score} pts</b></span>`;
   }
 
   // podium HTML — order: 2nd left, 1st center, 3rd right
@@ -1780,6 +1897,24 @@ function updateUI(){
   document.getElementById('cur-bonheur').textContent=p.bonheur;
   document.getElementById('cur-money').textContent=p.money.toLocaleString('fr-FR')+'€';
 
+  // Patrimoine
+  const assetsEl = document.getElementById('cur-assets');
+  if(assetsEl){
+    const assets = p.assets||[];
+    if(assets.length){
+      assetsEl.innerHTML = assets.map(a=>`<div class="asset-row">
+        <span class="asset-ico">${a.emoji}</span>
+        <span class="asset-name">${a.name}</span>
+        <span class="asset-val">${a.value.toLocaleString('fr-FR')}€</span>
+      </div>`).join('')+
+      `<div class="asset-total">Patrimoine total : ${totalAssets(p).toLocaleString('fr-FR')}€</div>`;
+      assetsEl.style.display='block';
+    } else {
+      assetsEl.innerHTML='<div class="asset-empty">Aucun bien</div>';
+      assetsEl.style.display='block';
+    }
+  }
+
   // Phase hint
   document.getElementById('phase-hint').textContent= G.phase===PH.ROLL?'Lance le dé !':G.phase===PH.MOVE?'Déplacement…':G.phase===PH.FORK?'Choisis ta voie…':G.phase===PH.EVENT?'Événement…':'';
 
@@ -1795,6 +1930,7 @@ function updateUI(){
       <span class="score-n" style="color:${pl.color}">${pl.name}</span>
       <span class="score-v">${pl.bonheur}❤️</span>
       <span class="score-m">${(pl.money/1000).toFixed(1)}k€</span>
+      ${totalAssets(pl)>0?`<span class="score-assets" title="Patrimoine">🏠${(totalAssets(pl)/1000).toFixed(1)}k</span>`:''}
     </div>`).join('');
 
   // Log
