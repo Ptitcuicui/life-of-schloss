@@ -1421,16 +1421,17 @@ function drawFrame() {
   const W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
   if (!Object.keys(STOP_LAYOUT).length) computeStopLayout();
+
+  // ── Background (hors transform caméra pour couvrir tout le canvas) ──
+  const gbg = ctx.createLinearGradient(0, 0, 0, H);
+  gbg.addColorStop(0, '#0c0c1e'); gbg.addColorStop(1, '#1a0e2e');
+  ctx.fillStyle = gbg; ctx.fillRect(0, 0, W, H);
+
   ctx.save();
   ctx.translate(camPanX, camPanY);
   ctx.scale(camZoom, camZoom);
   const TW = (STOP_LAYOUT['start'] || { tw: 80 }).tw; // taille de cellule de référence
   const RW = TW * 0.46;
-
-  // ── Background ──
-  const gbg = ctx.createLinearGradient(0, 0, 0, H);
-  gbg.addColorStop(0, '#0c0c1e'); gbg.addColorStop(1, '#1a0e2e');
-  ctx.fillStyle = gbg; ctx.fillRect(0, 0, W, H);
 
   // ── Connexions de chemin (remplace routes + virages + arcs de fork) ──
   for (const [fromId, toId] of EDGES) {
@@ -1583,7 +1584,7 @@ function fullRender(){ drawFrame(); drawMinimap(); }
 const minimapCanvas = document.getElementById('minimap-canvas');
 const mmCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
 
-// Resize minimap canvas when container changes size (CSS resize)
+// Resize minimap canvas when container changes size
 if(minimapCanvas){
   minimapCanvas.width = 130; minimapCanvas.height = 360;
   const _mmObs = new ResizeObserver(() => {
@@ -1595,6 +1596,28 @@ if(minimapCanvas){
     }
   });
   _mmObs.observe(minimapCanvas);
+}
+
+// Grip de redimensionnement coin haut-droit (remplace CSS resize:both)
+{
+  const mmWrap = document.getElementById('minimap-wrap');
+  const mmGrip = mmWrap ? mmWrap.querySelector('.mm-resize-grip') : null;
+  if(mmWrap && mmGrip){
+    let _mmDrag = null;
+    mmGrip.addEventListener('mousedown', e => {
+      e.preventDefault();
+      const rect = mmWrap.getBoundingClientRect();
+      _mmDrag = { startX: e.clientX, startY: e.clientY, startW: rect.width, startH: rect.height };
+    });
+    document.addEventListener('mousemove', e => {
+      if(!_mmDrag) return;
+      const dx = e.clientX - _mmDrag.startX;
+      const dy = e.clientY - _mmDrag.startY;
+      mmWrap.style.width  = Math.max(80,  _mmDrag.startW + dx) + 'px';
+      mmWrap.style.height = Math.max(100, _mmDrag.startH - dy) + 'px';
+    });
+    document.addEventListener('mouseup', () => { _mmDrag = null; });
+  }
 }
 
 function drawMinimap(){
@@ -2330,7 +2353,7 @@ function startGame(ids){
   camZoom = 1; camPanX = 0; camPanY = 0;
   showObjectiveSelect(0, ()=>{
     document.getElementById('btn-roll').disabled=false;
-    centerOnPlayer();
+    fullRender();
   });
 }
 

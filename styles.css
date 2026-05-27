@@ -265,10 +265,23 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-
   border-radius: 10px; padding: 6px 8px 8px;
   box-shadow: 0 4px 20px rgba(0,0,0,.6);
   backdrop-filter: blur(4px);
-  resize: both; overflow: hidden;
+  overflow: hidden;
   min-width: 80px; min-height: 100px;
   width: 146px; height: 390px;
   box-sizing: border-box;
+}
+.mm-resize-grip {
+  position: absolute; top: 0; right: 0;
+  width: 20px; height: 20px;
+  cursor: nesw-resize; z-index: 1;
+}
+.mm-resize-grip::after {
+  content: '';
+  position: absolute; top: 4px; right: 4px;
+  width: 9px; height: 9px;
+  border-top: 2px solid rgba(201,168,76,.7);
+  border-right: 2px solid rgba(201,168,76,.7);
+  border-radius: 0 2px 0 0;
 }
 .minimap-wrap.hidden { display: none; }
 .minimap-title { font-size: 9px; letter-spacing: .15em; color: var(--gold); text-transform: uppercase; text-align: center; margin-bottom: 4px; flex-shrink: 0; }
