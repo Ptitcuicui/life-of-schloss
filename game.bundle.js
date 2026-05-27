@@ -203,7 +203,7 @@ const STOPS = [
   { id:'p_arc',    label:'Arc-en-Barrois\nLe Week-end',         icon:'🃏', type:'card',   ch:'🎓 Études', deck:'surprise' },
   { id:'p_etu1',   label:'Bibliothèque\nUniversitaire',         icon:'🃏', type:'card',   ch:'🎓 Études', deck:'money' },
   { id:'p_etu2',   label:'Châteauvillain\nRetour en 52',        icon:'🃏', type:'card',   ch:'🎓 Études', deck:'love' },
-  { id:'p_etu3',   label:'Coloc\nDégât des Eaux',               icon:'💧', type:'story',  ch:'🎓 Études', storyId:'coloc_degat', subtype:'malus' },
+  { id:'p_etu3',   label:'Cambriolage !\nVeille des Vacances',  icon:'🚨', type:'story',  ch:'🎓 Études', storyId:'cambriolage_supinfo', subtype:'malus' },
   { id:'p_etu4',   label:'Retour aux Sources\nSaint-Dizier',    icon:'🃏', type:'card',   ch:'🎓 Études', deck:'gaming' },
   { id:'p_mid',    label:'Forêt de Châteauvillain\nPromenade du 52', icon:'🃏', type:'card', ch:'🎓 Études', deck:'money' },
   { id:'p_etu5',   label:'Diplôme !\nMention & Cadeau',         icon:'🎓', type:'story',  ch:'🎓 Études', storyId:'diplome_mention', subtype:'bonus' },
@@ -589,6 +589,17 @@ const STORIES = {
     title:'😱 Révisions BAC — La Nuit Blanche',
     text:"J-3 avant le BAC de Maths.\nTu retournes ton classeur. La moitié du cours manque.\n\nMode panique. Nuit blanche. Café froid.\nDes formules qui ne rentrent plus dans un cerveau à bout.\n\nTu passes quand même.\nMais ces deux nuits-là, tu ne les oublies pas.",
     fx:[{t:'m',v:-80,l:'💸 -80€ (café, Red Bull, poly photocopié en urgence)'},{t:'b',v:-2,l:'💔 -2 bonheur (nuit blanche + angoisse)'}],
+  },
+  cambriolage_supinfo: {
+    src:'real',
+    title:'🚨 Cambriolage — Veille des Vacances',
+    text:"Vendredi. Vous êtes à Supinfo.\nDemain, c'est les vacances scolaires.\n\nVous rentrez à la coloc.\nLa porte est défoncée.\n\nQuelqu'un est entré.\nQuelqu'un est reparti avec presque tout ce qui appartenait à Ptitcuicui.\nSauf un jeu. À Toutoon, celui-là.\n\nLa porte est à refaire.\nLe sentiment d'insécurité, lui, il prend du temps.",
+    fx:[{t:'m',v:-1800,l:'💸 -1800€ (réparation porte + franchise assurance)'},{t:'b',v:-4,l:'💔 -4 bonheur (rentrer dans un appartement cambriolé)'}],
+    assetLose:'pc',
+    extra:{
+      ptitcuicui:[{t:'m',v:-1500,l:'💸 Ptitcuicui : -1500€ (tout lui appartenait)'},{t:'b',v:-3,l:'💔 Ptitcuicui : -3 bonheur supplémentaire (ses affaires)'}],
+      toutoon:[{t:'b',v:-2,l:'😤 Toutoon : -2 bonheur (son jeu aussi, au moins)'}],
+    },
   },
   coloc_degat: {
     src:'invented',
