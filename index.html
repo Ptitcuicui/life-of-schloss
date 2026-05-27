@@ -78,7 +78,15 @@
 
   <!-- GAME -->
   <div id="screen-game" class="screen">
-    <div class="canvas-wrap"><canvas id="game-canvas"></canvas></div>
+    <div class="canvas-wrap">
+      <canvas id="game-canvas"></canvas>
+      <div class="zoom-controls">
+        <button class="zoom-btn" title="Zoom +" onclick="camZoomBy(1.25)">+</button>
+        <button class="zoom-btn" title="Recentrer (Espace)" onclick="centerOnPlayer()">⌖</button>
+        <button class="zoom-btn" title="Zoom −" onclick="camZoomBy(0.8)">−</button>
+        <button class="zoom-btn" title="Réinitialiser" onclick="camReset()" style="font-size:10px">1:1</button>
+      </div>
+    </div>
     <div class="side-panel">
 
       <!-- Current player block -->
@@ -188,8 +196,10 @@
 
 <!-- MINIMAP -->
 <div id="minimap-wrap" class="minimap-wrap hidden">
-  <div class="minimap-title">Progression</div>
-  <canvas id="minimap-canvas"></canvas>
+  <div class="minimap-inner">
+    <div class="minimap-title">Progression</div>
+    <canvas id="minimap-canvas"></canvas>
+  </div>
 </div>
 
 <!-- EVENT MODAL (stories + cards) -->

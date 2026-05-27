@@ -1110,6 +1110,8 @@ function applyFx(card, playerId){
     const inv=G.players.find(x=>x.id==='invoherence');
     if(inv){ inv.bonheur+=3; inv.money+=2000; msgs.push('🐰 Incoherence : +3 bonheur et +2000€ en plus !'); }
   }
+  // Snapshot min bonheur/argent pour tous les joueurs après chaque effet
+  G.players.forEach(pl => trackPlayerMins(pl));
   return msgs;
 }
 
@@ -1153,6 +1155,84 @@ function nextTurn(){
 // ── RENDERER ──────────────────────────────────────────────────────────────────
 const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
+
+// ── CAMÉRA (zoom + pan) ───────────────────────────────────────────────────────
+let camZoom = 1, camPanX = 0, camPanY = 0;
+let _drag = null;
+
+function centerOnPlayer(){
+  if(!G || !STOP_LAYOUT[cp().nodeId]) return;
+  const sl = STOP_LAYOUT[cp().nodeId];
+  camPanX = canvas.width  / 2 - sl.cx * camZoom;
+  camPanY = canvas.height / 2 - sl.cy * camZoom;
+  fullRender();
+}
+window.centerOnPlayer = centerOnPlayer;
+
+window.camZoomBy = function(factor){
+  const cx = canvas.width / 2, cy = canvas.height / 2;
+  const nz = Math.max(0.25, Math.min(4, camZoom * factor));
+  camPanX = cx - (cx - camPanX) * (nz / camZoom);
+  camPanY = cy - (cy - camPanY) * (nz / camZoom);
+  camZoom = nz;
+  fullRender();
+};
+window.camReset = function(){
+  camZoom = 1; camPanX = 0; camPanY = 0;
+  fullRender();
+};
+
+// Wheel zoom
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  const factor = e.deltaY < 0 ? 1.12 : 1/1.12;
+  const nz = Math.max(0.25, Math.min(4, camZoom * factor));
+  camPanX = mx - (mx - camPanX) * (nz / camZoom);
+  camPanY = my - (my - camPanY) * (nz / camZoom);
+  camZoom = nz;
+  fullRender();
+}, { passive: false });
+
+// Mouse drag pan
+canvas.addEventListener('mousedown', e => {
+  if(e.button !== 0) return;
+  _drag = { sx: e.clientX, sy: e.clientY, px: camPanX, py: camPanY };
+  canvas.style.cursor = 'grabbing';
+});
+canvas.addEventListener('mousemove', e => {
+  if(!_drag) return;
+  camPanX = _drag.px + e.clientX - _drag.sx;
+  camPanY = _drag.py + e.clientY - _drag.sy;
+  fullRender();
+});
+canvas.addEventListener('mouseup', () => { _drag = null; canvas.style.cursor = ''; });
+canvas.addEventListener('mouseleave', () => { _drag = null; canvas.style.cursor = ''; });
+
+// Touch drag pan (1 doigt)
+canvas.addEventListener('touchstart', e => {
+  if(e.touches.length === 1){
+    _drag = { sx: e.touches[0].clientX, sy: e.touches[0].clientY, px: camPanX, py: camPanY };
+  }
+}, { passive: true });
+canvas.addEventListener('touchmove', e => {
+  if(!_drag || e.touches.length !== 1) return;
+  e.preventDefault();
+  camPanX = _drag.px + e.touches[0].clientX - _drag.sx;
+  camPanY = _drag.py + e.touches[0].clientY - _drag.sy;
+  fullRender();
+}, { passive: false });
+canvas.addEventListener('touchend', () => { _drag = null; });
+
+// Espace → recentrer sur le pion actif
+document.addEventListener('keydown', e => {
+  if(e.code === 'Space' && G && !document.querySelector('.modal-overlay:not(.hidden)')){
+    e.preventDefault();
+    centerOnPlayer();
+  }
+});
 
 function resize(){
   const wrap = canvas.parentElement;
@@ -1341,6 +1421,9 @@ function drawFrame() {
   const W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
   if (!Object.keys(STOP_LAYOUT).length) computeStopLayout();
+  ctx.save();
+  ctx.translate(camPanX, camPanY);
+  ctx.scale(camZoom, camZoom);
   const TW = (STOP_LAYOUT['start'] || { tw: 80 }).tw; // taille de cellule de référence
   const RW = TW * 0.46;
 
@@ -1486,6 +1569,7 @@ function drawFrame() {
       });
     }
   }
+  ctx.restore(); // fin transform caméra
 }
 
 function animLoop(){
@@ -1498,11 +1582,24 @@ function fullRender(){ drawFrame(); drawMinimap(); }
 // ── MINIMAP ───────────────────────────────────────────────────────────────────
 const minimapCanvas = document.getElementById('minimap-canvas');
 const mmCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
-const MM_W = 130, MM_H = 360;
-if(minimapCanvas){ minimapCanvas.width = MM_W; minimapCanvas.height = MM_H; }
+
+// Resize minimap canvas when container changes size (CSS resize)
+if(minimapCanvas){
+  minimapCanvas.width = 130; minimapCanvas.height = 360;
+  const _mmObs = new ResizeObserver(() => {
+    const r = minimapCanvas.getBoundingClientRect();
+    const w = Math.round(r.width), h = Math.round(r.height);
+    if(w > 0 && h > 0 && (minimapCanvas.width !== w || minimapCanvas.height !== h)){
+      minimapCanvas.width = w; minimapCanvas.height = h;
+      if(G) drawMinimap();
+    }
+  });
+  _mmObs.observe(minimapCanvas);
+}
 
 function drawMinimap(){
   if(!mmCtx || !G || !Object.keys(STOP_LAYOUT).length) return;
+  const MM_W = minimapCanvas.width, MM_H = minimapCanvas.height;
   const wrap = document.getElementById('minimap-wrap');
   if(wrap) wrap.classList.remove('hidden');
 
@@ -2230,8 +2327,10 @@ function startGame(ids){
   BGM.start();
   const btn = document.getElementById('btn-music');
   if (btn) btn.textContent = '🔇';
+  camZoom = 1; camPanX = 0; camPanY = 0;
   showObjectiveSelect(0, ()=>{
     document.getElementById('btn-roll').disabled=false;
+    centerOnPlayer();
   });
 }
 
@@ -2608,6 +2707,7 @@ const NET = (() => {
     const ids = onlineRoomInfo.players.map(x => x.pid).filter(Boolean);
     if (ids.length < 2) return;
     const state = newGame(ids);
+    state.boardMap = shuffleBoard();
     socket.emit('start_game', { state: JSON.parse(JSON.stringify(state)) });
   }
 
@@ -2779,6 +2879,8 @@ const NET = (() => {
             if (money) { challenger.money+=money; target.money-=money; }
             else { challenger.bonheur+=stakes; target.bonheur-=stakes; }
             challenger.wins++;
+            challenger.duelWins=(challenger.duelWins||0)+1;
+            target.duelLosses=(target.duelLosses||0)+1;
           }
           document.getElementById('die-a')?.classList.add('winner');
           resultLines = [`✅ ${challenger.name} (${totalA}) bat ${target.name} (${totalB}) !`,
@@ -2789,6 +2891,8 @@ const NET = (() => {
             if (money) { target.money+=money; challenger.money-=money; }
             else { target.bonheur+=stakes; challenger.bonheur-=stakes; }
             target.wins++;
+            target.duelWins=(target.duelWins||0)+1;
+            challenger.duelLosses=(challenger.duelLosses||0)+1;
           }
           document.getElementById('die-b')?.classList.add('winner');
           resultLines = [`✅ ${target.name} (${totalB}) bat ${challenger.name} (${totalA}) !`,

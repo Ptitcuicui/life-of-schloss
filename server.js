@@ -71,7 +71,7 @@ io.on('connection', socket => {
 
   socket.on('sync_state', ({ state }) => {
     const room = rooms.get(myRoom);
-    if (!room) return;
+    if (!room || room.host !== socket.id) return;
     room.state = state;
     socket.to(myRoom).emit('state_updated', { state });
   });
