@@ -1843,11 +1843,16 @@ function revealBet(){
 function showDuel(duel){
   G.phase = PH.EVENT;
   const challenger = cp();
+  const statKey = duel.stat || 'chance';
+  const statLabel = STAT_LABELS[statKey] || statKey;
+  const bonusA = Math.floor((challenger.stats?.[statKey] || 5) / 3);
   const desc = duel.desc.replace('{A}', challenger.name).replace('{B}', '...').replace('{stakes}', duel.stakes||2);
   document.getElementById('duel-title').textContent = duel.title;
   document.getElementById('duel-desc').textContent = desc;
-  document.getElementById('duel-stake-info').textContent =
-    duel.money ? `💸 ${duel.money}€ en jeu !` : `❤️ ${duel.stakes||2} bonheur en jeu !`;
+  const stakeText = duel.money ? `💸 ${duel.money}€ en jeu` : `❤️ ${duel.stakes||2} bonheur en jeu`;
+  document.getElementById('duel-stake-info').innerHTML =
+    `${stakeText} &nbsp;·&nbsp; Stat : <b style="color:#ffd700">${statLabel}</b><br>
+     <span style="font-size:11px;color:#aaa">${challenger.emoji} Ton bonus dé : <b style="color:${challenger.color}">+${bonusA}</b> (stat ${challenger.stats?.[statKey]||'?'}/10)</span>`;
 
   const list = document.getElementById('duel-target-list');
   list.innerHTML = '';
@@ -1860,9 +1865,10 @@ function showDuel(duel){
     showModal('duel-modal'); return;
   }
   targets.forEach(target => {
+    const bonusB = Math.floor((target.stats?.[statKey] || 5) / 3);
     const btn = document.createElement('button');
     btn.className = 'btn-choice';
-    btn.textContent = `${target.emoji} Défier ${target.name}`;
+    btn.innerHTML = `${target.emoji} Défier ${target.name} <span style="font-size:10px;opacity:.7;margin-left:6px">+${bonusB} (${statLabel.split(' ')[1]||statLabel} ${target.stats?.[statKey]||'?'}/10)</span>`;
     btn.onclick = () => {
       if (NET.isOnline()) NET.startDuel(duel, challenger.id, target.id);
       else resolveDuel(duel, challenger, target);
@@ -2450,8 +2456,10 @@ const NET = (() => {
 
     document.getElementById('duel-title').textContent = duel.title;
     document.getElementById('duel-desc').textContent = desc;
-    document.getElementById('duel-stake-info').textContent =
-      duel.money ? `💸 ${duel.money}€ en jeu !` : `❤️ ${duel.stakes||2} bonheur en jeu !`;
+    const stakeTextOnline = duel.money ? `💸 ${duel.money}€ en jeu` : `❤️ ${duel.stakes||2} bonheur en jeu`;
+    document.getElementById('duel-stake-info').innerHTML =
+      `${stakeTextOnline} &nbsp;·&nbsp; Stat : <b style="color:#ffd700">${statLabel}</b><br>
+       <span style="font-size:11px;color:#aaa">${challenger.emoji} +${bonusA} vs ${target.emoji} +${bonusB}</span>`;
     document.getElementById('duel-target-list').innerHTML = '';
 
     const amChallenger = myPlayerId === challenger.id;
