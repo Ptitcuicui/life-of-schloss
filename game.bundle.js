@@ -1158,7 +1158,7 @@ const ctx = canvas.getContext('2d');
 
 // ── CAMÉRA (zoom + pan) ───────────────────────────────────────────────────────
 let camZoom = 1, camPanX = 0, camPanY = 0;
-let _drag = null;
+let _drag = null, _boardH = 0;
 
 function centerOnPlayer(){
   if(!G || !STOP_LAYOUT[cp().nodeId]) return;
@@ -1236,8 +1236,9 @@ document.addEventListener('keydown', e => {
 
 function resize(){
   const wrap = canvas.parentElement;
-  canvas.width = Math.max(320, (wrap ? wrap.clientWidth : window.innerWidth - 280));
-  computeStopLayout(); // calcule aussi canvas.height
+  canvas.width  = Math.max(320, (wrap ? wrap.clientWidth  : window.innerWidth  - 280));
+  canvas.height = Math.max(400, (wrap ? wrap.clientHeight : window.innerHeight));
+  computeStopLayout();
 }
 
 // ── BOARD GRID LAYOUT ─────────────────────────────────────────────────────────
@@ -1346,7 +1347,7 @@ function computeStopLayout() {
       place(id, cx); y += step;
     }
   }
-  canvas.height = y + PAD;
+  _boardH = y + PAD; // hauteur totale du plateau (world space)
 }
 const ROW_META = [
   {ch:'🧒 Enfance',         col:'#c8900a'}, // row 0
@@ -2350,7 +2351,10 @@ function startGame(ids){
   BGM.start();
   const btn = document.getElementById('btn-music');
   if (btn) btn.textContent = '🔇';
-  camZoom = 1; camPanX = 0; camPanY = 0;
+  // Zoom initial : ajuste pour voir tout le plateau dans le viewport
+  camZoom = (_boardH > 0 && canvas.height > 0) ? Math.min(1, (canvas.height - 20) / _boardH) : 1;
+  camPanX = canvas.width / 2 * (1 - camZoom);
+  camPanY = 0;
   showObjectiveSelect(0, ()=>{
     document.getElementById('btn-roll').disabled=false;
     fullRender();

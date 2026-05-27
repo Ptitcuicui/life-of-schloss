@@ -102,7 +102,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-
 
 /* GAME SCREEN — scrollable canvas area, fixed side panel */
 #screen-game { flex-direction: row; }
-.canvas-wrap { flex: 1; overflow-y: auto; overflow-x: hidden; height: 100vh; position: relative; }
+.canvas-wrap { flex: 1; overflow: hidden; height: 100vh; position: relative; }
 #game-canvas { display: block; }
 
 /* SIDE PANEL */
