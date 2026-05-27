@@ -910,6 +910,58 @@ const DUELS = [
 ];
 function drawDuel(){ return DUELS[Math.floor(Math.random()*DUELS.length)]; }
 
+// ── OBJECTIFS SECRETS ─────────────────────────────────────────────────────────
+const DIFF_LABELS  = ['⬜ Trivial','🟩 Facile','🟦 Moyen','🟧 Difficile','🟥 Très difficile','🟣 Épique','⚫ Légendaire'];
+const DIFF_COLORS  = ['#aaaaaa','#4ade80','#60a5fa','#fb923c','#f87171','#c084f5','#e2e8f0'];
+const DIFF_REWARDS = [2, 4, 6, 8, 10, 13, 16];
+
+const OBJECTIVES = [
+  { id:'survivant',       diff:0, label:'Survivant',           desc:'Ne pas être éliminé avant la fin de la partie.',                              cond: p => !p.eliminated },
+  { id:'joueur_compulsif',diff:0, label:'Joueur Compulsif',    desc:'Participer à au moins 5 paris collectifs.',                                   cond: p => (p.betParticipations||0) >= 5 },
+  { id:'sans_egratig',    diff:0, label:'Sans Égratignure',    desc:'Ne subir aucun dégât sur ses possessions pendant toute la partie.',           cond: p => (p.assetDamageCount||0) === 0 },
+  { id:'zen',             diff:1, label:'Zen',                 desc:'Ne jamais avoir un bonheur négatif durant la partie.',                         cond: p => (p.minBonheur||0) >= 0 },
+  { id:'parieur',         diff:1, label:'Parieur',             desc:'Gagner au moins 5 paris collectifs.',                                          cond: p => (p.betWins||0) >= 5 },
+  { id:'boheme',          diff:1, label:'Bohème',              desc:'Finir avec moins de 500€ mais 30+ bonheur.',                                   cond: p => p.money < 500 && p.bonheur >= 30 },
+  { id:'rentier',         diff:1, label:'Rentier',             desc:'Posséder une maison à la fin de la partie.',                                   cond: p => (p.assets||[]).some(a => a.type === 'maison') },
+  { id:'campagnard',      diff:1, label:'Campagnard',          desc:'Prendre la branche Colombey au carrefour des études.',                         cond: p => !!p.tookColombey },
+  { id:'minimaliste',     diff:1, label:'Minimaliste',         desc:'Finir avec au maximum 1 possession.',                                          cond: p => (p.assets||[]).length <= 1 },
+  { id:'comble',          diff:2, label:'Comblé',              desc:'Terminer la partie avec 100 points de bonheur ou plus.',                       cond: p => p.bonheur >= 100 },
+  { id:'finaliste',       diff:2, label:'Finaliste',           desc:'Finir dans le top 2 du classement final.',                                     cond: p => (p.order||99) <= 2 },
+  { id:'duelliste',       diff:2, label:'Duelliste',           desc:'Remporter au moins 2 duels dans la partie.',                                   cond: p => (p.duelWins||0) >= 2 },
+  { id:'chanceux',        diff:2, label:'Chanceux',            desc:'Lancer un 6 au dé au moins 6 fois dans la partie.',                            cond: p => (p.sixes||0) >= 6 },
+  { id:'supinfoien',      diff:2, label:'Supinfoien',          desc:'Prendre la branche Supinfo au carrefour des études.',                          cond: p => !!p.tookSupinfo },
+  { id:'proprietaire',    diff:2, label:'Propriétaire',        desc:'Passer par la case Achat Maison au grand carrefour de vie.',                   cond: p => !!p.tookMaisonFork },
+  { id:'stagiaire',       diff:2, label:'Stagiaire Étoile',    desc:'Prendre la branche Stage après le diplôme.',                                   cond: p => !!p.tookStage },
+  { id:'pas_rouge',       diff:2, label:'Jamais dans le Rouge',desc:'Ne jamais avoir un solde négatif pendant toute la partie.',                    cond: p => (p.minMoney===undefined?0:p.minMoney) >= 0 },
+  { id:'legende',         diff:3, label:'Légende',             desc:'Terminer avec un score total de 130 ou plus.',                                  cond: p => calcScore(p) >= 130 },
+  { id:'gladiateur',      diff:3, label:'Gladiateur',          desc:'Remporter au moins 3 duels dans la partie.',                                   cond: p => (p.duelWins||0) >= 3 },
+  { id:'pc_master',       diff:3, label:'PC Master',           desc:'Posséder encore son PC gaming à la fin de la partie.',                         cond: p => (p.assets||[]).some(a => a.type === 'pc') },
+  { id:'invaincu',        diff:4, label:'Invaincu',            desc:'Gagner au moins 2 duels sans jamais en perdre un seul.',                       cond: p => (p.duelWins||0) >= 2 && (p.duelLosses||0) === 0 },
+  { id:'econome',         diff:4, label:"L'Économe",           desc:"Finir avec 8 000€ sans jamais avoir possédé de maison.",                       cond: p => p.money >= 8000 && !p.everHadMaison },
+  { id:'automobiliste',   diff:4, label:'Automobiliste',       desc:'Posséder une voiture à la fin de la partie.',                                  cond: p => (p.assets||[]).some(a => a.type === 'car') },
+  { id:'grand_vainqueur', diff:4, label:'Grand Vainqueur',     desc:'Finir 1er avec un score de 120 ou plus.',                                      cond: p => p.order === 1 && calcScore(p) >= 120 },
+  { id:'etabli',          diff:5, label:'Établi',              desc:'Posséder une maison ET une voiture à la fin de la partie.',                    cond: p => (p.assets||[]).some(a=>a.type==='maison') && (p.assets||[]).some(a=>a.type==='car') },
+  { id:'grand_rentier',   diff:5, label:'Grand Rentier',       desc:'Finir avec 10 000€ ou plus en poche.',                                         cond: p => p.money >= 10000 },
+  { id:'la_totale',       diff:5, label:'La Totale',           desc:'Score ≥ 120, bonheur ≥ 35 et argent ≥ 10 000€ à la fin.',                     cond: p => calcScore(p) >= 120 && p.bonheur >= 35 && p.money >= 10000 },
+  { id:'gamer_cosy',      diff:5, label:'Gamer Cosy',          desc:'Posséder une console ET un chat à la fin de la partie.',                       cond: p => (p.assets||[]).some(a=>a.type==='console') && (p.assets||[]).some(a=>a.type==='cat') },
+  { id:'collectionneur',  diff:5, label:'Collectionneur',      desc:'Posséder au moins 4 biens différents à la fin de la partie.',                  cond: p => (p.assets||[]).length >= 4 },
+  { id:'routier',         diff:6, label:'Le Routier',          desc:'Posséder une voiture ET une moto à la fin de la partie.',                      cond: p => (p.assets||[]).some(a=>a.type==='car') && (p.assets||[]).some(a=>a.type==='moto') },
+  { id:'millionnaire',    diff:6, label:'Millionnaire',        desc:'Finir avec 15 000€ ou plus en poche.',                                         cond: p => p.money >= 15000 },
+];
+
+function pickObjectiveTrio(){
+  const shuffled = [...OBJECTIVES].sort(()=>Math.random()-.5);
+  const trio = []; const usedDiffs = new Set();
+  for(const obj of shuffled){ if(!usedDiffs.has(obj.diff)){ trio.push(obj); usedDiffs.add(obj.diff); } if(trio.length===3) break; }
+  for(const obj of shuffled){ if(trio.length>=3) break; if(!trio.includes(obj)) trio.push(obj); }
+  return trio;
+}
+
+function trackPlayerMins(p){
+  p.minBonheur = Math.min(p.minBonheur??0, p.bonheur);
+  p.minMoney   = Math.min(p.minMoney??p.money, p.money);
+}
+
 // ── PLAYERS ──────────────────────────────────────────────────────────────────
 // stats: gaming🎮 finance💰 chance🍀 social❤️  (1–10)
 const PLAYER_DEFS = [
@@ -919,7 +971,12 @@ const PLAYER_DEFS = [
   {id:'invoherence', name:'Incoherence',  emoji:'🐰', color:'#c084f5', bg:'#2a0a3a', role:'La Rêveuse 💍 future mariée',stats:{gaming:6,finance:6,chance:9,social:9}},
   {id:'toutoon',     name:'Toutoon',      emoji:'😤', color:'#f5c400', bg:'#2a1f00', role:'Le Dormant 💍 futur marié',  stats:{gaming:8,finance:5,chance:8,social:9}},
 ];
-function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, assets:[], finished:false, order:null, negativeTurns:0}; }
+function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, assets:[], finished:false, order:null, negativeTurns:0,
+  secretObj:null, eliminated:false,
+  minBonheur:0, minMoney:5000,
+  duelWins:0, duelLosses:0, betWins:0, betParticipations:0, sixes:0, assetDamageCount:0,
+  everHadMaison:false, tookSupinfo:false, tookColombey:false, tookMaisonFork:false, tookStage:false,
+}; }
 
 // ── PATRIMOINE ────────────────────────────────────────────────────────────────
 const ASSET_TYPES = {
@@ -937,6 +994,7 @@ function totalAssets(p){ return (p.assets||[]).reduce((s,a)=>s+a.value,0); }
 
 function addAsset(player, type){
   const def = ASSET_TYPES[type]; if(!def) return null;
+  if(type==='maison') player.everHadMaison = true;
   const existing = (player.assets||[]).find(a=>a.type===type);
   if(existing){ existing.value = Math.round(existing.value*1.15); return existing; }
   const asset = { type, emoji:def.emoji, name:def.name, value:def.baseValue, initialValue:def.baseValue, wear:0 };
@@ -1015,7 +1073,7 @@ function applyFx(card, playerId){
   }
   if(card.assetDamage){
     const a = (p.assets||[]).find(x=>x.type===card.assetDamage);
-    if(a){ const loss=Math.round(a.value*0.3); a.value=Math.max(50,a.value-loss); msgs.push(`🔧 ${a.emoji} ${a.name} endommagé — perd ${loss}€ de valeur (→${a.value.toLocaleString('fr-FR')}€)`); }
+    if(a){ const loss=Math.round(a.value*0.3); a.value=Math.max(50,a.value-loss); p.assetDamageCount=(p.assetDamageCount||0)+1; msgs.push(`🔧 ${a.emoji} ${a.name} endommagé — perd ${loss}€ de valeur (→${a.value.toLocaleString('fr-FR')}€)`); }
     else msgs.push(`(Pas de ${ASSET_TYPES[card.assetDamage]?.name||card.assetDamage})`);
   }
   // Global fx — appliqués à tous les joueurs actifs
@@ -1075,6 +1133,7 @@ function nextTurn(){
       prev.negativeTurns = (prev.negativeTurns||0) + 1;
       if(prev.negativeTurns > 3){
         prev.finished = true;
+        prev.eliminated = true;
         log(`💔 ${prev.emoji} ${prev.name} est éliminé·e ! (bonheur négatif pendant ${prev.negativeTurns} tours)`);
       }
     } else {
@@ -1547,7 +1606,8 @@ function doRoll(){
     NET.emitDiceRoll(v);
     let extra='';
     if(v===1){ cp().bonheur=cp().bonheur-1; extra=' 😬 Malchance ! -1 bonheur'; }
-    if(v===6){ cp().bonheur+=2; extra=' 🍀 Coup de chance ! +2 bonheur'; }
+    if(v===6){ cp().bonheur+=2; cp().sixes=(cp().sixes||0)+1; extra=' 🍀 Coup de chance ! +2 bonheur'; }
+    trackPlayerMins(cp());
     log(cp().name+' lance le dé : '+v+' 🎲'+extra);
     if(extra) updateUI();
     movePlayer(v);
@@ -1624,6 +1684,11 @@ function showFork(n){
 function arrive(n){
   if(!n){ endTurn(); return; }
   log(cp().name+' → '+(n.label||n.ch||''));
+  const p=cp();
+  if(n.id==='fe_b2') p.tookSupinfo=true;
+  if(n.id==='fe_a2') p.tookColombey=true;
+  if(n.id==='f4b')   p.tookMaisonFork=true;
+  if(n.id==='f2a3')  p.tookStage=true;
   updateUI(); fullRender();
   if(n.type==='finale'){ SFX.finale(); handleFinale(); return; }
   if(n.type==='story'){ SFX.event(); showStory(n.storyId, n.subtype); return; }
@@ -1712,6 +1777,21 @@ function showReactionFloat(emoji, playerEmoji) {
 function showEnd(){
   localStorage.removeItem('schloss_session');
   SFX.finale();
+
+  // Resolve secret objectives — apply bonheur bonus before scoring
+  G.players.forEach(p=>{
+    if(!p.secretObj) return;
+    const obj = OBJECTIVES.find(o=>o.id===p.secretObj);
+    if(!obj) return;
+    p.objAchieved = obj.cond(p);
+    if(p.objAchieved){
+      const bonus = DIFF_REWARDS[obj.diff]||0;
+      p.bonheur += bonus;
+      p.objBonus = bonus;
+      log(`🎯 ${p.emoji} ${p.name} a réussi son objectif secret "${obj.label}" ! +${bonus} bonheur`);
+    }
+  });
+
   const scored = [...G.players].map(p=>({...p, score:calcScore(p)})).sort((a,b)=>b.score-a.score);
   const w = scored[0];
   const podium = scored.slice(0,3);
@@ -1725,7 +1805,9 @@ function showEnd(){
     const aPts = Math.floor(totalAssets(p)/500);
     const wPts = p.wins;
     const assetStr = aPts>0 ? ` + ${aPts}🏠` : '';
-    return `<span class="score-detail">${bPts}❤️ + ${mPts}💰${assetStr} + ${wPts}🏆 = <b>${p.score} pts</b></span>`;
+    const obj = p.secretObj ? OBJECTIVES.find(o=>o.id===p.secretObj) : null;
+    const objStr = obj ? (p.objAchieved ? ` <span class="obj-tag obj-ok">🎯 ${obj.label} +${p.objBonus||0}❤️</span>` : ` <span class="obj-tag obj-fail">❌ ${obj.label}</span>`) : '';
+    return `<span class="score-detail">${bPts}❤️ + ${mPts}💰${assetStr} + ${wPts}🏆 = <b>${p.score} pts</b></span>${objStr}`;
   }
 
   // podium HTML — order: 2nd left, 1st center, 3rd right
@@ -1836,18 +1918,22 @@ function revealBet(){
 
   G.players.filter(p => !p.finished).forEach(p => {
     const choice = betChoicesLocal[p.id] || p._onlineBetChoice;
-    if(choice === outcome){
-      (bet.winFx||[]).forEach(e=>{ if(e.t==='b') p.bonheur+=e.v; else if(e.t==='m') p.money+=e.v; });
-      p.wins++;
-      msgs.push(`<div class="eff-line">✅ ${p.name} avait raison ! +${bet.winFx?.[0]?.v||0} bonheur</div>`);
-      log(`✅ ${p.name} a bien parié !`);
-    } else if(choice){
-      (bet.loseFx||[]).forEach(e=>{ if(e.t==='b') p.bonheur=p.bonheur+e.v; else if(e.t==='m') p.money+=e.v; });
-      msgs.push(`<div class="eff-line">❌ ${p.name} s'est trompé(e)</div>`);
-      log(`❌ ${p.name} a mal parié.`);
+    if(choice){
+      p.betParticipations = (p.betParticipations||0) + 1;
+      if(choice === outcome){
+        (bet.winFx||[]).forEach(e=>{ if(e.t==='b') p.bonheur+=e.v; else if(e.t==='m') p.money+=e.v; });
+        p.wins++; p.betWins = (p.betWins||0) + 1;
+        msgs.push(`<div class="eff-line">✅ ${p.name} avait raison ! +${bet.winFx?.[0]?.v||0} bonheur</div>`);
+        log(`✅ ${p.name} a bien parié !`);
+      } else {
+        (bet.loseFx||[]).forEach(e=>{ if(e.t==='b') p.bonheur=p.bonheur+e.v; else if(e.t==='m') p.money+=e.v; });
+        msgs.push(`<div class="eff-line">❌ ${p.name} s'est trompé(e)</div>`);
+        log(`❌ ${p.name} a mal parié.`);
+      }
     } else {
       msgs.push(`<div class="eff-line">🤷 ${p.name} n'a pas parié</div>`);
     }
+    trackPlayerMins(p);
   });
 
   const myChoice = betChoicesLocal[cp().id] || cp()._onlineBetChoice;
@@ -1951,7 +2037,7 @@ function resolveDuel(duel, challenger, target){
       if(rollA > rollB){
         if(money){ challenger.money+=money; target.money-=money; }
         else { challenger.bonheur+=stakes; target.bonheur-=stakes; }
-        challenger.wins++;
+        challenger.wins++; challenger.duelWins=(challenger.duelWins||0)+1; target.duelLosses=(target.duelLosses||0)+1;
         document.getElementById('die-a').classList.add('winner');
         resultLines = [`✅ ${challenger.name} (${totalA}) bat ${target.name} (${totalB}) !`,
           money?`💶 +${money}€ pour ${challenger.name}`:`❤️ +${stakes} bonheur pour ${challenger.name}`];
@@ -1959,7 +2045,7 @@ function resolveDuel(duel, challenger, target){
       } else if(rollB > rollA){
         if(money){ target.money+=money; challenger.money-=money; }
         else { target.bonheur+=stakes; challenger.bonheur-=stakes; }
-        target.wins++;
+        target.wins++; target.duelWins=(target.duelWins||0)+1; challenger.duelLosses=(challenger.duelLosses||0)+1;
         document.getElementById('die-b').classList.add('winner');
         resultLines = [`✅ ${target.name} (${totalB}) bat ${challenger.name} (${totalA}) !`,
           money?`💶 +${money}€ pour ${target.name}`:`❤️ +${stakes} bonheur pour ${target.name}`];
@@ -2084,6 +2170,39 @@ function shuffleBoard() {
 const ALL_SCREENS=['screen-lobby','screen-game','screen-victory'];
 function showScreen(id){ ALL_SCREENS.forEach(s=>{ const el=document.getElementById(s); if(el) el.classList.toggle('active',s===id); }); }
 
+function showObjectiveSelect(playerIdx, onDone){
+  if(playerIdx >= G.players.length){ onDone(); return; }
+  const p = G.players[playerIdx];
+  const trio = pickObjectiveTrio();
+  const modal = document.getElementById('obj-modal');
+  const titleEl = document.getElementById('obj-modal-player');
+  const cardsEl = document.getElementById('obj-modal-cards');
+  titleEl.innerHTML = `<span style="color:${p.color}">${p.emoji} ${p.name}</span> — Choisis ton objectif secret`;
+  cardsEl.innerHTML = trio.map((obj,i)=>{
+    const color = DIFF_COLORS[obj.diff];
+    const reward = DIFF_REWARDS[obj.diff];
+    return `<div class="obj-card" data-idx="${i}" style="border-color:${color}44;--obj-color:${color}" onclick="selectObj(${playerIdx},${i})">
+      <div class="obj-diff-badge" style="background:${color}22;color:${color}">${DIFF_LABELS[obj.diff]}</div>
+      <div class="obj-label">${obj.label}</div>
+      <div class="obj-desc">${obj.desc}</div>
+      <div class="obj-reward">+${reward} ❤️ si réussi</div>
+    </div>`;
+  }).join('');
+  modal._trio = trio;
+  modal._playerIdx = playerIdx;
+  modal._onDone = onDone;
+  showModal('obj-modal');
+}
+
+window.selectObj = function(playerIdx, cardIdx){
+  const modal = document.getElementById('obj-modal');
+  const trio = modal._trio;
+  const onDone = modal._onDone;
+  G.players[playerIdx].secretObj = trio[cardIdx].id;
+  hideModal('obj-modal');
+  showObjectiveSelect(playerIdx+1, onDone);
+};
+
 function startGame(ids){
   G=newGame(ids);
   G.boardMap=shuffleBoard();
@@ -2092,10 +2211,13 @@ function startGame(ids){
   resize();
   updateUI();
   fullRender();
-  document.getElementById('btn-roll').disabled=false;
+  document.getElementById('btn-roll').disabled=true;
   BGM.start();
   const btn = document.getElementById('btn-music');
   if (btn) btn.textContent = '🔇';
+  showObjectiveSelect(0, ()=>{
+    document.getElementById('btn-roll').disabled=false;
+  });
 }
 
 window.addEventListener('resize',()=>{ resize(); fullRender(); });
