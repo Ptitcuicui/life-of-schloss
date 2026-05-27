@@ -1901,7 +1901,7 @@ function resolveDuel(duel, challenger, target){
       const totalA = bonusA ? `${rawA}+${bonusA}=${rollA}` : `${rollA}`;
       const totalB = bonusB ? `${rawB}+${bonusB}=${rollB}` : `${rollB}`;
       if(rollA > rollB){
-        if(money){ challenger.money+=money; target.money=Math.max(0,target.money-money); }
+        if(money){ challenger.money+=money; target.money-=money; }
         else { challenger.bonheur+=stakes; target.bonheur=Math.max(0,target.bonheur-stakes); }
         challenger.wins++;
         document.getElementById('die-a').classList.add('winner');
@@ -1909,7 +1909,7 @@ function resolveDuel(duel, challenger, target){
           money?`💶 +${money}€ pour ${challenger.name}`:`❤️ +${stakes} bonheur pour ${challenger.name}`];
         log(`⚔️ ${challenger.name} bat ${target.name} au duel !`);
       } else if(rollB > rollA){
-        if(money){ target.money+=money; challenger.money=Math.max(0,challenger.money-money); }
+        if(money){ target.money+=money; challenger.money-=money; }
         else { target.bonheur+=stakes; challenger.bonheur=Math.max(0,challenger.bonheur-stakes); }
         target.wins++;
         document.getElementById('die-b').classList.add('winner');
@@ -2512,7 +2512,7 @@ const NET = (() => {
         // Only challenger applies effects and triggers endTurn
         if (rollA > rollB) {
           if (myPlayerId === challengerPid) {
-            if (money) { challenger.money+=money; target.money=Math.max(0,target.money-money); }
+            if (money) { challenger.money+=money; target.money-=money; }
             else { challenger.bonheur+=stakes; target.bonheur=Math.max(0,target.bonheur-stakes); }
             challenger.wins++;
           }
@@ -2522,7 +2522,7 @@ const NET = (() => {
           log(`⚔️ ${challenger.name} bat ${target.name} au duel !`);
         } else if (rollB > rollA) {
           if (myPlayerId === challengerPid) {
-            if (money) { target.money+=money; challenger.money=Math.max(0,challenger.money-money); }
+            if (money) { target.money+=money; challenger.money-=money; }
             else { target.bonheur+=stakes; challenger.bonheur=Math.max(0,challenger.bonheur-stakes); }
             target.wins++;
           }
