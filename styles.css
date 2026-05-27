@@ -130,6 +130,11 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-
 .asset-delta { font-size: 10px; font-weight: 600; padding: 1px 4px; border-radius: 3px; flex-shrink: 0; }
 .delta-up   { color: #6dff90; background: rgba(64,200,80,.15); }
 .delta-down { color: #ff7070; background: rgba(232,64,64,.15); }
+.asset-wear { font-size: 10px; font-weight: 600; padding: 1px 4px; border-radius: 3px; flex-shrink: 0; }
+.wear-new  { color: #6dff90; background: rgba(64,200,80,.12); }
+.wear-low  { color: #ffd700; background: rgba(255,215,0,.12); }
+.wear-mid  { color: #ff9f40; background: rgba(255,140,0,.15); }
+.wear-high { color: #ff5555; background: rgba(255,60,60,.18); }
 .asset-total { margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(255,255,255,.08); font-size: 11px; color: var(--gold); text-align: right; }
 .asset-empty { font-size: 11px; color: var(--text-dim); font-style: italic; }
 .score-assets { font-size: 11px; color: #a0d0a0; margin-left: 2px; }

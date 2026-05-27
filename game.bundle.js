@@ -937,7 +937,7 @@ function addAsset(player, type){
   const def = ASSET_TYPES[type]; if(!def) return null;
   const existing = (player.assets||[]).find(a=>a.type===type);
   if(existing){ existing.value = Math.round(existing.value*1.15); return existing; }
-  const asset = { type, emoji:def.emoji, name:def.name, value:def.baseValue };
+  const asset = { type, emoji:def.emoji, name:def.name, value:def.baseValue, initialValue:def.baseValue, wear:0 };
   (player.assets = player.assets||[]).push(asset);
   return asset;
 }
@@ -952,12 +952,24 @@ function fluctuateAssets(player){
   if(!(player.assets||[]).length) return;
   const msgs = [];
   player.assets.forEach(asset=>{
+    // Fluctuation de valeur
     const pct = (Math.random()*9-3);
     const delta = Math.round(asset.value*pct/100);
     asset.value = Math.max(50, asset.value+delta);
     asset.delta = delta;
     if(Math.abs(delta)>0){
       msgs.push(`${delta>=0?'📈':'📉'} ${asset.emoji} ${asset.name}: ${delta>=0?'+':''}${delta}€ (→ ${asset.value.toLocaleString('fr-FR')}€)`);
+    }
+    // Usure : +1% par tour, basée sur la valeur initiale
+    const initVal = asset.initialValue || ASSET_TYPES[asset.type]?.baseValue || asset.value;
+    asset.initialValue = initVal;
+    asset.wear = (asset.wear || 0) + 1;
+    // Chance de casse = wear%
+    if(Math.random() * 100 < asset.wear){
+      const repairCost = Math.round(asset.wear * initVal / 100);
+      player.money -= repairCost;
+      msgs.push(`🔧 ${asset.emoji} ${asset.name} a lâché ! Réparation : -${repairCost.toLocaleString('fr-FR')}€ (usure ${asset.wear}% remise à zéro)`);
+      asset.wear = 0;
     }
   });
   msgs.forEach(log);
@@ -2110,9 +2122,14 @@ function updateUI(){
       assetsEl.innerHTML = assets.map(a=>{
         const d = a.delta||0;
         const deltaHtml = d!==0 ? `<span class="asset-delta ${d>0?'delta-up':'delta-down'}">${d>0?'+':''}${d}€</span>` : '';
+        const w = a.wear||0;
+        const wearHtml = w===0
+          ? `<span class="asset-wear wear-new">neuf</span>`
+          : `<span class="asset-wear ${w>=30?'wear-high':w>=15?'wear-mid':'wear-low'}">${w}%</span>`;
         return `<div class="asset-row">
           <span class="asset-ico">${a.emoji}</span>
           <span class="asset-name">${a.name}</span>
+          ${wearHtml}
           ${deltaHtml}
           <span class="asset-val">${a.value.toLocaleString('fr-FR')}€</span>
         </div>`;
