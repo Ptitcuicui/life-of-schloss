@@ -916,7 +916,7 @@ const PLAYER_DEFS = [
   {id:'invoherence', name:'Incoherence',  emoji:'🐰', color:'#c084f5', bg:'#2a0a3a', role:'La Rêveuse 💍 future mariée',stats:{gaming:6,finance:6,chance:9,social:9}},
   {id:'toutoon',     name:'Toutoon',      emoji:'😤', color:'#f5c400', bg:'#2a1f00', role:'Le Dormant 💍 futur marié',  stats:{gaming:8,finance:5,chance:8,social:9}},
 ];
-function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, assets:[], finished:false, order:null}; }
+function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, assets:[], finished:false, order:null, negativeTurns:0}; }
 
 // ── PATRIMOINE ────────────────────────────────────────────────────────────────
 const ASSET_TYPES = {
@@ -1004,7 +1004,7 @@ function applyFx(card, playerId){
   if(card.globalFx){
     G.players.filter(pl=>!pl.finished).forEach(pl=>{
       card.globalFx.forEach(e=>{
-        if(e.t==='b') pl.bonheur=Math.max(0,pl.bonheur+e.v);
+        if(e.t==='b') pl.bonheur=pl.bonheur+e.v;
         else if(e.t==='m') pl.money+=e.v;
       });
       if(pl.id!==pid) msgs.push(`${pl.emoji} ${pl.name} : ${card.globalFx.map(e=>e.l||'').join(', ')}`);
@@ -1050,6 +1050,20 @@ function showTurnToast(p) {
 }
 
 function nextTurn(){
+  // Vérifier si le joueur qui vient de jouer doit être éliminé
+  const prev = cp();
+  if(!prev.finished){
+    if(prev.bonheur < 0){
+      prev.negativeTurns = (prev.negativeTurns||0) + 1;
+      if(prev.negativeTurns > 3){
+        prev.finished = true;
+        log(`💔 ${prev.emoji} ${prev.name} est éliminé·e ! (bonheur négatif pendant ${prev.negativeTurns} tours)`);
+      }
+    } else {
+      prev.negativeTurns = 0;
+    }
+  }
+  if(G.players.every(p=>p.finished)){ showEnd(); return; }
   do { G.idx=(G.idx+1)%G.players.length; }
   while(G.players[G.idx].finished && G.players.some(p=>!p.finished));
   G.phase=PH.ROLL;
@@ -1514,7 +1528,7 @@ function doRoll(){
   rollDice(v=>{
     NET.emitDiceRoll(v);
     let extra='';
-    if(v===1){ cp().bonheur=Math.max(0,cp().bonheur-1); extra=' 😬 Malchance ! -1 bonheur'; }
+    if(v===1){ cp().bonheur=cp().bonheur-1; extra=' 😬 Malchance ! -1 bonheur'; }
     if(v===6){ cp().bonheur+=2; extra=' 🍀 Coup de chance ! +2 bonheur'; }
     log(cp().name+' lance le dé : '+v+' 🎲'+extra);
     if(extra) updateUI();
@@ -1530,7 +1544,7 @@ document.getElementById('btn-roll').addEventListener('click',()=>{
     const msgs=[];
     G.players.forEach(p=>{
       (ev.fx||[]).forEach(e=>{
-        if(e.t==='b') p.bonheur=Math.max(0,p.bonheur+e.v);
+        if(e.t==='b') p.bonheur=p.bonheur+e.v;
         else if(e.t==='m') p.money+=e.v;
       });
     });
@@ -1800,7 +1814,7 @@ function revealBet(){
       msgs.push(`<div class="eff-line">✅ ${p.name} avait raison ! +${bet.winFx?.[0]?.v||0} bonheur</div>`);
       log(`✅ ${p.name} a bien parié !`);
     } else if(choice){
-      (bet.loseFx||[]).forEach(e=>{ if(e.t==='b') p.bonheur=Math.max(0,p.bonheur+e.v); else if(e.t==='m') p.money+=e.v; });
+      (bet.loseFx||[]).forEach(e=>{ if(e.t==='b') p.bonheur=p.bonheur+e.v; else if(e.t==='m') p.money+=e.v; });
       msgs.push(`<div class="eff-line">❌ ${p.name} s'est trompé(e)</div>`);
       log(`❌ ${p.name} a mal parié.`);
     } else {
@@ -1902,7 +1916,7 @@ function resolveDuel(duel, challenger, target){
       const totalB = bonusB ? `${rawB}+${bonusB}=${rollB}` : `${rollB}`;
       if(rollA > rollB){
         if(money){ challenger.money+=money; target.money-=money; }
-        else { challenger.bonheur+=stakes; target.bonheur=Math.max(0,target.bonheur-stakes); }
+        else { challenger.bonheur+=stakes; target.bonheur-=stakes; }
         challenger.wins++;
         document.getElementById('die-a').classList.add('winner');
         resultLines = [`✅ ${challenger.name} (${totalA}) bat ${target.name} (${totalB}) !`,
@@ -1910,7 +1924,7 @@ function resolveDuel(duel, challenger, target){
         log(`⚔️ ${challenger.name} bat ${target.name} au duel !`);
       } else if(rollB > rollA){
         if(money){ target.money+=money; challenger.money-=money; }
-        else { target.bonheur+=stakes; challenger.bonheur=Math.max(0,challenger.bonheur-stakes); }
+        else { target.bonheur+=stakes; challenger.bonheur-=stakes; }
         target.wins++;
         document.getElementById('die-b').classList.add('winner');
         resultLines = [`✅ ${target.name} (${totalB}) bat ${challenger.name} (${totalA}) !`,
@@ -2513,7 +2527,7 @@ const NET = (() => {
         if (rollA > rollB) {
           if (myPlayerId === challengerPid) {
             if (money) { challenger.money+=money; target.money-=money; }
-            else { challenger.bonheur+=stakes; target.bonheur=Math.max(0,target.bonheur-stakes); }
+            else { challenger.bonheur+=stakes; target.bonheur-=stakes; }
             challenger.wins++;
           }
           document.getElementById('die-a')?.classList.add('winner');
@@ -2523,7 +2537,7 @@ const NET = (() => {
         } else if (rollB > rollA) {
           if (myPlayerId === challengerPid) {
             if (money) { target.money+=money; challenger.money-=money; }
-            else { target.bonheur+=stakes; challenger.bonheur=Math.max(0,challenger.bonheur-stakes); }
+            else { target.bonheur+=stakes; challenger.bonheur-=stakes; }
             target.wins++;
           }
           document.getElementById('die-b')?.classList.add('winner');
