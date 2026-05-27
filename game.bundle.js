@@ -425,7 +425,7 @@ const STORIES = {
     extra:{
       ptitcuicui:[{t:'b',v:7,l:'🐦 Ptitcuicui : +7 bonheur (champion incontesté de la finale Schloss)'}],
       toutoon:[{t:'b',v:7,l:'😤 Toutoon : +7 bonheur (il était bon ce soir-là, il le dit encore)'}],
-      whitewarrior:[{t:'b',v:5,l:'⚔️ Whitewarrior : +5 bonheur (finaliste, c\'est déjà ça)'}],
+      whitewarrior:[{t:'b',v:7,l:'⚔️ Whitewarrior : +7 bonheur (finaliste avec Sponge — il tenait la defense)'}],
       sponge:[{t:'b',v:5,l:'🧽 Sponge : +5 bonheur (finaliste, c\'est déjà ça)'}]
     }
   },
@@ -452,7 +452,7 @@ const STORIES = {
     title:'🚜 La LAN du Réveillon',
     text:"Nouvel An au Schloss.\nTout le monde est là. Il y a des chips, des écrans, des câbles partout.\n\nFarming Simulator. Une carte co-op.\nLes champs ne se sèment pas tout seuls.\n\nMinuit passe.\nPersonne ne s\'en rend compte.\nQuelqu\'un regarde l\'heure : 00h23.\n\n« Bonne année au fait. »\n« Ouais ouais. Quelqu\'un peut remplir les silos ? »",
     fx:[{t:'b',v:5,l:'🎆 +5 bonheur (le meilleur Réveillon de leur vie)'},{t:'m',v:-150,l:'💸 -150€ (chips + boissons du Réveillon)'}],
-    extra:{ toutoon:[{t:'b',v:7,l:'😤 Toutoon : +7 bonheur, -150€ (il gère la moissonneuse et rate minuit)'},{t:'m',v:-150,l:'💸 -150€ (chips + boissons)'}], sponge:[{t:'b',v:7,l:'🧽 Sponge : +7 bonheur, -150€ (les silos sont pleins, bonne année)'},{t:'m',v:-150,l:'💸 -150€'}] }
+    extra:{ toutoon:[{t:'b',v:7,l:'😤 Toutoon : +7 bonheur, -150€ (il gère la moissonneuse et rate minuit)'},{t:'m',v:-150,l:'💸 -150€ (chips + boissons)'}], sponge:[{t:'b',v:7,l:'🧽 Sponge : +7 bonheur, -150€ (les silos sont pleins, bonne année)'},{t:'m',v:-150,l:'💸 -150€'}], whitewarrior:[{t:'b',v:7,l:'⚔️ Whitewarrior : +7 bonheur, -150€ (il a géré les tracteurs toute la nuit — GG)'},{t:'m',v:-150,l:'💸 -150€'}] }
   },
   langres: {
     src:'invented',
@@ -545,7 +545,8 @@ const STORIES = {
     fx:[{t:'b',v:4,l:'🎮 +4 bonheur (le destin commence sur un serveur cracké)'}],
     extra:{
       toutoon:[{t:'b',v:6,l:'😤 Toutoon : +6 bonheur (il mainait déjà — et c\'était lui ce soir-là)'}],
-      sponge:[{t:'b',v:6,l:'🧽 Sponge : +6 bonheur (première rencontre virtuelle — sans le savoir)'}]
+      sponge:[{t:'b',v:6,l:'🧽 Sponge : +6 bonheur (première rencontre virtuelle — sans le savoir)'}],
+      whitewarrior:[{t:'b',v:6,l:'⚔️ Whitewarrior : +6 bonheur (il était sur ce serveur aussi — et il le savait pas non plus)'}]
     }
   },
   volley_eps: {
@@ -565,7 +566,8 @@ const STORIES = {
     fx:[{t:'b',v:3,l:'🐦 +3 bonheur (fidèle à ses amis même en changeant de classe)'}],
     extra:{
       ptitcuicui:[{t:'b',v:6,l:'🐦 Ptitcuicui : +6 bonheur (le gars de la 2GT7 est devenu le stratège du Schloss)'}],
-      sponge:[{t:'b',v:4,l:'🧽 Sponge : +4 bonheur (il l\'a remarqué dès le début, fidèle à sa légende)'}]
+      sponge:[{t:'b',v:4,l:'🧽 Sponge : +4 bonheur (il l\'a remarqué dès le début, fidèle à sa légende)'}],
+      whitewarrior:[{t:'b',v:5,l:'⚔️ Whitewarrior : +5 bonheur (il avait noté le gars — le Gardien observe tout)'}]
     }
   },
   demande: {
