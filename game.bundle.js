@@ -2170,15 +2170,12 @@ function shuffleBoard() {
 const ALL_SCREENS=['screen-lobby','screen-game','screen-victory'];
 function showScreen(id){ ALL_SCREENS.forEach(s=>{ const el=document.getElementById(s); if(el) el.classList.toggle('active',s===id); }); }
 
-function showObjectiveSelect(playerIdx, onDone){
-  if(playerIdx >= G.players.length){ onDone(); return; }
+function _showObjModal(playerIdx, onDone, stopAtIdx){
   const p = G.players[playerIdx];
   const trio = pickObjectiveTrio();
   const modal = document.getElementById('obj-modal');
-  const titleEl = document.getElementById('obj-modal-player');
-  const cardsEl = document.getElementById('obj-modal-cards');
-  titleEl.innerHTML = `<span style="color:${p.color}">${p.emoji} ${p.name}</span> — Choisis ton objectif secret`;
-  cardsEl.innerHTML = trio.map((obj,i)=>{
+  document.getElementById('obj-modal-player').innerHTML = `<span style="color:${p.color}">${p.emoji} ${p.name}</span> — Choisis ton objectif secret`;
+  document.getElementById('obj-modal-cards').innerHTML = trio.map((obj,i)=>{
     const color = DIFF_COLORS[obj.diff];
     const reward = DIFF_REWARDS[obj.diff];
     return `<div class="obj-card" data-idx="${i}" style="border-color:${color}44;--obj-color:${color}" onclick="selectObj(${playerIdx},${i})">
@@ -2191,16 +2188,34 @@ function showObjectiveSelect(playerIdx, onDone){
   modal._trio = trio;
   modal._playerIdx = playerIdx;
   modal._onDone = onDone;
+  modal._stopAtIdx = stopAtIdx;
   showModal('obj-modal');
+}
+
+// Local mode : parcourt tous les joueurs en séquence
+function showObjectiveSelect(playerIdx, onDone){
+  if(playerIdx >= G.players.length){ onDone(); return; }
+  _showObjModal(playerIdx, onDone, null);
+}
+
+// Online mode : affiche uniquement pour le joueur d'indice playerIdx
+function showObjectiveSelectForOne(playerIdx, onDone){
+  _showObjModal(playerIdx, onDone, playerIdx);
 }
 
 window.selectObj = function(playerIdx, cardIdx){
   const modal = document.getElementById('obj-modal');
   const trio = modal._trio;
   const onDone = modal._onDone;
+  const stopAtIdx = modal._stopAtIdx;
   G.players[playerIdx].secretObj = trio[cardIdx].id;
   hideModal('obj-modal');
-  showObjectiveSelect(playerIdx+1, onDone);
+  // En mode en ligne (stopAtIdx défini), on s'arrête après ce joueur
+  if(stopAtIdx !== null && stopAtIdx !== undefined){
+    onDone();
+  } else {
+    showObjectiveSelect(playerIdx+1, onDone);
+  }
 };
 
 function startGame(ids){
@@ -2322,9 +2337,17 @@ const NET = (() => {
 
   function applyRemoteState(state) {
     const prevIdx = G ? G.idx : -1;
+    // Préserver l'objectif secret choisi localement (non transmis au serveur)
+    const savedObj = G ? (G.players.find(p => p.id === myPlayerId)?.secretObj || null) : null;
     G = state;
     PM = new Map(G.players.map(p => [p.id, p]));
+    if (savedObj) {
+      const myP = G.players.find(p => p.id === myPlayerId);
+      if (myP && !myP.secretObj) myP.secretObj = savedObj;
+    }
     if (G.boardMap) Object.entries(G.boardMap).forEach(([id, def]) => STOP_MAP.set(id, def));
+    // Fin de partie détectée côté spectateur
+    if (G.players.every(p => p.finished)) { showEnd(); return; }
     updateUI();
     fullRender();
     lockRollIfNotMyTurn();
@@ -2368,9 +2391,16 @@ const NET = (() => {
       applyRemoteState(state);
       showScreen('screen-game');
       resize();
-      lockRollIfNotMyTurn();
       document.getElementById('reaction-bar')?.classList.remove('hidden');
       if (roomCode && myPlayerId) localStorage.setItem('schloss_session', JSON.stringify({ code: roomCode, playerId: myPlayerId }));
+      // Sélection de l'objectif secret pour ce joueur uniquement
+      const myIdx = G.players.findIndex(p => p.id === myPlayerId);
+      if(myIdx >= 0){
+        document.getElementById('btn-roll').disabled = true;
+        showObjectiveSelectForOne(myIdx, () => lockRollIfNotMyTurn());
+      } else {
+        lockRollIfNotMyTurn();
+      }
     });
 
     socket.on('state_updated', ({ state }) => applyRemoteState(state));
