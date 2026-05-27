@@ -162,15 +162,15 @@ const STOPS = [
   { id:'p_join',   label:'Joinville',                           icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'love' },
   { id:'p_col52',  label:'Chaumont\nCollège L. Michel',         icon:'⭐', type:'story',  ch:'🧒 Enfance', storyId:'college' },
   { id:'p_wassy',  label:'Wassy\nLe Pseudo Légendaire',          icon:'⭐', type:'story',  ch:'🧒 Enfance', storyId:'sponge_pseudo' },
-  { id:'p_tractor',label:'PC HS\nLa LAN est ce soir',            icon:'💻', type:'story',  ch:'🧒 Enfance', storyId:'pc_hs' },
+  { id:'p_tractor',label:'PC HS\nLa LAN est ce soir',            icon:'💻', type:'story',  ch:'🧒 Enfance', storyId:'pc_hs', subtype:'malus' },
   { id:'p_der',    label:'Lac du Der\nBaignade Estivale',       icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'love' },
   { id:'p_sd2',    label:'Saint-Dizier\nVélo le Week-end',      icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'gaming' },
   { id:'p_math',   label:'Cours de Maths\nAvancés',             icon:'⭐', type:'story',  ch:'🧒 Enfance', storyId:'maths_avances' },
   { id:'p_chm1',   label:'Serveur GTA SA RP\nLa Connexion Oubliée', icon:'⭐', type:'story', ch:'🧒 Enfance', storyId:'gta_sa_rencontre' },
-  { id:'p_colo',   label:'Colonie de Vacances\nHaute-Marne',    icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'surprise' },
+  { id:'p_colo',   label:'Vide-Grenier\nLa Trouvaille du 52',   icon:'🛍️', type:'story',  ch:'🧒 Enfance', storyId:'vide_grenier_52', subtype:'bonus' },
   { id:'p_join2',  label:'Joinville\nLe Vieux Quartier',        icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'money' },
   { id:'p_enf3',   label:'Piscine\nde Chaumont',                icon:'🃏', type:'card',   ch:'🧒 Enfance', deck:'love' },
-  { id:'p_wass2',  label:'Wassy\nLendemain de Fête',            icon:'🤕', type:'story',  ch:'🧒 Enfance', storyId:'soiree_village' },
+  { id:'p_wass2',  label:'Wassy\nLendemain de Fête',            icon:'🤕', type:'story',  ch:'🧒 Enfance', storyId:'soiree_village', subtype:'malus' },
   { id:'fork1',    label:'Orientation\nLycée',                  icon:'🔀', type:'fork',   ch:'🎒 Lycée',
     choices:[{label:'📚 Filière Scientifique',next:'f1a'},{label:'🔧 Filière Technique (BTS)',next:'f1b'}] },
 
@@ -180,14 +180,14 @@ const STOPS = [
   { id:'f1b',      label:'BTS Électro\nSaint-Dizier',           icon:'🔧', type:'card',   ch:'🎒 Lycée', deck:'money' },
   { id:'f1b2',     label:'Atelier Technique\nSaint-Dizier',     icon:'🔧', type:'card',   ch:'🎒 Lycée', deck:'gaming' },
   { id:'p_lycee',  label:'Lycée Ch. de Gaulle\nSection Scientifique', icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'lycee_manaa' },
-  { id:'p_bac1',   label:'Révisions BAC\nCrise de Panique',     icon:'😱', type:'story',  ch:'🎒 Lycée', storyId:'bac_panique' },
+  { id:'p_bac1',   label:'Révisions BAC\nCrise de Panique',     icon:'😱', type:'story',  ch:'🎒 Lycée', storyId:'bac_panique', subtype:'malus' },
   { id:'p_lyc2',   label:'Cantine du Lycée\nLe Plateau Mythique', icon:'🃏', type:'card', ch:'🎒 Lycée', deck:'gaming' },
   { id:'p_lyc3',   label:'EPS Volley\nLe Binôme Officiel',       icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'volley_eps' },
   { id:'p_lyc4',   label:'Le Gars\nde la 2GT7',                  icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'ptitcuicui_2gt7' },
   { id:'p_lyc5',   label:'M. Martinot\nLa Ligne Droite',         icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'martinot' },
   { id:'p_lyc6',   label:'Bal de Promo\nde Terminale',          icon:'🃏', type:'card',   ch:'🎒 Lycée', deck:'love' },
   { id:'p_lyc7',   label:'Le Grand BAC\nJour J',                icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'bac' },
-  { id:'p_lyc8',   label:'Résultats du BAC\nDevant le Lycée',   icon:'🃏', type:'card',   ch:'🎒 Lycée', deck:'surprise' },
+  { id:'p_lyc8',   label:'BAC Mention !\nLa Fierté du 52',      icon:'🎓', type:'story',  ch:'🎒 Lycée', storyId:'bac_reussi', subtype:'bonus' },
   { id:'p_lyc9',   label:'Fête du BAC\nChez Sponge',            icon:'🃏', type:'card',   ch:'🎒 Lycée', deck:'gaming' },
   { id:'fork_et',  label:'Après le BAC\nQuelle Suite ?',         icon:'🔀', type:'fork',   ch:'🎓 Études',
     choices:[{label:'🏘️ Rester dans le 52',next:'fe_a'},{label:'🎓 Supinfo à Troyes',next:'fe_b'}] },
@@ -203,10 +203,10 @@ const STOPS = [
   { id:'p_arc',    label:'Arc-en-Barrois\nLe Week-end',         icon:'🃏', type:'card',   ch:'🎓 Études', deck:'surprise' },
   { id:'p_etu1',   label:'Bibliothèque\nUniversitaire',         icon:'🃏', type:'card',   ch:'🎓 Études', deck:'money' },
   { id:'p_etu2',   label:'Châteauvillain\nRetour en 52',        icon:'🃏', type:'card',   ch:'🎓 Études', deck:'love' },
-  { id:'p_etu3',   label:'Coloc\nDégât des Eaux',               icon:'💧', type:'story',  ch:'🎓 Études', storyId:'coloc_degat' },
+  { id:'p_etu3',   label:'Coloc\nDégât des Eaux',               icon:'💧', type:'story',  ch:'🎓 Études', storyId:'coloc_degat', subtype:'malus' },
   { id:'p_etu4',   label:'Retour aux Sources\nSaint-Dizier',    icon:'🃏', type:'card',   ch:'🎓 Études', deck:'gaming' },
   { id:'p_mid',    label:'Forêt de Châteauvillain\nPromenade du 52', icon:'🃏', type:'card', ch:'🎓 Études', deck:'money' },
-  { id:'p_etu5',   label:'Diplôme !\nRemise en Haute-Marne',    icon:'🃏', type:'card',   ch:'🎓 Études', deck:'love' },
+  { id:'p_etu5',   label:'Diplôme !\nMention & Cadeau',         icon:'🎓', type:'story',  ch:'🎓 Études', storyId:'diplome_mention', subtype:'bonus' },
   { id:'fork2',    label:'Été de\nla Décision',                 icon:'🔀', type:'fork',   ch:'💼 Vie Active',
     choices:[{label:'💼 Faire un Stage',next:'f2a'},{label:'🌊 Prendre des Vacances',next:'f2b'}] },
 
@@ -219,16 +219,16 @@ const STOPS = [
   { id:'f2b3',     label:'Retour de Vacances\nLe 52 en Septembre', icon:'🃏', type:'card', ch:'💼 Vie Active', deck:'gaming' },
   { id:'p8',       label:'Appartement\ndu Schloss',             icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'love' },
   { id:'p8b',      label:'La Grange\nSoirée LAN',               icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'gaming' },
-  { id:'p_job1',   label:'Premier Salaire !\nLa Fiche de Paie', icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'money' },
+  { id:'p_job1',   label:'Premier Salaire !\nLe Virement Tombe',icon:'💶', type:'story',  ch:'💼 Vie Active', storyId:'premier_salaire', subtype:'bonus' },
   { id:'p_job2',   label:'Open Space\nSaint-Dizier',            icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'surprise' },
-  { id:'p_act1',   label:'D619\n2h Derrière un Tracteur',       icon:'🚜', type:'story',  ch:'💼 Vie Active', storyId:'d619_bouchon' },
-  { id:'p_act2',   label:'Contrôle Technique\nRaté',             icon:'🚗', type:'story',  ch:'💼 Vie Active', storyId:'controle_technique' },
+  { id:'p_act1',   label:'D619\n2h Derrière un Tracteur',       icon:'🚜', type:'story',  ch:'💼 Vie Active', storyId:'d619_bouchon', subtype:'malus' },
+  { id:'p_act2',   label:'Contrôle Technique\nRaté',             icon:'🚗', type:'story',  ch:'💼 Vie Active', storyId:'controle_technique', subtype:'malus' },
   { id:'p_act3',   label:'Raclette du Schloss\nFin de Semaine', icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'love' },
-  { id:'p_act4',   label:'Impôts\ndu Département 52',            icon:'🧾', type:'story',  ch:'💼 Vie Active', storyId:'impots_52' },
-  { id:'p_act5',   label:'Promotion !\nNouveau Palier',         icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'money' },
-  { id:'p_act6',   label:'Réunion sans Fin\n9h → 18h',         icon:'😮‍💨', type:'story', ch:'💼 Vie Active', storyId:'reunion_infinie' },
+  { id:'p_act4',   label:'Impôts\ndu Département 52',            icon:'🧾', type:'story',  ch:'💼 Vie Active', storyId:'impots_52', subtype:'malus' },
+  { id:'p_act5',   label:'Prime au Travail !\nBonus Exceptionnel',icon:'💶', type:'story',  ch:'💼 Vie Active', storyId:'promotion_salaire', subtype:'bonus' },
+  { id:'p_act6',   label:'Réunion sans Fin\n9h → 18h',         icon:'😮‍💨', type:'story', ch:'💼 Vie Active', storyId:'reunion_infinie', subtype:'malus' },
   { id:'p_act7',   label:'Apéro entre Collègues\nAprès le Boulot', icon:'🃏', type:'card', ch:'💼 Vie Active', deck:'love' },
-  { id:'p_act8',   label:'Teams dans 10 min\nInternet Coupé',   icon:'📵', type:'story',  ch:'💼 Vie Active', storyId:'internet_coupe' },
+  { id:'p_act8',   label:'Teams dans 10 min\nInternet Coupé',   icon:'📵', type:'story',  ch:'💼 Vie Active', storyId:'internet_coupe', subtype:'malus' },
   { id:'p_act9',   label:'Reconversion ?\nÀ la Croisée',       icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'money' },
   { id:'fork3',    label:'Carrefour\nCarrière',                 icon:'🔀', type:'fork',   ch:'💼 Carrière',
     choices:[{label:'💻 Dev & Data',next:'f3a'},{label:'🏭 Tech & Industrie',next:'f3b'},{label:'🖥️ Ingénieur Système',next:'f3c'},{label:'⚡ Ingénieur Électronique',next:'f3d'}] },
@@ -244,20 +244,20 @@ const STOPS = [
   { id:'f3d2',     label:'Bureau d\'Études\nNoisy-le-52',        icon:'⚡', type:'card',   ch:'💼 Carrière', deck:'money' },
   { id:'p_lang',   label:'Langres\nCité Fortifiée',             icon:'⭐', type:'story',  ch:'💼 Carrière', storyId:'langres' },
   { id:'p_car1',   label:'Conférence\nà Paris',                 icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'surprise' },
-  { id:'p_car2',   label:'Nouveau Contrat\nSigné',              icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'money' },
+  { id:'p_car2',   label:'Projet Livré\nClient Ravi',           icon:'✅', type:'story',  ch:'💼 Carrière', storyId:'projet_reussi', subtype:'bonus' },
   { id:'p_mont',   label:'Montigny-le-Roi\nLe Panorama',        icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'gaming' },
   { id:'p_fayl',   label:'Fayl-Billot\nLe Marché',             icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'love' },
-  { id:'p_bourm',  label:'Prime Refusée\npar les RH',           icon:'😤', type:'story',  ch:'💼 Carrière', storyId:'prime_refusee' },
+  { id:'p_bourm',  label:'Prime Refusée\npar les RH',           icon:'😤', type:'story',  ch:'💼 Carrière', storyId:'prime_refusee', subtype:'malus' },
 
   // ── VIE ADULTE (rows 15-17) ──
   { id:'p_adu1',   label:'Marché de Noël\nde Chaumont',         icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
   { id:'p_adu2',   label:"Festival Européen\nde l'Affiche",     icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'surprise' },
   { id:'p_adu3',   label:'Remparts\nde Langres',                icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'gaming' },
-  { id:'p_adu4',   label:'Cousinade\ndu 52',                    icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
-  { id:'p_adu5',   label:'Purée de Pommes\nLe Lait Déborde',    icon:'🥛', type:'story',  ch:'🏡 Vie Adulte', storyId:'lait_deborde' },
-  { id:'p_adu6',   label:'Chat chez\nle Véto — Urgence',         icon:'🐱', type:'story',  ch:'🏡 Vie Adulte', storyId:'veto_chat' },
+  { id:'p_adu4',   label:'Héritage Surprise\nGrand-Oncle du 52', icon:'🏡', type:'story',  ch:'🏡 Vie Adulte', storyId:'heritage_52', subtype:'bonus' },
+  { id:'p_adu5',   label:'Purée de Pommes\nLe Lait Déborde',    icon:'🥛', type:'story',  ch:'🏡 Vie Adulte', storyId:'lait_deborde', subtype:'malus' },
+  { id:'p_adu6',   label:'Chat chez\nle Véto — Urgence',         icon:'🐱', type:'story',  ch:'🏡 Vie Adulte', storyId:'veto_chat', subtype:'malus' },
   { id:'p_adu7',   label:'Lac du Der\nWeek-end Adulte',         icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
-  { id:'p_adu8',   label:'Jardin\nen Haute-Marne',              icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'money' },
+  { id:'p_adu8',   label:'Prime Innovation\nTon Idée a Marché', icon:'💡', type:'story',  ch:'🏡 Vie Adulte', storyId:'prime_innovation', subtype:'bonus' },
   { id:'p_viad',   label:'Viaduc de Chaumont\nCoucher de Soleil', icon:'⭐', type:'story', ch:'🏡 Vie Adulte', storyId:'viaduc' },
   { id:'fork4',    label:'Un Nouveau\nChapitre',                icon:'🔀', type:'fork',   ch:'🏡 Vie Adulte',
     choices:[{label:'🚗 Road Trip Haute-Marne',next:'f4a'},{label:'🏡 Acheter une Maison',next:'f4b'}] },
@@ -621,6 +621,55 @@ const STORIES = {
     title:'😤 Prime Refusée — Les RH ont Parlé',
     text:"Bilan annuel. Tu as tout donné cette année.\nProjets livrés à temps. Heures supp. Dossiers béton.\n\nLe manager hoche la tête en souriant.\n\n'Excellent travail. Vraiment.'\n\nPuis il ouvre un onglet.\n\n'Malheureusement, le budget primes est gelé cette année.'\n\nTu regardes la fenêtre.\nTu penses à changer de job.\nTu reviens le lendemain quand même.",
     fx:[{t:'b',v:-4,l:'💔 -4 bonheur (le travail non récompensé, c\'est pire que le travail nul)'},{t:'m',v:-500,l:'💸 -500€ (prime attendue, non versée)'}],
+  },
+  vide_grenier_52: {
+    src:'invented',
+    title:'🛍️ Vide-Grenier — La Trouvaille du 52',
+    text:"Dimanche matin. Brocante de Wassy.\nTu flânes entre les tables.\n\nTu trouves une vieille console dans une boîte en carton.\n'5 euros, ça te va ?'\n\nCa te va très bien.\n\nTu la revends en ligne la semaine suivante.\nLe 52 a du bon.",
+    fx:[{t:'m',v:400,l:'💶 +400€ (revente console vintage)'},{t:'b',v:2,l:'❤️ +2 bonheur (le thrill de la bonne affaire)'}],
+    assetGain:'console',
+  },
+  bac_reussi: {
+    src:'invented',
+    title:'🎓 Résultats du BAC — Mention !',
+    text:"La liste est affichée devant le lycée.\nTu cherches ton nom. Tu le trouves.\n\nMention Bien.\n\nTu n'y croyais plus après la nuit blanche.\nTa famille est là. Il y a un repas ce soir.\nIl y a du champagne — enfin, du crémant de Bourgogne.\n\nLe 52 fête ses diplômés à sa façon.",
+    fx:[{t:'b',v:4,l:'❤️ +4 bonheur (la fierté du BAC)'},{t:'m',v:600,l:'💶 +600€ (cadeau famille)'}],
+  },
+  diplome_mention: {
+    src:'invented',
+    title:'🎓 Diplôme — Mention & Cadeau de Famille',
+    text:"Remise des diplômes. Amphi plein.\nQuand on appelle ton nom, ta famille applaudit trop fort.\n\nEnsuite il y a un repas de famille.\nL'oncle de Haute-Marne sort une enveloppe.\n\n'C'est pour le départ dans la vie.'\n\nL'enveloppe est plus lourde que prévu.",
+    fx:[{t:'b',v:4,l:'❤️ +4 bonheur (la fierté collective du 52)'},{t:'m',v:1200,l:'💶 +1200€ (enveloppe de l\'oncle + prime de diplôme)'}],
+  },
+  premier_salaire: {
+    src:'invented',
+    title:'💶 Premier Salaire — Le Virement est Tombé',
+    text:"Le 28 du mois. Tôt le matin.\n\nTu rafraîchis l'appli bancaire.\nUne fois. Deux fois.\n\nLe virement est tombé.\n\nTon premier vrai salaire.\nPas un stage. Pas de l'argent de poche.\nTon argent, gagné par toi.\n\nTu appelles ta mère.",
+    fx:[{t:'m',v:800,l:'💶 +800€ (prime d\'embauche + premier salaire complet)'},{t:'b',v:3,l:'❤️ +3 bonheur (l\'indépendance, enfin)'}],
+  },
+  promotion_salaire: {
+    src:'invented',
+    title:'🚀 Prime au Travail — Bonus Exceptionnel',
+    text:"Le manager te convoque.\nTu stresses. Tu as peut-être mal géré ce projet.\n\nIl te tend la main.\n\n'On t'a observé. Tu mérites plus.'\n\nTa fiche de paie change de ligne.\nL'équipe applaudit.\nTu offres une tournée le vendredi soir.",
+    fx:[{t:'m',v:1500,l:'💶 +1500€ (prime exceptionnelle)'},{t:'b',v:3,l:'❤️ +3 bonheur (enfin reconnu)'}],
+  },
+  projet_reussi: {
+    src:'invented',
+    title:'✅ Projet Livré — Le Client est Ravi',
+    text:"Six mois de travail.\nRéunions de sprint. Tickets Jira. Bugs à 22h.\n\nLe jour de la livraison, le client teste.\nIl est silencieux.\n\nPuis il sourit.\n\n'C'est exactement ce qu'on voulait.'\n\nTu reçois un mail de remerciement de la direction.\nEt un chèque de prime.",
+    fx:[{t:'m',v:1000,l:'💶 +1000€ (prime de projet)'},{t:'b',v:3,l:'❤️ +3 bonheur (la satisfaction du travail bien fait)'}],
+  },
+  heritage_52: {
+    src:'invented',
+    title:'🏡 Héritage — La Surprise du Grand-Oncle',
+    text:"Un notaire de Langres t'appelle un mardi.\n\nTon grand-oncle avait un compte d'épargne.\nUn vieil Livret A ouvert en 1978.\nJamais touché.\n\nIl t'a désigné dans son testament.\n\nTu ne savais même pas qu'il t'aimait bien.",
+    fx:[{t:'m',v:2000,l:'💶 +2000€ (héritage du grand-oncle)'},{t:'b',v:2,l:'❤️ +2 bonheur (une pensée pour lui)'}],
+  },
+  prime_innovation: {
+    src:'invented',
+    title:'💡 Prime Innovation — Ton Idée a Marché',
+    text:"Tu avais soumis une suggestion au comité.\nPersonne n'y croyait vraiment.\nToi non plus, à moitié.\n\nSix mois plus tard, ta suggestion est en prod.\nElle économise 3h par semaine à toute l'équipe.\n\nLe DG t'invite dans son bureau.\nIl te tend un chèque.",
+    fx:[{t:'m',v:800,l:'💶 +800€ (prime innovation)'},{t:'b',v:3,l:'❤️ +3 bonheur (être écouté, ça n\'a pas de prix)'}],
   },
   lait_deborde: {
     src:'real',
@@ -1222,14 +1271,16 @@ function drawFrame() {
     const isStory  = s.type === 'story';
     const isStart  = s.type === 'start';
     const isBranch = BRANCH_STOPS.has(s.id);
+    const isMalus  = s.subtype === 'malus';
+    const isBonus  = s.subtype === 'bonus';
 
     const tw   = isFinale ? stw * 0.96 : isFork ? stw * 0.88 : isBranch ? stw * 0.88 : stw * 0.92;
     const th   = isFinale ? sth * 0.96 : isFork ? sth * 0.88 : isBranch ? sth * 0.88 : sth * 0.92;
     const trad = isFinale ? 14 : 10;
 
-    const tileBg  = isFinale ? '#1e1000' : isFork ? '#160024' : isStory ? '#071830' : isStart ? '#021e1e' : '#0e0e28';
-    const tileCol = isFinale ? '#ffd700' : isFork ? '#b060f8' : isStory ? '#4a90e2' : chCol;
-    const glowCol = isFinale ? '#ffd700' : isFork ? '#c080ff' : isStory ? '#60a8ff' : chCol;
+    const tileBg  = isFinale ? '#1e1000' : isFork ? '#160024' : isMalus ? '#200808' : isBonus ? '#082008' : isStory ? '#071830' : isStart ? '#021e1e' : '#0e0e28';
+    const tileCol = isFinale ? '#ffd700' : isFork ? '#b060f8' : isMalus ? '#e84040' : isBonus ? '#40c860' : isStory ? '#4a90e2' : chCol;
+    const glowCol = isFinale ? '#ffd700' : isFork ? '#c080ff' : isMalus ? '#ff6060' : isBonus ? '#60ff80' : isStory ? '#60a8ff' : chCol;
 
     ctx.save();
     ctx.shadowColor = glowCol;
@@ -1262,12 +1313,12 @@ function drawFrame() {
     ctx.fillText(s.icon, cx, cy + th * 0.08);
 
     // Badge au-dessus
-    const badge = isFinale ? 'FINALE' : isStart ? 'DÉPART' : isStory ? '⭐ Histoire' : isFork ? '🔀' : null;
+    const badge = isFinale ? 'FINALE' : isStart ? 'DÉPART' : isMalus ? '💀 Malus' : isBonus ? '✨ Bonus' : isStory ? '⭐ Histoire' : isFork ? '🔀' : null;
     if (badge && !isFork) {
       const fz = Math.max(7, th * 0.17);
       ctx.font = `bold ${fz}px sans-serif`;
       ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
-      ctx.fillStyle = isFinale ? '#ffd700' : isStory ? '#60a8ff' : '#ccc';
+      ctx.fillStyle = isFinale ? '#ffd700' : isMalus ? '#ff8080' : isBonus ? '#80ff80' : isStory ? '#60a8ff' : '#ccc';
       ctx.shadowColor = '#000'; ctx.shadowBlur = 4;
       ctx.fillText(badge, cx, cy - th/2 - 2); ctx.shadowBlur = 0;
     }
@@ -1277,7 +1328,7 @@ function drawFrame() {
       const fz = Math.max(8, th * 0.19);
       ctx.font = `bold ${fz}px sans-serif`;
       ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-      ctx.fillStyle = isFinale ? '#ffd700' : isBranch ? '#aaa' : '#ddd';
+      ctx.fillStyle = isFinale ? '#ffd700' : isMalus ? '#ffaaaa' : isBonus ? '#aaffaa' : isBranch ? '#aaa' : '#ddd';
       ctx.shadowColor = '#000'; ctx.shadowBlur = 4;
       s.label.split('\n').forEach((ln, i) => {
         let t = ln;
@@ -1385,7 +1436,7 @@ function drawMinimap(){
     if(!s) return;
     const { x, y } = toMM(sl.cx, sl.cy);
     const r = s.type === 'finale' ? 6 : s.type === 'fork' ? 4.5 : s.type === 'story' ? 3.5 : 2.5;
-    const col = s.type === 'finale' ? '#ffd700' : s.type === 'fork' ? '#c084f5' : s.type === 'story' ? '#f8b500' : (CHAPTER_COLORS[s.ch] || '#3a3a5a');
+    const col = s.type === 'finale' ? '#ffd700' : s.type === 'fork' ? '#c084f5' : s.subtype === 'malus' ? '#e84040' : s.subtype === 'bonus' ? '#40c860' : s.type === 'story' ? '#f8b500' : (CHAPTER_COLORS[s.ch] || '#3a3a5a');
     mmCtx.beginPath();
     mmCtx.arc(x, y, r, 0, Math.PI*2);
     mmCtx.fillStyle = col + 'cc';
@@ -1526,18 +1577,19 @@ function arrive(n){
   log(cp().name+' → '+(n.label||n.ch||''));
   updateUI(); fullRender();
   if(n.type==='finale'){ SFX.finale(); handleFinale(); return; }
-  if(n.type==='story'){ SFX.event(); showStory(n.storyId); return; }
+  if(n.type==='story'){ SFX.event(); showStory(n.storyId, n.subtype); return; }
   if(n.type==='card'){ showCard(n.deck||'money'); return; }
   endTurn();
 }
 
 // ── STORY / CARD EVENTS ───────────────────────────────────────────────────────
-function showStory(id){
+function showStory(id, subtype){
   const st=STORIES[id]; if(!st){ endTurn(); return; }
   G.phase=PH.EVENT;
   const msgs=applyFx(st, cp().id);
   msgs.forEach(log);
-  openEvent('⭐',st.title,st.text,msgs);
+  const icon = subtype === 'malus' ? '💀' : subtype === 'bonus' ? '✨' : '⭐';
+  openEvent(icon,st.title,st.text,msgs);
 }
 
 function showCard(deck){
@@ -1902,12 +1954,74 @@ function buildLobby(){
   document.getElementById('btn-start').onclick=()=>startGame([...sel]);
 }
 
+// ── BOARD SHUFFLE ─────────────────────────────────────────────────────────────
+const STOP_MAP_ORIGINAL = new Map(STOPS.map(s => [s.id, {...s}]));
+
+const SHUFFLE_SECTIONS = [
+  // 🧒 Enfance — cards + malus + bonus (milestones fixes)
+  ['p_sd','p_join','p_tractor','p_der','p_sd2','p_colo','p_join2','p_enf3','p_wass2'],
+  // 🎒 Lycée — hors milestones fixes (lycee, lyc3, lyc4, lyc5, lyc7)
+  ['p_bac1','p_lyc2','p_lyc6','p_lyc8','p_lyc9'],
+  // 🎓 Études — hors milestones fixes (colombey, supinfo)
+  ['p_arc','p_etu1','p_etu2','p_etu3','p_etu4','p_mid','p_etu5'],
+  // 💼 Vie Active — main path + quelques cards de convergence
+  ['f2b3','p8','p8b','p_job1','p_job2','p_act1','p_act2','p_act3','p_act4','p_act5','p_act6','p_act7','p_act8','p_act9'],
+  // 💼 Carrière — hors milestone langres
+  ['p_car1','p_car2','p_mont','p_fayl','p_bourm'],
+  // 🏡 Vie Adulte — avant fork4
+  ['p_adu1','p_adu2','p_adu3','p_adu4','p_adu5','p_adu6','p_adu7','p_adu8'],
+];
+
+function shuffleBoard() {
+  const boardMap = {};
+  SHUFFLE_SECTIONS.forEach(section => {
+    // Read from canonical originals so replays start fresh
+    const defs = section.map(id => ({...STOP_MAP_ORIGINAL.get(id)}));
+
+    // Fisher-Yates
+    for (let i = defs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [defs[i], defs[j]] = [defs[j], defs[i]];
+    }
+
+    // Fix adjacency: no two malus/bonus next to each other
+    const isSpecial = d => d.subtype === 'malus' || d.subtype === 'bonus';
+    for (let attempt = 0; attempt < 30; attempt++) {
+      let bad = false;
+      for (let i = 0; i < defs.length - 1; i++) {
+        if (isSpecial(defs[i]) && isSpecial(defs[i + 1])) {
+          bad = true;
+          const candidates = [];
+          for (let j = 0; j < defs.length; j++) {
+            if (j !== i && j !== i + 1 && !isSpecial(defs[j])) candidates.push(j);
+          }
+          if (candidates.length > 0) {
+            const j = candidates[Math.floor(Math.random() * candidates.length)];
+            [defs[i + 1], defs[j]] = [defs[j], defs[i + 1]];
+          }
+          break;
+        }
+      }
+      if (!bad) break;
+    }
+
+    // Write back, preserve original IDs
+    section.forEach((id, idx) => {
+      const def = {...defs[idx], id};
+      STOP_MAP.set(id, def);
+      boardMap[id] = def;
+    });
+  });
+  return boardMap;
+}
+
 // ── SCREENS ───────────────────────────────────────────────────────────────────
 const ALL_SCREENS=['screen-lobby','screen-game','screen-victory'];
 function showScreen(id){ ALL_SCREENS.forEach(s=>{ const el=document.getElementById(s); if(el) el.classList.toggle('active',s===id); }); }
 
 function startGame(ids){
   G=newGame(ids);
+  G.boardMap=shuffleBoard();
   PM=new Map(G.players.map(p=>[p.id,p]));
   showScreen('screen-game');
   resize();
@@ -2013,6 +2127,7 @@ const NET = (() => {
     const prevIdx = G ? G.idx : -1;
     G = state;
     PM = new Map(G.players.map(p => [p.id, p]));
+    if (G.boardMap) Object.entries(G.boardMap).forEach(([id, def]) => STOP_MAP.set(id, def));
     updateUI();
     fullRender();
     lockRollIfNotMyTurn();
