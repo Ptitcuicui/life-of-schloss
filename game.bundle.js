@@ -491,10 +491,11 @@ const STORIES = {
   pc_hs: {
     src:'real',
     title:'💻 PC HS — La LAN est ce soir',
-    text:"La soirée LAN est dans 2 heures.\nTout le monde arrive. Les pizzas sont commandées.\n\nTon PC fait un bruit terrible et s'éteint.\nPlus d'image. Plus de son. Plus rien.\n\nTu as 2 heures pour trouver une solution.\n\n(Tu en trouves une. Ça coûte.)",
-    fx:[{t:'m',v:-800,l:'💸 -800€ (PC de secours en urgence)'}],
+    text:"La soirée LAN est dans 2 heures.\nTout le monde arrive. Les pizzas sont commandées.\n\nTon PC fait un bruit terrible et s'éteint.\nPlus d'image. Plus de son. Plus rien.\n\nTu as 2 heures pour trouver une solution.\nTu en trouves une. Un PC de remplacement en urgence.\nValeur de revente : 1 200€. Prix de l'urgence : 2 000€.",
+    fx:[{t:'m',v:-2000,l:'💸 -2000€ (PC de secours en urgence)'}],
     assetLose:'pc',
     assetGain:'pc',
+    alwaysGain:true,
   },
   controle_technique: {
     src:'invented',
@@ -707,7 +708,7 @@ const CARDS = {
     {src:'real',     ti:'🎲 Monopoly — Encore',  tx:"Ptitcuicui gagne le Monopoly. Encore.\nSes amis regardent le plafond.",fx:[{t:'m',v:3000,l:'💶 +3000€ (Ptitcuicui, roi du Monopoly)'},{t:'b',v:-1,l:'😑 -1 bonheur (les autres)'}], spe:'monopoly'},
     {src:'real',     ti:'🪙 Le Coin Truqué',      tx:"Ptitcuicui propose un pari à Sponge : « devine dans quelle main est la pièce ».\n\nSponge hésite. Réfléchit. Choisit.\n\nLa pièce n'était dans aucune des deux.\n\nClassique.", fx:[{t:'m',v:800,l:'💶 +800€ (escroquerie réussie !)'}], spe:'coin'},
     {src:'invented',     ti:'💰 Prime Surprise',      tx:"Ton employeur distribue une prime inattendue.\nLe viaduc de Chaumont t'inspire l'épargne.", fx:[{t:'m',v:2000,l:'💶 +2000€ (bienvenue dans le monde adulte)'}]},
-    {src:'invented',     ti:'💸 Réparation PC',       tx:"Ton ordinateur lâche la veille d'un rendu.\nLes larmes sèchent. La CB saigne.", fx:[{t:'m',v:-900,l:'💸 -900€ (nouveau PC)'},{t:'b',v:-1,l:'😞 -1 bonheur'}], assetLose:'pc', assetGain:'pc'},
+    {src:'invented',     ti:'💸 Réparation PC',       tx:"Ton ordinateur lâche la veille d'un rendu.\nLes larmes sèchent. La CB saigne.\nTu le fais réparer. Il revient comme neuf.\nPresque.", fx:[{t:'m',v:-800,l:'💸 -800€ (réparation PC)'},{t:'b',v:-1,l:'😞 -1 bonheur'}], assetLose:'pc', assetGain:'pc'},
     {src:'real',         ti:'🏠 Investissement 52',   tx:"Tu achètes un bien en Haute-Marne.\nMoins cher qu'à Paris et tellement plus beau.", fx:[{t:'m',v:-5000,l:'💸 -5000€ (investissement locatif)'}], assetGain:'maison'},
     {src:'invented',     ti:'💻 Nouveau PC Gaming',   tx:"Après des années de lag, tu craques.\nUne tour neuve. Un écran 144Hz.\nLa LAN va enfin te respecter.", fx:[{t:'m',v:-1200,l:'💸 -1200€'}], assetGain:'pc'},
     {src:'invented',     ti:'🚗 Achat Voiture 52',    tx:"Une occasion trouvée sur Le Bon Coin.\nVoisin de Nogent. Propre. Révisée.\nLa bagnole du Schloss.", fx:[{t:'m',v:-8000,l:'💸 -8000€'}], assetGain:'car'},
@@ -799,7 +800,7 @@ const CARDS = {
     {src:'invented',     ti:'💻 PC qui Rend l\'Âme',        tx:"En plein milieu d\'une LAN.\nEcran noir. Bruit de condensateur.\nTes potes continuent sans toi.\n\nCe soir tu joues sur le portable de ta mère.", fx:[{t:'b',v:-2,l:'😞 -2 bonheur'},{t:'m',v:-200,l:'💸 -200€ (dépannage d\'urgence)'}], assetDamage:'pc'},
     {src:'invented',     ti:'🐱 Le Chat Renverse Tout',     tx:"Le chat traverse le bureau.\nKéyboard. Café. Câble USB.\nTout par terre.\n\nIl te regarde avec mépris et repart.", fx:[{t:'m',v:-300,l:'💸 -300€ (matériel HS)'},{t:'b',v:1,l:'🐱 +1 bonheur (c\'est trop con pour ne pas être drôle)'}]},
     {src:'invented',     ti:'🚗 Panne sur la D619',         tx:"Fumée sous le capot.\nTu t\'arrêtes sur le bas-côté.\nUn tracteur passe sans s\'arrêter.\nUn autre passe.\n\nLe troisième s\'arrête. C\'est un voisin de ton cousin.", fx:[{t:'m',v:-500,l:'💸 -500€ (dépanneuse + réparation)'},{t:'b',v:-1,l:'😤 -1 bonheur'}], assetDamage:'car'},
-    {src:'invented',     ti:'📱 Téléphone à l\'Eau',        tx:"La rivière de Bourbonne.\nUne glissade.\nTon téléphone coule avant toi.\n\nLe riz ne suffit pas.", fx:[{t:'m',v:-700,l:'💸 -700€ (nouveau smartphone)'},{t:'b',v:-1,l:'😱 -1 bonheur'}], assetLose:'phone', assetGain:'phone'},
+    {src:'invented',     ti:'📱 Téléphone à l\'Eau',        tx:"La rivière de Bourbonne.\nUne glissade.\nTon téléphone coule avant toi.\n\nLe riz ne suffit pas.", fx:[{t:'m',v:-700,l:'💸 -700€ (nouveau smartphone)'},{t:'b',v:-1,l:'😱 -1 bonheur'}], assetLose:'phone', assetGain:'phone', alwaysGain:true},
     {src:'invented',     ti:'🎮 Console Grillée',           tx:"Surtension pendant un orage.\nLa console éteinte.\nLe disque dur aussi.\nLes sauvegardes aussi.\n\n70 heures de Farming Simulator perdues.", fx:[{t:'b',v:-3,l:'😭 -3 bonheur (les sauvegardes...)'},{t:'m',v:-200,l:'💸 -200€'}], assetDamage:'console'},
     {src:'invented',     ti:'🐱 Adoption Coup de Cœur',     tx:"Un chat errant derrière la déchetterie de Fayl-Billot.\nNoir et blanc. Regard qui dit tout.\n\nIl vit chez toi maintenant.\nTu l\'as appelé Schloss.", fx:[{t:'b',v:3,l:'🐱 +3 bonheur'},{t:'m',v:-300,l:'💸 -300€ (vétérinaire + litière)'}], assetGain:'cat'},
     {src:'invented',     ti:'🏍️ Moto d\'Occasion',          tx:"Un Bon Coin du 52 trop tentant.\nUne 600cm³. Révision faite.\nLe vendeur t\'assure que c\'est une affaire.\n\nC\'est une affaire.", fx:[{t:'m',v:-3500,l:'💸 -3500€'},{t:'b',v:2,l:'🏍️ +2 bonheur (la liberté du 52)'}], assetGain:'moto'},
@@ -985,15 +986,17 @@ function applyFx(card, playerId){
     if(e.t==='b'){ p.bonheur+=e.v; } else if(e.t==='m'){ p.money+=e.v; }
     msgs.push(p.name+' : '+e.l);
   });
-  // Asset effects
-  if(card.assetGain){
-    const a = addAsset(p, card.assetGain);
-    if(a) msgs.push(`${a.emoji} ${p.name} acquiert ${a.name} — valeur ${a.value.toLocaleString('fr-FR')}€`);
-  }
+  // Asset effects — lose FIRST, then gain
+  let lostAsset = false;
   if(card.assetLose){
     const a = removeAsset(p, card.assetLose);
-    if(a) msgs.push(`💥 ${p.name} perd ${a.emoji} ${a.name} (valeur perdue: ${a.value.toLocaleString('fr-FR')}€)`);
+    if(a){ msgs.push(`💥 ${p.name} perd ${a.emoji} ${a.name} (valeur perdue: ${a.value.toLocaleString('fr-FR')}€)`); lostAsset = true; }
     else msgs.push(`(Tu n'as pas de ${ASSET_TYPES[card.assetLose]?.name||card.assetLose})`);
+  }
+  // gain si: pas de assetLose, ou on a bien perdu qqch, ou alwaysGain forcé
+  if(card.assetGain && (!card.assetLose || lostAsset || card.alwaysGain)){
+    const a = addAsset(p, card.assetGain);
+    if(a) msgs.push(`${a.emoji} ${p.name} acquiert ${a.name} — valeur ${a.value.toLocaleString('fr-FR')}€`);
   }
   if(card.assetDamage){
     const a = (p.assets||[]).find(x=>x.type===card.assetDamage);
