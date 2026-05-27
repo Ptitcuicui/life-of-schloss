@@ -1700,7 +1700,17 @@ function endTurn(){
 function calcScore(p){
   return p.bonheur + Math.floor(p.money/500) + Math.floor(totalAssets(p)/500) + p.wins;
 }
+function showReactionFloat(emoji, playerEmoji) {
+  const el = document.createElement('div');
+  el.className = 'reaction-float';
+  el.innerHTML = `<span class="rf-player">${playerEmoji}</span>${emoji}`;
+  el.style.left = (8 + Math.random() * 80) + 'vw';
+  document.body.appendChild(el);
+  el.addEventListener('animationend', () => el.remove());
+}
+
 function showEnd(){
+  localStorage.removeItem('schloss_session');
   SFX.finale();
   const scored = [...G.players].map(p=>({...p, score:calcScore(p)})).sort((a,b)=>b.score-a.score);
   const w = scored[0];
@@ -2200,6 +2210,10 @@ const NET = (() => {
     if (G.idx !== prevIdx) { SFX.turn(); showTurnToast(cp()); }
   }
 
+  function _loadSession() {
+    try { return JSON.parse(localStorage.getItem('schloss_session') || 'null'); } catch { return null; }
+  }
+
   // ── mode switch in lobby ──
   function setMode(m) {
     mode = m;
@@ -2207,7 +2221,15 @@ const NET = (() => {
     document.getElementById('tab-online').classList.toggle('active', m === 'online');
     document.getElementById('mode-local').classList.toggle('hidden', m !== 'local');
     document.getElementById('mode-online').classList.toggle('hidden', m !== 'online');
-    if (m === 'online' && !socket) connectSocket();
+    if (m === 'online') {
+      const session = _loadSession();
+      const banner = document.getElementById('rejoin-banner');
+      if (session && banner) {
+        banner.classList.remove('hidden');
+        document.getElementById('rejoin-code-label').textContent = session.code;
+      }
+      if (!socket) connectSocket();
+    }
   }
 
   // ── socket connection ──
@@ -2225,6 +2247,8 @@ const NET = (() => {
       showScreen('screen-game');
       resize();
       lockRollIfNotMyTurn();
+      document.getElementById('reaction-bar')?.classList.remove('hidden');
+      if (roomCode && myPlayerId) localStorage.setItem('schloss_session', JSON.stringify({ code: roomCode, playerId: myPlayerId }));
     });
 
     socket.on('state_updated', ({ state }) => applyRemoteState(state));
@@ -2289,6 +2313,43 @@ const NET = (() => {
       const p = G.players.find(x => x.id === playerId);
       if (p) { p.nodeId = nodeId; fullRender(); drawMinimap(); SFX.step(); }
     });
+
+    socket.on('reaction', ({ emoji, pid }) => {
+      const def = PLAYER_DEFS.find(d => d.id === pid);
+      if (def) showReactionFloat(emoji, def.emoji);
+    });
+  }
+
+  function rejoinRoom() {
+    const session = _loadSession();
+    if (!session) return;
+    if (!socket) connectSocket();
+    const doRejoin = () => {
+      socket.emit('rejoin_room', { code: session.code, playerId: session.playerId }, ({ ok, error, state }) => {
+        if (error) { alert('Impossible de rejoindre : ' + error); clearSession(); return; }
+        roomCode = session.code;
+        myPlayerId = session.playerId;
+        mode = 'online';
+        applyRemoteState(state);
+        showScreen('screen-game');
+        resize();
+        lockRollIfNotMyTurn();
+        document.getElementById('reaction-bar')?.classList.remove('hidden');
+      });
+    };
+    // Socket peut ne pas encore être connecté
+    if (socket.connected) doRejoin();
+    else socket.once('connect', doRejoin);
+  }
+
+  function clearSession() {
+    localStorage.removeItem('schloss_session');
+    document.getElementById('rejoin-banner')?.classList.add('hidden');
+  }
+
+  function sendReaction(emoji) {
+    if (!socket || !myPlayerId) return;
+    socket.emit('reaction', { emoji, pid: myPlayerId });
   }
 
   function emitDiceRoll(result) {
@@ -2306,6 +2367,7 @@ const NET = (() => {
     isHost = info.host === mySocketId;
     const myEntry = info.players.find(x => x.sid === mySocketId);
     myPlayerId = myEntry ? myEntry.pid : null;
+    if (roomCode && myPlayerId) localStorage.setItem('schloss_session', JSON.stringify({ code: roomCode, playerId: myPlayerId }));
 
     // Rebuild online player grid
     const grid = document.getElementById('player-grid-online');
@@ -2627,5 +2689,5 @@ const NET = (() => {
     _startGame(ids);
   };
 
-  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep };
+  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep, rejoinRoom, clearSession, sendReaction };
 })();

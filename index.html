@@ -37,6 +37,16 @@
 
         <!-- Online -->
         <div id="mode-online" class="hidden">
+
+          <!-- Bannière de reconnexion -->
+          <div id="rejoin-banner" class="rejoin-banner hidden">
+            <span>🔄 Tu as une partie en cours — Code&nbsp;: <b id="rejoin-code-label"></b></span>
+            <div style="display:flex;gap:8px;margin-top:8px;justify-content:center">
+              <button class="btn-gold" onclick="NET.rejoinRoom()">↩ Reprendre</button>
+              <button class="btn-dismiss" onclick="NET.clearSession()">✕ Ignorer</button>
+            </div>
+          </div>
+
           <div id="online-setup">
             <h2 class="select-title">Partie en ligne</h2>
             <div class="online-btns">
@@ -111,6 +121,19 @@
       <div class="panel-block">
         <div class="panel-title">Bonheur &amp; Argent</div>
         <div id="scores-list"></div>
+      </div>
+
+      <!-- Reactions (online uniquement) -->
+      <div id="reaction-bar" class="panel-block reaction-bar hidden">
+        <div class="panel-title">Réagir</div>
+        <div class="reaction-btns">
+          <button class="reaction-btn" onclick="NET.sendReaction('😂')">😂</button>
+          <button class="reaction-btn" onclick="NET.sendReaction('😤')">😤</button>
+          <button class="reaction-btn" onclick="NET.sendReaction('😱')">😱</button>
+          <button class="reaction-btn" onclick="NET.sendReaction('👏')">👏</button>
+          <button class="reaction-btn" onclick="NET.sendReaction('🔥')">🔥</button>
+          <button class="reaction-btn" onclick="NET.sendReaction('💔')">💔</button>
+        </div>
       </div>
 
       <!-- Event log -->

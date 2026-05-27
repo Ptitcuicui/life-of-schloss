@@ -93,6 +93,28 @@ io.on('connection', socket => {
 
   socket.on('open_bet', data => socket.to(myRoom).emit('open_bet', data));
 
+  // ── REACTIONS ──
+  socket.on('reaction', data => {
+    if (myRoom) io.to(myRoom).emit('reaction', data);
+  });
+
+  // ── REJOIN (déconnexion imprévue) ──
+  socket.on('rejoin_room', ({ code, playerId }, cb) => {
+    const room = rooms.get(code);
+    if (!room) return cb({ error: 'Partie introuvable ou expirée' });
+    if (!room.state) return cb({ error: 'La partie n\'a pas encore commencé' });
+    myRoom = code;
+    socket.join(code);
+    // Retire l'ancienne entrée pour ce playerId
+    for (const [sid, pid] of room.sockets) {
+      if (pid === playerId) { room.sockets.delete(sid); break; }
+    }
+    room.sockets.set(socket.id, playerId);
+    console.log(`[${code}] ${playerId} a rejoint la partie (reconnexion)`);
+    cb({ ok: true, state: room.state });
+    io.to(code).emit('room_info', roomInfo(room));
+  });
+
   // ── Animation relay (dice + movement for waiting players) ──
   socket.on('dice_rolled', data => socket.to(myRoom).emit('dice_rolled', data));
   socket.on('move_step',   data => socket.to(myRoom).emit('move_step',   data));
