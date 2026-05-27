@@ -401,21 +401,21 @@ const STORIES = {
     title:'🏫 Collège Louise Michel — La Bande Se Forme',
     text:"Premier jour de collège, quelque part à Chaumont.\nLes couloirs sentent la craie neuve.\n\nDes gamins du 52 se croisent pour la première fois.\nIls ne le savent pas encore,\nmais cette bande durera 20 ans.\n\nBienvenue au Schloss.",
     fx:[{t:'b',v:3,l:'❤️ +3 bonheur (les vraies amitiés commencent ici)'}],
-    extra:{ toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur (chef de guerre en herbe)'}], ptitcuicui:[{t:'b',v:2,l:'🔵 Ptitcuicui : +2 bonheur (le futur stratège observe tout)'}] }
+    extra:{ toutoon:[{t:'b',v:5,l:'😤 Toutoon : +5 bonheur (chef de guerre en herbe — il s\'en souvient encore)'}], ptitcuicui:[{t:'b',v:5,l:'🐦 Ptitcuicui : +5 bonheur (le futur stratège observe déjà tout)'}] }
   },
   maths_avances: {
     src:'real',
     title:'📐 Cours de Maths Avancés',
     text:"Un cours pour les élèves rapides.\nDeux gamins finissent les exercices avant tout le monde.\nRegards croisés.\n\n« T\'as fait comment le 3 ? »\n« Pareil que toi. »\n\nPas de rivalité, juste deux cerveaux qui se reconnaissent.\nCette complicité-là, on ne l\'explique pas.",
     fx:[{t:'b',v:2,l:'🧮 +2 bonheur (trouver quelqu\'un qui pense comme toi)'}],
-    extra:{ toutoon:[{t:'b',v:3,l:'😤 Toutoon : +3 bonheur (enfin quelqu\'un qui suit)'}], ptitcuicui:[{t:'b',v:3,l:'🐦 Ptitcuicui : +3 bonheur (future amitié de cerveau)'}] }
+    extra:{ toutoon:[{t:'b',v:5,l:'😤 Toutoon : +5 bonheur (enfin quelqu\'un qui pense comme lui)'}], ptitcuicui:[{t:'b',v:5,l:'🐦 Ptitcuicui : +5 bonheur (le binôme de cerveau est trouvé)'}] }
   },
   lycee_manaa: {
     src:'real',
     title:'🎨 Lycée Ch. de Gaulle — Section Scientifique',
     text:"Lycée Charles de Gaulle à Chaumont.\nSection scientifique — maths, physique, le classique.\n\nMais dans les couloirs, il y a l\'autre section.\nLa MANAA — arts appliqués — un monde à part.\n\nLes travaux exposés dans le couloir...\ntellement abstraits et incompréhensibles\nque s\'en approcher trop longtemps est dangereux.\n\n🎵 Mana mana — tu du du du du — Mana mana...\n\nOn évitait ce couloir.",
     fx:[{t:'b',v:2,l:'📐 +2 bonheur (fiers de la filière scientifique)'},{t:'m',v:200,l:'💶 +200€ (vendus une œuvre MANAA comme art contemporain)'}],
-    extra:{ ptitcuicui:[{t:'b',v:1,l:'🐦 Ptitcuicui : +1 bonheur (il a quand même essayé de comprendre)'}] }
+    extra:{ ptitcuicui:[{t:'b',v:3,l:'🐦 Ptitcuicui : +3 bonheur, +200€ (il a quand même essayé de comprendre la MANAA)'},{t:'m',v:200,l:'💶 +200€'}] }
   },
   colombey: {
     src:'real', // Tournoi Rocket League — Ptitcuicui+Toutoon vs Whitewarrior+Sponge en finale, Ptitcuicui+Toutoon gagnent
@@ -423,10 +423,10 @@ const STORIES = {
     text:"Un tournoi Rocket League au Schloss.\nQuatre équipes. Deux binômes se détachent.\n\nPtitcuicui & Toutoon d\'un côté.\nWhitewarrior & Sponge de l\'autre.\n\nIls écrasent tout le monde.\nLa finale oppose les deux binômes du Schloss.\n\nPtitcuicui place le tir. Toutoon assure.\nLa rage de Whitewarrior est contenue — à peine.\n\nSchloss vs Schloss.\nLe Schloss gagne quand même.",
     fx:[{t:'b',v:4,l:'🚀 +4 bonheur (finale de légende)'}],
     extra:{
-      ptitcuicui:[{t:'b',v:3,l:'🔵 +3 bonheur (champion incontesté)'}],
-      toutoon:[{t:'b',v:3,l:'😤 +3 bonheur (il était bon ce soir-là, il le dit encore)'}],
-      whitewarrior:[{t:'b',v:1,l:'⚔️ +1 bonheur (finaliste, c\'est déjà ça)'}],
-      sponge:[{t:'b',v:1,l:'🧽 +1 bonheur (finaliste, c\'est déjà ça)'}]
+      ptitcuicui:[{t:'b',v:7,l:'🐦 Ptitcuicui : +7 bonheur (champion incontesté de la finale Schloss)'}],
+      toutoon:[{t:'b',v:7,l:'😤 Toutoon : +7 bonheur (il était bon ce soir-là, il le dit encore)'}],
+      whitewarrior:[{t:'b',v:5,l:'⚔️ Whitewarrior : +5 bonheur (finaliste, c\'est déjà ça)'}],
+      sponge:[{t:'b',v:5,l:'🧽 Sponge : +5 bonheur (finaliste, c\'est déjà ça)'}]
     }
   },
   supinfo: {
@@ -434,7 +434,7 @@ const STORIES = {
     title:'🎓 Supinfo Troyes — La Rencontre Légendaire',
     text:"Un cours d'informatique à Troyes.\nPtitcuicui est au tableau.\nUne étudiante éternue discrètement au fond de la salle.\n\nLa réponse fuse, sans hésiter :\n« Tu peux mourir en silence s'il te plaît ? »\n\nLa classe s'arrête. Puis éclate de rire.\nUne amitié bizarre mais sincère vient de naître.",
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (un running gag qui dure encore)'}],
-    extra:{ ptitcuicui:[{t:'b',v:2,l:'🔵 +2 bonheur (prof le plus mémorable de Supinfo)'}], invoherence:[{t:'b',v:2,l:'🐰 +2 bonheur (et tu peux éternuer maintenant)'}] }
+    extra:{ ptitcuicui:[{t:'b',v:5,l:'🐦 Ptitcuicui : +5 bonheur (la réplique la plus mémorable de sa scolarité)'}], invoherence:[{t:'b',v:5,l:'🐰 Incoherence : +5 bonheur (et tu peux éternuer maintenant)'}] }
   },
   stage: {
     src:'real', // Stage : Ptitcuicui arrive exprès en retard pour que Toutoon soit seul avec Incoherence
@@ -442,9 +442,9 @@ const STORIES = {
     text:"Un stage. Trois compères : Ptitcuicui, Toutoon, Incoherence.\n\nCe jour-là, Ptitcuicui arrive en retard.\nExprès.\n\nToutoon se retrouve seul avec Incoherence.\nIl prend son courage à deux mains.\nIncoherence dit oui.\n\nLe reste... c'est l'histoire du Schloss. ❤️",
     fx:[{t:'b',v:5,l:'💍 +5 bonheur (le début de quelque chose de grand)'},{t:'m',v:1000,l:'💶 +1000€ (prime de fin de stage)'}],
     extra:{
-      ptitcuicui:[{t:'b',v:3,l:'🔵 +3 bonheur en plus (le plan a fonctionné !)'}],
-      toutoon:[{t:'b',v:4,l:'😤→❤️ +4 bonheur (pour une fois, pas de rage)'}],
-      invoherence:[{t:'b',v:4,l:'🐰 +4 bonheur (oui, pour la vie)'}]
+      ptitcuicui:[{t:'b',v:8,l:'🐦 Ptitcuicui : +8 bonheur, +1000€ (le plan a fonctionné, le meilleur retard de sa vie)'},{t:'m',v:1000,l:'💶 +1000€ (prime de stage)'}],
+      toutoon:[{t:'b',v:9,l:'😤→❤️ Toutoon : +9 bonheur, +1000€ (pour une fois, pas de rage)'},{t:'m',v:1000,l:'💶 +1000€ (prime de stage)'}],
+      invoherence:[{t:'b',v:9,l:'🐰 Incoherence : +9 bonheur, +1000€ (oui, pour la vie)'},{t:'m',v:1000,l:'💶 +1000€ (prime de stage)'}]
     }
   },
   bourbonne: {
@@ -452,7 +452,7 @@ const STORIES = {
     title:'🚜 La LAN du Réveillon',
     text:"Nouvel An au Schloss.\nTout le monde est là. Il y a des chips, des écrans, des câbles partout.\n\nFarming Simulator. Une carte co-op.\nLes champs ne se sèment pas tout seuls.\n\nMinuit passe.\nPersonne ne s\'en rend compte.\nQuelqu\'un regarde l\'heure : 00h23.\n\n« Bonne année au fait. »\n« Ouais ouais. Quelqu\'un peut remplir les silos ? »",
     fx:[{t:'b',v:5,l:'🎆 +5 bonheur (le meilleur Réveillon de leur vie)'},{t:'m',v:-150,l:'💸 -150€ (chips + boissons du Réveillon)'}],
-    extra:{ toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur (il gère la moissonneuse)'}], sponge:[{t:'b',v:2,l:'🧽 Sponge : +2 bonheur (les silos sont pleins)'}] }
+    extra:{ toutoon:[{t:'b',v:7,l:'😤 Toutoon : +7 bonheur, -150€ (il gère la moissonneuse et rate minuit)'},{t:'m',v:-150,l:'💸 -150€ (chips + boissons)'}], sponge:[{t:'b',v:7,l:'🧽 Sponge : +7 bonheur, -150€ (les silos sont pleins, bonne année)'},{t:'m',v:-150,l:'💸 -150€'}] }
   },
   langres: {
     src:'invented',
@@ -465,28 +465,28 @@ const STORIES = {
     title:'🔪 L\'Accident Légendaire au Couteau',
     text:"Un couteau. Un geste maladroit de Ptitcuicui.\nSponge regarde son doigt avec incrédulité.\n\nPtitcuicui réalise ce qu\'il vient de faire.\nSponge réalise ce qu\'il vient de recevoir.\n\nCe moment est entré dans la légende du Schloss.\nSponge a encore la cicatrice.",
     fx:[{t:'b',v:4,l:'😂 +4 bonheur (l\'histoire fait encore rire 10 ans après)'}],
-    extra:{ sponge:[{t:'b',v:3,l:'🧽 Sponge : +3 bonheur (la cicatrice est un badge d\'honneur)'}], ptitcuicui:[{t:'b',v:2,l:'🔵 Ptitcuicui : +2 bonheur (maladroit mais inoubliable)'}] }
+    extra:{ sponge:[{t:'b',v:7,l:'🧽 Sponge : +7 bonheur (la cicatrice est un badge d\'honneur — méritée)'}], ptitcuicui:[{t:'b',v:6,l:'🐦 Ptitcuicui : +6 bonheur (maladroit, mais inoubliable)'}] }
   },
   viaduc: {
     src:'invented', // à remplacer par une vraie anecdote autour du viaduc
     title:'🌉 Le Viaduc de Chaumont',
     text:"52 mètres de hauteur. 1856.\nLe viaduc de Chaumont domine la ville.\n\nVous le traversez à pied au coucher du soleil.\nLa Haute-Marne s\'étend à perte de vue.\n\nToutoon dit que c\'est « pas mal ».\nIncoherence pleure un peu.\nC\'est le 52 qui fait ça.",
     fx:[{t:'b',v:3,l:'🌉 +3 bonheur (le 52 grandiose)'},{t:'m',v:200,l:'💶 +200€ (photo vendue)'}],
-    extra:{ toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur (il admet que c\'est beau)'}], invoherence:[{t:'b',v:2,l:'🐰 Incoherence : +2 bonheur (larmes de bonheur)'}] }
+    extra:{ toutoon:[{t:'b',v:5,l:'😤 Toutoon : +5 bonheur, +200€ (il admet que c\'est beau)'},{t:'m',v:200,l:'💶 +200€'}], invoherence:[{t:'b',v:5,l:'🐰 Incoherence : +5 bonheur, +200€ (larmes de bonheur 100% sincères)'},{t:'m',v:200,l:'💶 +200€'}] }
   },
   monopoly: {
     src:'real', // Ptitcuicui gagne contre Incoherence au Monopoly, et elle rage pas
     title:'🎲 Le Monopoly Légendaire',
     text:"Une session Monopoly.\nPtitcuicui contre Incoherence.\n\nPtitcuicui établit sa stratégie dès le début.\nIncoherence joue à l\'instinct, sourit, ne stresse pas.\n\nPtitcuicui gagne.\n\nIncoherence hausse les épaules.\n« Bah ouais, c\'était prévisible. »\n\nC\'est pour ça qu\'on l\'aime.",
     fx:[{t:'b',v:3,l:'🎲 +3 bonheur (même perdre avec le sourire, c\'est un talent)'}],
-    extra:{ ptitcuicui:[{t:'b',v:2,l:'🐦 Ptitcuicui : +2 bonheur (victoire sans saveur face à quelqu\'un qui s\'en fout)'}], invoherence:[{t:'b',v:3,l:'🐰 Incoherence : +3 bonheur (la sérénité du sage)'}] }
+    extra:{ ptitcuicui:[{t:'b',v:5,l:'🐦 Ptitcuicui : +5 bonheur (victoire, mais sans saveur face à quelqu\'un qui s\'en fout)'}], invoherence:[{t:'b',v:6,l:'🐰 Incoherence : +6 bonheur (la sérénité absolue du sage qui perd sans s\'en soucier)'}] }
   },
   bac: {
     src:'real', // Toutoon pensait avoir super réussi l'histoire-géo et il a eu 2/20
     title:'📝 Le BAC — Le Mensonge de l\'Histoire-Géo',
     text:"Jour des résultats du BAC.\nToutoon sort de l\'épreuve d\'histoire-géographie.\n\n« C\'était trop bien. J\'ai tout su. »\n\nRésultats.\n\n2 / 20.\n\nUn silence.\nPuis tout le monde éclate de rire.\nToutoon aussi — mais après.",
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'anecdote du BAC est éternelle)'},{t:'m',v:500,l:'💶 +500€ (enveloppe de la famille malgré tout)'}],
-    extra:{ toutoon:[{t:'b',v:-1,l:'😤 Toutoon : -1 bonheur (le 2/20 reste dans les annales)'}] }
+    extra:{ toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur, +500€ (le 2/20 reste dans les annales mais la famille paye quand même)'},{t:'m',v:500,l:'💶 +500€'}] }
   },
   pc_hs: {
     src:'real',
@@ -535,7 +535,7 @@ const STORIES = {
     title:'🧽 Pourquoi il s\'appelle Sponge',
     text:"Au début, il n'y avait pas de pseudo.\nJuste un prénom sur les serveurs Minecraft — cracké, bien sûr.\n\nJusqu'au jour où il se fait ban d'un serveur PVP.\nIl faut un nouveau nom pour revenir.\n\nLe premier bloc qui lui passe par la tête :\nSponge. Le bloc qui servait à rien à l'époque.\n\nIl ne savait pas que ce nom allait lui coller à la peau pour 15 ans.\n\n🧽 Le bloc inutile. Le pseudo parfait.",
     fx:[{t:'b',v:3,l:'🧽 +3 bonheur (le début d\'une légende)'},{t:'m',v:200,l:'💶 +200€ (acheté un compte premium pour ne plus se faire ban)'}],
-    extra:{ sponge:[{t:'b',v:3,l:'🧽 Sponge : +3 bonheur (le pseudo parfait pour le mauvais bloc)'}] }
+    extra:{ sponge:[{t:'b',v:6,l:'🧽 Sponge : +6 bonheur, +200€ (le pseudo parfait — 15 ans plus tard il s\'en félicite encore)'},{t:'m',v:200,l:'💶 +200€'}] }
   },
   gta_sa_rencontre: {
     src:'real',
@@ -543,8 +543,8 @@ const STORIES = {
     text:"Quelque part sur un serveur RP de GTA San Andreas.\nDeux gamins du 52 se croisent sans le savoir.\nPar l'intermédiaire d'une connaissance commune.\n\nIls auraient pu se rencontrer à De Gaulle l'année suivante.\nMais c'était déjà arrivé — virtuellement.\n\nIls ne découvriront la vérité que bien plus tard.\n\n« Attends... c'était toi ?! »",
     fx:[{t:'b',v:4,l:'🎮 +4 bonheur (le destin commence sur un serveur cracké)'}],
     extra:{
-      toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur (il mainait déjà à l\'époque)'}],
-      sponge:[{t:'b',v:2,l:'🧽 Sponge : +2 bonheur (première rencontre sans le savoir)'}]
+      toutoon:[{t:'b',v:6,l:'😤 Toutoon : +6 bonheur (il mainait déjà — et c\'était lui ce soir-là)'}],
+      sponge:[{t:'b',v:6,l:'🧽 Sponge : +6 bonheur (première rencontre virtuelle — sans le savoir)'}]
     }
   },
   volley_eps: {
@@ -553,8 +553,8 @@ const STORIES = {
     text:"Cours d'EPS. Volley.\nLe prof constitue les binômes.\nToutoon et Sponge sont mis ensemble.\n\nC'est leur première vraie interaction.\nNi virtuelle. Ni par intermédiaire.\nJuste deux mecs du 52 qui se passent un ballon.\n\nIls ne savaient pas encore qu'ils s'étaient déjà croisés sur un serveur GTA.",
     fx:[{t:'b',v:3,l:'🏐 +3 bonheur (les meilleures amitiés commencent au sport)'}],
     extra:{
-      toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur (excellent au volley, c\'est lui qui le dit)'}],
-      sponge:[{t:'b',v:2,l:'🧽 Sponge : +2 bonheur (le binôme parfait)'}]
+      toutoon:[{t:'b',v:5,l:'😤 Toutoon : +5 bonheur (excellent au volley — c\'est lui qui le dit, et on le croit)'}],
+      sponge:[{t:'b',v:5,l:'🧽 Sponge : +5 bonheur (le binôme parfait — en volley comme en vie)'}]
     }
   },
   ptitcuicui_2gt7: {
@@ -563,8 +563,8 @@ const STORIES = {
     text:"Pour ceux qui arrivaient au lycée, Ptitcuicui était identifié simplement :\n« Le gars de la 2GT7 ».\n\nCelui qui venait voir ses anciens camarades le midi.\nQui passait, disait bonjour, repartait.\n\nOn ne savait pas trop d'où il venait.\nMais il était là.\n\nC'est peut-être ça, être du Schloss :\ntoujours présent, même sans raison officielle.",
     fx:[{t:'b',v:3,l:'🐦 +3 bonheur (fidèle à ses amis même en changeant de classe)'}],
     extra:{
-      ptitcuicui:[{t:'b',v:3,l:'🐦 Ptitcuicui : +3 bonheur (le gars de la 2GT7 est devenu le stratège du Schloss)'}],
-      sponge:[{t:'b',v:1,l:'🧽 Sponge : +1 bonheur (il l\'a remarqué dès le début)'}]
+      ptitcuicui:[{t:'b',v:6,l:'🐦 Ptitcuicui : +6 bonheur (le gars de la 2GT7 est devenu le stratège du Schloss)'}],
+      sponge:[{t:'b',v:4,l:'🧽 Sponge : +4 bonheur (il l\'a remarqué dès le début, fidèle à sa légende)'}]
     }
   },
   demande: {
@@ -573,9 +573,9 @@ const STORIES = {
     text:"Quelque part en Haute-Marne. Un coucher de soleil.\nLe viaduc de Chaumont en fond.\n\nToutoon a la bague depuis 3 semaines.\nIl n'a pas dormi depuis 3 semaines.\n\nIncoherence dit oui avant même la fin de la phrase.\n\nTout le Schloss pleure.\nMême Ptitcuicui.",
     fx:[{t:'b',v:6,l:'💍 +6 bonheur (le plus beau jour)'},{t:'m',v:-2000,l:'💸 -2000€ (la bague + le dîner)'}],
     extra:{
-      toutoon:[{t:'b',v:5,l:'😤→💍 +5 bonheur (il méritait ce moment)'}],
-      invoherence:[{t:'b',v:5,l:'🐰 +5 bonheur (oui, mille fois oui)'}],
-      ptitcuicui:[{t:'b',v:3,l:'🐦 Ptitcuicui : +3 bonheur (il savait depuis le début)'}]
+      toutoon:[{t:'b',v:11,l:'😤→💍 Toutoon : +11 bonheur, -2000€ (il méritait ce moment depuis le début)'},{t:'m',v:-2000,l:'💸 -2000€ (la bague + le dîner)'}],
+      invoherence:[{t:'b',v:11,l:'🐰 Incoherence : +11 bonheur, -2000€ (oui, mille fois oui)'},{t:'m',v:-2000,l:'💸 -2000€'}],
+      ptitcuicui:[{t:'b',v:9,l:'🐦 Ptitcuicui : +9 bonheur, -2000€ (il savait depuis le début — et il avait raison)'},{t:'m',v:-2000,l:'💸 -2000€'}]
     }
   },
   soiree_village: {
@@ -596,8 +596,8 @@ const STORIES = {
     text:"La police vous rappelle. Certains objets ont été retrouvés.\nVous vous rendez au commissariat avec Toutoon.\n\nQuelques jours plus tôt : une partie de lasergame. Toutoon a pris un mauvais appui. La jambe. Il boite.\n\nAu commissariat, le policier vous accueille.\n'Vous êtes jeunes — on prend les escaliers.'\n\nToutoon monte.\nEn boitant. En silence. En serrant les dents.\n\nPtitcuicui monte derrière.\nEn silence. En se retenant de rire.\n\nLa récupération d'objets n'a jamais autant ressemblé à une épreuve sportive.",
     fx:[{t:'m',v:400,l:'💶 +400€ (objets partiellement récupérés)'},{t:'b',v:2,l:'❤️ +2 bonheur (le souvenir qui durera plus longtemps que le reste)'}],
     extra:{
-      ptitcuicui:[{t:'b',v:3,l:'🐦 Ptitcuicui : +3 bonheur (le fou rire intérieur le plus long de sa vie)'}],
-      toutoon:[{t:'b',v:-2,l:'😤 Toutoon : -2 bonheur (la jambe, les escaliers, le policier qui ne sait pas)'}],
+      ptitcuicui:[{t:'b',v:5,l:'🐦 Ptitcuicui : +5 bonheur, +400€ (le fou rire intérieur le plus long de sa vie)'},{t:'m',v:400,l:'💶 +400€ (objets récupérés)'}],
+      toutoon:[{t:'b',v:0,l:'😤 Toutoon : +0 bonheur, +400€ (la jambe, les escaliers — les objets récupèrent pas les nerfs)'},{t:'m',v:400,l:'💶 +400€ (objets récupérés)'}],
     },
   },
   cambriolage_supinfo: {
@@ -607,8 +607,8 @@ const STORIES = {
     fx:[{t:'m',v:-1800,l:'💸 -1800€ (réparation porte + franchise assurance)'},{t:'b',v:-4,l:'💔 -4 bonheur (rentrer dans un appartement cambriolé)'}],
     assetLose:'pc',
     extra:{
-      ptitcuicui:[{t:'m',v:-1500,l:'💸 Ptitcuicui : -1500€ (tout lui appartenait)'},{t:'b',v:-3,l:'💔 Ptitcuicui : -3 bonheur supplémentaire (ses affaires)'}],
-      toutoon:[{t:'b',v:-2,l:'😤 Toutoon : -2 bonheur (son jeu aussi, au moins)'}],
+      ptitcuicui:[{t:'m',v:-3300,l:'💸 Ptitcuicui : -3300€ (la porte + tout ce qui lui appartenait)'},{t:'b',v:-7,l:'💔 Ptitcuicui : -7 bonheur (c\'était ses affaires, pas celles de quelqu\'un d\'autre)'}],
+      toutoon:[{t:'m',v:-1800,l:'💸 Toutoon : -1800€ (la porte + franchise assurance)'},{t:'b',v:-6,l:'💔 Toutoon : -6 bonheur (son jeu aussi — heureusement il reste)'}],
     },
   },
   coloc_degat: {
@@ -979,16 +979,12 @@ function applyFx(card, playerId){
   const pid = playerId || cp().id;
   const p = G.players.find(x=>x.id===pid);
   if(!p) return msgs;
-  (card.fx||[]).forEach(e=>{
+  // extra[pid] remplace entièrement fx pour le joueur concerné
+  const effectsToApply = (card.extra && card.extra[pid]) ? card.extra[pid] : (card.fx||[]);
+  effectsToApply.forEach(e=>{
     if(e.t==='b'){ p.bonheur+=e.v; } else if(e.t==='m'){ p.money+=e.v; }
     msgs.push(p.name+' : '+e.l);
   });
-  if(card.extra && card.extra[pid]){
-    card.extra[pid].forEach(e=>{
-      if(e.t==='b') p.bonheur+=e.v; else if(e.t==='m') p.money+=e.v;
-      msgs.push(p.name+' : '+e.l);
-    });
-  }
   // Asset effects
   if(card.assetGain){
     const a = addAsset(p, card.assetGain);
