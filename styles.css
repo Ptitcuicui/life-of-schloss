@@ -127,6 +127,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-
 .asset-ico { font-size: 15px; flex-shrink: 0; }
 .asset-name { flex: 1; color: var(--text-dim); }
 .asset-val { color: var(--gold-light); font-weight: 600; font-size: 12px; }
+.asset-delta { font-size: 10px; font-weight: 600; padding: 1px 4px; border-radius: 3px; flex-shrink: 0; }
+.delta-up   { color: #6dff90; background: rgba(64,200,80,.15); }
+.delta-down { color: #ff7070; background: rgba(232,64,64,.15); }
 .asset-total { margin-top: 4px; padding-top: 4px; border-top: 1px solid rgba(255,255,255,.08); font-size: 11px; color: var(--gold); text-align: right; }
 .asset-empty { font-size: 11px; color: var(--text-dim); font-style: italic; }
 .score-assets { font-size: 11px; color: #a0d0a0; margin-left: 2px; }

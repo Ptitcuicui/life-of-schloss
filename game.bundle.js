@@ -955,6 +955,7 @@ function fluctuateAssets(player){
     const pct = (Math.random()*4-2);
     const delta = Math.round(asset.value*pct/100);
     asset.value = Math.max(50, asset.value+delta);
+    asset.delta = delta;
     if(Math.abs(delta)>0){
       msgs.push(`${delta>=0?'📈':'📉'} ${asset.emoji} ${asset.name}: ${delta>=0?'+':''}${delta}€ (→ ${asset.value.toLocaleString('fr-FR')}€)`);
     }
@@ -2100,11 +2101,16 @@ function updateUI(){
   if(assetsEl){
     const assets = p.assets||[];
     if(assets.length){
-      assetsEl.innerHTML = assets.map(a=>`<div class="asset-row">
-        <span class="asset-ico">${a.emoji}</span>
-        <span class="asset-name">${a.name}</span>
-        <span class="asset-val">${a.value.toLocaleString('fr-FR')}€</span>
-      </div>`).join('')+
+      assetsEl.innerHTML = assets.map(a=>{
+        const d = a.delta||0;
+        const deltaHtml = d!==0 ? `<span class="asset-delta ${d>0?'delta-up':'delta-down'}">${d>0?'+':''}${d}€</span>` : '';
+        return `<div class="asset-row">
+          <span class="asset-ico">${a.emoji}</span>
+          <span class="asset-name">${a.name}</span>
+          ${deltaHtml}
+          <span class="asset-val">${a.value.toLocaleString('fr-FR')}€</span>
+        </div>`;
+      }).join('')+
       `<div class="asset-total">Patrimoine total : ${totalAssets(p).toLocaleString('fr-FR')}€</div>`;
       assetsEl.style.display='block';
     } else {
