@@ -140,8 +140,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-
 /* ── RÉACTIONS ── */
 .reaction-bar.panel-block { padding: 8px 10px; }
 .reaction-btns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
-.reaction-btn { background: var(--card); border: 1px solid var(--border); border-radius: 8px; font-size: 20px; width: 38px; height: 38px; cursor: pointer; transition: transform .12s, background .12s; display: flex; align-items: center; justify-content: center; }
-.reaction-btn:hover { transform: scale(1.25); background: rgba(201,168,76,.15); }
+.reaction-btn { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 3px; width: 40px; height: 40px; cursor: pointer; transition: transform .12s, background .12s; display: flex; align-items: center; justify-content: center; }
+.reaction-btn img { width: 30px; height: 30px; object-fit: contain; pointer-events: none; }
+.reaction-btn:hover { transform: scale(1.3); background: rgba(201,168,76,.15); }
 .reaction-btn:active { transform: scale(0.95); }
 
 /* Animation flottante */
@@ -155,7 +156,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-
   bottom: 120px;
   pointer-events: none;
   z-index: 9999;
-  font-size: 38px;
   animation: reaction-rise 2.2s ease-out forwards;
   display: flex;
   flex-direction: column;
@@ -163,6 +163,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-
   line-height: 1;
 }
 .reaction-float .rf-player { font-size: 14px; opacity: .8; }
+.reaction-float .rf-img { width: 64px; height: 64px; object-fit: contain; }
 
 /* Bannière reconnexion */
 .rejoin-banner {

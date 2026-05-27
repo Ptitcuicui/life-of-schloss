@@ -1703,7 +1703,7 @@ function calcScore(p){
 function showReactionFloat(emoji, playerEmoji) {
   const el = document.createElement('div');
   el.className = 'reaction-float';
-  el.innerHTML = `<span class="rf-player">${playerEmoji}</span>${emoji}`;
+  el.innerHTML = `<span class="rf-player">${playerEmoji}</span><img src="assets/emojis/${emoji}.png" class="rf-img" alt="${emoji}">`;
   el.style.left = (8 + Math.random() * 80) + 'vw';
   document.body.appendChild(el);
   el.addEventListener('animationend', () => el.remove());
