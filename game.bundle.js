@@ -204,7 +204,7 @@ const STOPS = [
   { id:'p_etu1',   label:'Bibliothèque\nUniversitaire',         icon:'🃏', type:'card',   ch:'🎓 Études', deck:'money' },
   { id:'p_etu2',   label:'Châteauvillain\nRetour en 52',        icon:'🃏', type:'card',   ch:'🎓 Études', deck:'love' },
   { id:'p_etu3',   label:'Cambriolage !\nVeille des Vacances',  icon:'🚨', type:'story',  ch:'🎓 Études', storyId:'cambriolage_supinfo', subtype:'malus' },
-  { id:'p_etu4',   label:'Retour aux Sources\nSaint-Dizier',    icon:'🃏', type:'card',   ch:'🎓 Études', deck:'gaming' },
+  { id:'p_etu4',   label:'Commissariat\nL\'Escalier de Toutoon', icon:'🚔', type:'story',  ch:'🎓 Études', storyId:'commissariat_escalier' },
   { id:'p_mid',    label:'Forêt de Châteauvillain\nPromenade du 52', icon:'🃏', type:'card', ch:'🎓 Études', deck:'money' },
   { id:'p_etu5',   label:'Diplôme !\nMention & Cadeau',         icon:'🎓', type:'story',  ch:'🎓 Études', storyId:'diplome_mention', subtype:'bonus' },
   { id:'fork2',    label:'Été de\nla Décision',                 icon:'🔀', type:'fork',   ch:'💼 Vie Active',
@@ -589,6 +589,16 @@ const STORIES = {
     title:'😱 Révisions BAC — La Nuit Blanche',
     text:"J-3 avant le BAC de Maths.\nTu retournes ton classeur. La moitié du cours manque.\n\nMode panique. Nuit blanche. Café froid.\nDes formules qui ne rentrent plus dans un cerveau à bout.\n\nTu passes quand même.\nMais ces deux nuits-là, tu ne les oublies pas.",
     fx:[{t:'m',v:-80,l:'💸 -80€ (café, Red Bull, poly photocopié en urgence)'},{t:'b',v:-2,l:'💔 -2 bonheur (nuit blanche + angoisse)'}],
+  },
+  commissariat_escalier: {
+    src:'real',
+    title:'🚔 Commissariat — L\'Escalier de Toutoon',
+    text:"La police vous rappelle. Certains objets ont été retrouvés.\nVous vous rendez au commissariat avec Toutoon.\n\nQuelques jours plus tôt : une partie de lasergame. Toutoon a pris un mauvais appui. La jambe. Il boite.\n\nAu commissariat, le policier vous accueille.\n'Vous êtes jeunes — on prend les escaliers.'\n\nToutoon monte.\nEn boitant. En silence. En serrant les dents.\n\nPtitcuicui monte derrière.\nEn silence. En se retenant de rire.\n\nLa récupération d'objets n'a jamais autant ressemblé à une épreuve sportive.",
+    fx:[{t:'m',v:400,l:'💶 +400€ (objets partiellement récupérés)'},{t:'b',v:2,l:'❤️ +2 bonheur (le souvenir qui durera plus longtemps que le reste)'}],
+    extra:{
+      ptitcuicui:[{t:'b',v:3,l:'🐦 Ptitcuicui : +3 bonheur (le fou rire intérieur le plus long de sa vie)'}],
+      toutoon:[{t:'b',v:-2,l:'😤 Toutoon : -2 bonheur (la jambe, les escaliers, le policier qui ne sait pas)'}],
+    },
   },
   cambriolage_supinfo: {
     src:'real',
