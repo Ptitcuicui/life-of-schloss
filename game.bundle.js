@@ -952,7 +952,7 @@ function fluctuateAssets(player){
   if(!(player.assets||[]).length) return;
   const msgs = [];
   player.assets.forEach(asset=>{
-    const pct = (Math.random()*4-2);
+    const pct = (Math.random()*9-3);
     const delta = Math.round(asset.value*pct/100);
     asset.value = Math.max(50, asset.value+delta);
     asset.delta = delta;
