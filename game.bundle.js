@@ -1937,8 +1937,11 @@ function openEvent(icon, title, text, msgs, afterCb=null){
   document.getElementById('ev-title').textContent=title;
   document.getElementById('ev-body').textContent=text;
   document.getElementById('ev-effects').innerHTML=msgs.map(m=>'<div class="eff-line">'+m+'</div>').join('');
-  document.getElementById('ev-btn').onclick=()=>{
+  const evBtn = document.getElementById('ev-btn');
+  evBtn.classList.remove('hidden');
+  evBtn.onclick=()=>{
     hideModal('event-modal');
+    if(NET.isOnline()) NET.emitCloseEvent();
     if(afterCb){ afterCb(); return; }
     if(G.phase===PH.EVENT || G.phase===PH.DONE){
       if(G.players.every(p=>p.finished)) { setTimeout(showEnd,400); return; }
@@ -1946,6 +1949,7 @@ function openEvent(icon, title, text, msgs, afterCb=null){
     endTurn();
   };
   showModal('event-modal');
+  if(NET.isOnline()) NET.emitOpenEvent({ icon, title, text, msgs });
   updateUI(); fullRender();
 }
 
@@ -2629,6 +2633,21 @@ const NET = (() => {
       };
     });
 
+    // ── Event modal broadcast ──
+    socket.on('open_event', ({ icon, title, text, msgs }) => {
+      document.getElementById('ev-icon').textContent = icon;
+      document.getElementById('ev-title').textContent = title;
+      document.getElementById('ev-body').textContent = text;
+      document.getElementById('ev-effects').innerHTML = msgs.map(m => '<div class="eff-line">'+m+'</div>').join('');
+      document.getElementById('ev-btn').classList.add('hidden');
+      showModal('event-modal');
+    });
+
+    socket.on('close_event', () => {
+      hideModal('event-modal');
+      document.getElementById('ev-btn').classList.remove('hidden');
+    });
+
     // ── Duel events ──
     socket.on('duel_started', ({ duel, challengerPid, targetPid }) => {
       const challenger = G.players.find(p => p.id === challengerPid);
@@ -2829,6 +2848,9 @@ const NET = (() => {
     if (!isOnline()) return;
     document.getElementById('btn-roll').disabled = G.phase !== PH.ROLL || !isMyTurn();
   }
+
+  function emitOpenEvent(data)  { if(socket) socket.emit('open_event', data); }
+  function emitCloseEvent()     { if(socket) socket.emit('close_event'); }
 
   // ── bet in online mode ──
   function openBet(bet) {
@@ -3069,5 +3091,5 @@ const NET = (() => {
     _startGame(ids);
   };
 
-  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, openBet, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep, rejoinRoom, clearSession, sendReaction };
+  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, openBet, emitOpenEvent, emitCloseEvent, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep, rejoinRoom, clearSession, sendReaction };
 })();

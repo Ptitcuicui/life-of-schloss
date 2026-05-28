@@ -96,6 +96,8 @@ io.on('connection', socket => {
 
   socket.on('open_bet',      data => socket.to(myRoom).emit('open_bet', data));
   socket.on('bet_revealed',  data => socket.to(myRoom).emit('bet_revealed', data));
+  socket.on('open_event',    data => socket.to(myRoom).emit('open_event', data));
+  socket.on('close_event',   ()   => socket.to(myRoom).emit('close_event'));
 
   // ── REACTIONS ──
   socket.on('reaction', data => {
