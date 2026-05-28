@@ -482,11 +482,11 @@ const STORIES = {
     extra:{ ptitcuicui:[{t:'b',v:5,l:'🐦 Ptitcuicui : +5 bonheur (victoire, mais sans saveur face à quelqu\'un qui s\'en fout)'}], invoherence:[{t:'b',v:6,l:'🐰 Incoherence : +6 bonheur (la sérénité absolue du sage qui perd sans s\'en soucier)'}] }
   },
   bac: {
-    src:'real', // Toutoon pensait avoir super réussi l'histoire-géo et il a eu 2/20
+    src:'real', // Toutoon pensait avoir super réussi l'histoire-géo et il a eu 4/20
     title:'📝 Le BAC — Le Mensonge de l\'Histoire-Géo',
-    text:"Jour des résultats du BAC.\nToutoon sort de l\'épreuve d\'histoire-géographie.\n\n« C\'était trop bien. J\'ai tout su. »\n\nRésultats.\n\n2 / 20.\n\nUn silence.\nPuis tout le monde éclate de rire.\nToutoon aussi — mais après.",
+    text:"Jour des résultats du BAC.\nToutoon sort de l\'épreuve d\'histoire-géographie.\n\n« C\'était trop bien. J\'ai tout su. »\n\nRésultats.\n\n4 / 20.\n\nUn silence.\nPuis tout le monde éclate de rire.\nToutoon aussi — mais après.",
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'anecdote du BAC est éternelle)'},{t:'m',v:500,l:'💶 +500€ (enveloppe de la famille malgré tout)'}],
-    extra:{ toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur, +500€ (le 2/20 reste dans les annales mais la famille paye quand même)'},{t:'m',v:500,l:'💶 +500€'}] }
+    extra:{ toutoon:[{t:'b',v:2,l:'😤 Toutoon : +2 bonheur, +500€ (le 4/20 reste dans les annales mais la famille paye quand même)'},{t:'m',v:500,l:'💶 +500€'}] }
   },
   pc_hs: {
     src:'real',
