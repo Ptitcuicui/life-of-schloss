@@ -226,7 +226,7 @@ const STOPS = [
   { id:'p_act3',   label:'Raclette du Schloss\nFin de Semaine', icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'love' },
   { id:'p_act4',   label:'Impôts\ndu Département 52',            icon:'🧾', type:'story',  ch:'💼 Vie Active', storyId:'impots_52', subtype:'malus' },
   { id:'p_act5',   label:'Joinville\nStage Imprimeries de Champagne', icon:'🖨️', type:'story', ch:'💼 Vie Active', storyId:'imprimeries_champagne', subtype:'bonus' },
-  { id:'p_act6',   label:'Réunion sans Fin\n9h → 18h',         icon:'😮‍💨', type:'story', ch:'💼 Vie Active', storyId:'reunion_infinie', subtype:'malus' },
+  { id:'p_act6',   label:'Confinement\nSessions Warzone',        icon:'🎮', type:'story',  ch:'💼 Vie Active', storyId:'warzone_covid' },
   { id:'p_act7',   label:'Apéro entre Collègues\nAprès le Boulot', icon:'🃏', type:'card', ch:'💼 Vie Active', deck:'love' },
   { id:'p_act8',   label:'Teams dans 10 min\nInternet Coupé',   icon:'📵', type:'story',  ch:'💼 Vie Active', storyId:'internet_coupe', subtype:'malus' },
   { id:'p_act9',   label:'Reconversion ?\nÀ la Croisée',       icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'money' },
@@ -627,6 +627,12 @@ const STORIES = {
     text:"Route départementale 619.\nHaute-Marne. Ligne droite. Un tracteur.\n\nIl ne peut pas doubler. Tu ne peux pas doubler.\nLes voitures s'accumulent derrière.\n\n2h05 plus tard, il tourne enfin dans un champ.\n\nTu arrives en retard.\nTu dis que c'était les embouteillages.\nPersonne ne te croit — mais c'est vrai.",
     fx:[{t:'m',v:-50,l:'💸 -50€ (carburant brûlé + retard facturé)'},{t:'b',v:-2,l:'💔 -2 bonheur (2h de feux de détresse dans les yeux)'}],
     assetDamage:'car',
+  },
+  warzone_covid: {
+    src:'real', // Confinement Covid — sessions gaming communes sur Warzone
+    title:'🎮 Confinement — Sessions Warzone',
+    text:"Mars 2020. Le monde ferme.\nLes sorties : interdites.\nLes plans du Schloss : annulés.\n\nMais Warzone vient de sortir.\n\nChaque soir, même heure.\nCasques sur les oreilles.\nVoix calme jusqu'au premier engagement.\n\n'Contact — est ! Non, ouest — attend, ils sont deux—'\nCINQ ENNEMIS.\n\nOn finit eliminés. On renchaine.\nOn finit Top 5. On renchaine.\nOn finit champion. On hurle dans le micro.\n\nLe covid dehors.\nLe Schloss ensemble.\nC'était pas si mal, finalement.",
+    fx:[{t:'b',v:5,l:'🎮 +5 bonheur (les meilleures soirées du confinement)'},{t:'m',v:-40,l:'💸 -40€ (snacks, abonnements, skins inutiles)'}],
   },
   reunion_infinie: {
     src:'invented',
