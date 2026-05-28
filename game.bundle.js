@@ -219,7 +219,7 @@ const STOPS = [
   { id:'f2b3',     label:'Retour de Vacances\nLe 52 en Septembre', icon:'🃏', type:'card', ch:'💼 Vie Active', deck:'gaming' },
   { id:'p8',       label:'Appartement\ndu Schloss',             icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'love' },
   { id:'p8b',      label:'La Grange\nSoirée LAN',               icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'gaming' },
-  { id:'p_job1',   label:'Premier Salaire !\nLe Virement Tombe',icon:'💶', type:'story',  ch:'💼 Vie Active', storyId:'premier_salaire', subtype:'bonus' },
+  { id:'p_job1',   label:'Entrepôt Saisonnier\nEmpaqueter les Casses-Noisettes', icon:'📦', type:'story', ch:'💼 Vie Active', storyId:'casse_noisettes', subtype:'bonus' },
   { id:'p_job2',   label:'Open Space\nSaint-Dizier',            icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'surprise' },
   { id:'p_act1',   label:'D619\n2h Derrière un Tracteur',       icon:'🚜', type:'story',  ch:'💼 Vie Active', storyId:'d619_bouchon', subtype:'malus' },
   { id:'p_act2',   label:'Contrôle Technique\nRaté',             icon:'🚗', type:'story',  ch:'💼 Vie Active', storyId:'controle_technique', subtype:'malus' },
@@ -664,6 +664,15 @@ const STORIES = {
     title:'🎓 Diplôme — Mention & Cadeau de Famille',
     text:"Remise des diplômes. Amphi plein.\nQuand on appelle ton nom, ta famille applaudit trop fort.\n\nEnsuite il y a un repas de famille.\nL'oncle de Haute-Marne sort une enveloppe.\n\n'C'est pour le départ dans la vie.'\n\nL'enveloppe est plus lourde que prévu.",
     fx:[{t:'b',v:4,l:'❤️ +4 bonheur (la fierté collective du 52)'},{t:'m',v:1200,l:'💶 +1200€ (enveloppe de l\'oncle + prime de diplôme)'}],
+  },
+  casse_noisettes: {
+    src:'real', // Whitewarrior — job saisonnier : empaqueter des colis de casse-noisettes
+    title:'📦 L\'Entrepôt de Noël',
+    text:"Un entrepôt. Décembre approche.\nDes milliers de casse-noisettes à emballer.\n\nWhitewarrior arrive le premier matin.\nLa chef d'équipe explique : gauche, rabat, scotch, droit, rabat, scotch.\nRépéter.\n\nSix heures. Huit heures. Les mains ne s'arrêtent pas.\nLes palettes s'empilent dans le silence.\n\nÀ la fin de la semaine, la salle est vide.\nLes colis sont partis.\n\nQuelque part en France, sous des sapins,\ndes enfants vont ouvrir ces boîtes.\n\nPas le boulot le plus glamour.\nLe plus honnête, peut-être.",
+    fx:[{t:'b',v:3,l:'📦 +3 bonheur (la fierté du travail honnête)'},{t:'m',v:400,l:'💶 +400€ (salaire saisonnier)'}],
+    extra:{
+      whitewarrior:[{t:'b',v:7,l:'⚔️ Whitewarrior : +7 bonheur, +700€ (son anecdote — il a tenu toute la semaine sans se plaindre)'},{t:'m',v:700,l:'💶 +700€ (salaire complet)'}]
+    }
   },
   premier_salaire: {
     src:'invented',
