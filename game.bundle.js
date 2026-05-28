@@ -225,7 +225,7 @@ const STOPS = [
   { id:'p_act2',   label:'Contrôle Technique\nRaté',             icon:'🚗', type:'story',  ch:'💼 Vie Active', storyId:'controle_technique', subtype:'malus' },
   { id:'p_act3',   label:'Raclette du Schloss\nFin de Semaine', icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'love' },
   { id:'p_act4',   label:'Impôts\ndu Département 52',            icon:'🧾', type:'story',  ch:'💼 Vie Active', storyId:'impots_52', subtype:'malus' },
-  { id:'p_act5',   label:'Prime au Travail !\nBonus Exceptionnel',icon:'💶', type:'story',  ch:'💼 Vie Active', storyId:'promotion_salaire', subtype:'bonus' },
+  { id:'p_act5',   label:'Joinville\nStage Imprimeries de Champagne', icon:'🖨️', type:'story', ch:'💼 Vie Active', storyId:'imprimeries_champagne', subtype:'bonus' },
   { id:'p_act6',   label:'Réunion sans Fin\n9h → 18h',         icon:'😮‍💨', type:'story', ch:'💼 Vie Active', storyId:'reunion_infinie', subtype:'malus' },
   { id:'p_act7',   label:'Apéro entre Collègues\nAprès le Boulot', icon:'🃏', type:'card', ch:'💼 Vie Active', deck:'love' },
   { id:'p_act8',   label:'Teams dans 10 min\nInternet Coupé',   icon:'📵', type:'story',  ch:'💼 Vie Active', storyId:'internet_coupe', subtype:'malus' },
@@ -244,7 +244,7 @@ const STOPS = [
   { id:'f3d2',     label:'Bureau d\'Études\nNoisy-le-52',        icon:'⚡', type:'card',   ch:'💼 Carrière', deck:'money' },
   { id:'p_lang',   label:'Langres\nCité Fortifiée',             icon:'⭐', type:'story',  ch:'💼 Carrière', storyId:'langres' },
   { id:'p_car1',   label:'Conférence\nà Paris',                 icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'surprise' },
-  { id:'p_car2',   label:'Projet Livré\nClient Ravi',           icon:'✅', type:'story',  ch:'💼 Carrière', storyId:'projet_reussi', subtype:'bonus' },
+  { id:'p_car2',   label:'Boutique en Ligne\nLes Casses-Noisettes',icon:'🛒', type:'story',  ch:'💼 Carrière', storyId:'ecommerce_cn', subtype:'bonus' },
   { id:'p_mont',   label:'Montigny-le-Roi\nLe Panorama',        icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'gaming' },
   { id:'p_fayl',   label:'Fayl-Billot\nLe Marché',             icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'love' },
   { id:'p_bourm',  label:'Prime Refusée\npar les RH',           icon:'😤', type:'story',  ch:'💼 Carrière', storyId:'prime_refusee', subtype:'malus' },
@@ -269,7 +269,7 @@ const STOPS = [
 
   // ── VERS LE MARIAGE (rows 18-19) ──
   { id:'p_gex',    label:'Viaduc de Chaumont\nRendez-vous Romantique', icon:'🃏', type:'card', ch:'💍 Vers le Mariage', deck:'love' },
-  { id:'p_fin1',   label:'La Grande Demande !\nSous le Ciel du 52',   icon:'⭐', type:'story', ch:'💍 Vers le Mariage', storyId:'demande' },
+  { id:'p_fin1',   label:'La Demande d\'Incoherence\nÇa Commence ici', icon:'💍', type:'story', ch:'💍 Vers le Mariage', storyId:'demande' },
   { id:'p_fin2',   label:'Tour Hautefeuille\nChaumont',               icon:'🃏', type:'card',  ch:'💍 Vers le Mariage', deck:'love' },
   { id:'p_fin3',   label:'Bague de Langres\nLa Tradition',            icon:'🃏', type:'card',  ch:'💍 Vers le Mariage', deck:'surprise' },
   { id:'p_fin4',   label:'Annonce\nà la Famille',                     icon:'🃏', type:'card',  ch:'💍 Vers le Mariage', deck:'gaming' },
@@ -571,14 +571,14 @@ const STORIES = {
     }
   },
   demande: {
-    src:'invented', // à remplacer : racontez comment ça s'est vraiment passé !
-    title:'💍 La Grande Demande',
-    text:"Quelque part en Haute-Marne. Un coucher de soleil.\nLe viaduc de Chaumont en fond.\n\nToutoon a la bague depuis 3 semaines.\nIl n'a pas dormi depuis 3 semaines.\n\nIncoherence dit oui avant même la fin de la phrase.\n\nTout le Schloss pleure.\nMême Ptitcuicui.",
-    fx:[{t:'b',v:6,l:'💍 +6 bonheur (le plus beau jour)'},{t:'m',v:-2000,l:'💸 -2000€ (la bague + le dîner)'}],
+    src:'real', // Incoherence a fait la demande en mariage à Toutoon
+    title:'💍 La Demande d\'Incoherence',
+    text:"Ce n'était pas prévu — enfin pas par lui.\n\nIncoherence connaît Toutoon depuis la phrase 'Tu peux mourir en silence'.\nDepuis le stage. Depuis les galères de coloc, le 52, les LAN nights.\n\nUn soir, elle décide.\n\nElle ne cherche pas le coucher de soleil parfait.\nElle ne prépare pas un grand discours.\nElle pose simplement la question.\n\nToutoon met une seconde.\nUne seule.\n\nPuis il dit oui.\n\nTout le Schloss peut souffler.",
+    fx:[{t:'b',v:6,l:'💍 +6 bonheur (le plus beau oui du 52)'},{t:'m',v:-500,l:'💸 -500€ (champagne + fête d\'annonce)'}],
     extra:{
-      toutoon:[{t:'b',v:11,l:'😤→💍 Toutoon : +11 bonheur, -2000€ (il méritait ce moment depuis le début)'},{t:'m',v:-2000,l:'💸 -2000€ (la bague + le dîner)'}],
-      invoherence:[{t:'b',v:11,l:'🐰 Incoherence : +11 bonheur, -2000€ (oui, mille fois oui)'},{t:'m',v:-2000,l:'💸 -2000€'}],
-      ptitcuicui:[{t:'b',v:9,l:'🐦 Ptitcuicui : +9 bonheur, -2000€ (il savait depuis le début — et il avait raison)'},{t:'m',v:-2000,l:'💸 -2000€'}]
+      toutoon:[{t:'b',v:11,l:'😤→💍 Toutoon : +11 bonheur (une seconde pour dire oui — une vie pour le mériter)'},{t:'m',v:-500,l:'💸 -500€'}],
+      invoherence:[{t:'b',v:11,l:'🐰 Incoherence : +11 bonheur, -2000€ (elle a posé la question — et il a dit oui)'},{t:'m',v:-2000,l:'💸 -2000€ (la bague)'}],
+      ptitcuicui:[{t:'b',v:9,l:'🐦 Ptitcuicui : +9 bonheur (il savait depuis le stage — et maintenant tout le monde sait)'},{t:'m',v:-500,l:'💸 -500€'}]
     }
   },
   soiree_village: {
@@ -679,6 +679,25 @@ const STORIES = {
     title:'💶 Premier Salaire — Le Virement est Tombé',
     text:"Le 28 du mois. Tôt le matin.\n\nTu rafraîchis l'appli bancaire.\nUne fois. Deux fois.\n\nLe virement est tombé.\n\nTon premier vrai salaire.\nPas un stage. Pas de l'argent de poche.\nTon argent, gagné par toi.\n\nTu appelles ta mère.",
     fx:[{t:'m',v:800,l:'💶 +800€ (prime d\'embauche + premier salaire complet)'},{t:'b',v:3,l:'❤️ +3 bonheur (l\'indépendance, enfin)'}],
+  },
+  imprimeries_champagne: {
+    src:'real', // Toutoon — stage aux Imprimeries de Champagne, Joinville (52)
+    title:'🖨️ Stage aux Imprimeries de Champagne',
+    text:"Joinville. Haute-Marne. 52.\nLes Imprimeries de Champagne — l'une des plus grandes imprimeries de France.\n\nToutoon débarque le premier matin.\nLes machines sont immenses. Le bruit est permanent.\nL'encre, ça sent le vrai boulot.\n\nIl apprend. Il observe. Il tient ses horaires.\nÀ la fin, le maître de stage signe.\n\n'Tu reviens quand tu veux.'\n\nPas toutes les entreprises du 52 disent ça.",
+    fx:[{t:'b',v:3,l:'🖨️ +3 bonheur (le 52 forme ses talents)'},{t:'m',v:500,l:'💶 +500€ (gratification de stage)'}],
+    extra:{
+      toutoon:[{t:'b',v:8,l:'😤 Toutoon : +8 bonheur, +500€ (son stage — il s\'est dépassé)'},{t:'m',v:500,l:'💶 +500€'}]
+    }
+  },
+  ecommerce_cn: {
+    src:'real', // Toutoon — conception d'un site e-commerce de vente de casse-noisettes
+    title:'🛒 La Boutique Casse-Noisettes',
+    text:"Idée de la semaine : vendre des casse-noisettes en ligne.\n\nLa boutique s'appelle quelque chose de raisonnable.\nLe catalogue : 34 références.\nLes photos produits : prises dans la cuisine du Schloss.\n\nToutoon code le front. Whitewarrior teste les commandes.\nPtitcuicui propose des améliorations non demandées.\n\nLe site se lance.\n3 commandes la première semaine.\nToutes de la famille.\n\nC'est un début.",
+    fx:[{t:'b',v:3,l:'🛒 +3 bonheur (entrepreneur dans l\'âme)'},{t:'m',v:300,l:'💶 +300€ (premières ventes)'}],
+    extra:{
+      toutoon:[{t:'b',v:6,l:'😤 Toutoon : +6 bonheur, +500€ (le code tourne — les casse-noisettes aussi)'},{t:'m',v:500,l:'💶 +500€'}],
+      whitewarrior:[{t:'b',v:6,l:'⚔️ Whitewarrior : +6 bonheur, +400€ (il a mis les colis en ligne — logique)'},{t:'m',v:400,l:'💶 +400€'}]
+    }
   },
   promotion_salaire: {
     src:'invented',
