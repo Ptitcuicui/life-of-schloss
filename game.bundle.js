@@ -2053,7 +2053,7 @@ function showBet(bet){
   document.getElementById('bet-continue').classList.add('hidden');
   document.getElementById('bet-reveal').classList.add('hidden');
   showModal('bet-modal');
-  showBetStepLocal(0);
+  if (NET.isOnline()) { NET.openBet(bet); } else { showBetStepLocal(0); }
   updateUI();
 }
 
@@ -2103,9 +2103,9 @@ function showBetStepLocal(idx){
   };
 }
 
-function revealBet(){
+function revealBet(forcedOutcome){
   const bet = activeBet;
-  const outcome = Math.random() < .5 ? 'A' : 'B';
+  const outcome = forcedOutcome !== undefined ? forcedOutcome : (Math.random() < .5 ? 'A' : 'B');
   const msgs = [];
   msgs.push('<div class="bet-outcome-text">'+bet.outcomeText+'</div>');
   msgs.push('<div style="font-size:11px;color:#888;margin:4px 0">Réponse : <b style="color:#ffd700">'+(outcome==='A'?bet.optA:bet.optB)+'</b></div>');
@@ -2607,6 +2607,11 @@ const NET = (() => {
     socket.on('open_bet', betData => showBetOnline(betData));
 
     socket.on('bet_choices_updated', ({ choices }) => {
+      // Store pid→choice so revealBet() can read results on all clients
+      choices.forEach(({ sid, ch }) => {
+        const entry = (onlineRoomInfo.players || []).find(x => x.sid === sid);
+        if (entry) betChoicesLocal[entry.pid] = ch;
+      });
       updateBetChoicesDisplay(choices);
       const activePids = G ? G.players.filter(p => !p.finished).map(p => p.id) : [];
       const allVoted = activePids.every(pid => {
@@ -2614,6 +2619,14 @@ const NET = (() => {
         return entry && choices.find(c => c.sid === entry.sid);
       });
       if (allVoted && isMyTurn()) document.getElementById('bet-reveal').classList.remove('hidden');
+    });
+
+    socket.on('bet_revealed', ({ outcome }) => {
+      revealBet(outcome);
+      // Non-host: close modal without calling endTurn (ce n'est pas notre tour)
+      document.getElementById('bet-continue').onclick = () => {
+        hideModal('bet-modal'); updateUI(); fullRender();
+      };
     });
 
     // ── Duel events ──
@@ -2818,6 +2831,11 @@ const NET = (() => {
   }
 
   // ── bet in online mode ──
+  function openBet(bet) {
+    socket.emit('open_bet', bet);
+    showBetOnline(bet);
+  }
+
   function showBetOnline(bet) {
     G.phase = PH.EVENT;
     activeBet = bet;
@@ -2864,7 +2882,13 @@ const NET = (() => {
     // Only current player can reveal (enabled once all voted)
     const revBtn = document.getElementById('bet-reveal');
     revBtn.classList.toggle('hidden', !isMyTurn());
-    revBtn.onclick = () => { revealBet(); syncState(); socket.emit('clear_bet'); };
+    revBtn.onclick = () => {
+      const outcome = Math.random() < .5 ? 'A' : 'B';
+      socket.emit('bet_revealed', { outcome });
+      revealBet(outcome);
+      syncState();
+      socket.emit('clear_bet');
+    };
     showModal('bet-modal');
     updateUI();
   }
@@ -3045,5 +3069,5 @@ const NET = (() => {
     _startGame(ids);
   };
 
-  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep, rejoinRoom, clearSession, sendReaction };
+  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, openBet, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep, rejoinRoom, clearSession, sendReaction };
 })();
