@@ -758,18 +758,21 @@ const STORIES = {
     title:'⚔️ Le Mediégame — Langres',
     text:"Langres. Rue médiévale.\nLa façade promet : armes, armures, et menu du soir.\n\nLe Mediégame.\nLes assiettes arrivent dans des gamelles de forgeron.\nLa musique joue des ballades de RPG.\nLe serveur vous appelle messeigneurs.\n\nPtitcuicui vérifie si le menu est dans le wiki de Dark Souls.\nCe n\'est pas le cas — mais l\'ambiance y est.\n\nVous repartez repus, légèrement anachroniques, et heureux.\nLangres n\'a jamais semblé aussi juste.",
     fx:[{t:'b',v:4,l:'⚔️ +4 bonheur (dîner de légende)'},{t:'m',v:-80,l:'💸 -80€ (repas médiéval pour tous)'}],
+    extra:{ invoherence:[{t:'b',v:7,l:'🐰 Incoherence : +7 bonheur (dans son élément — ambiance fantasy, menu mémorable)'}] },
   },
   soiree_quentin: {
     src:'real', // Soirée chez Quentin — dormir avec Franck qui ronfle ou à 2 dans un lit par terre
     title:'😴 Soirée chez Quentin — Le Problème du Lit',
     text:"Soirée chez Quentin. Heure tardive. Plus de place.\n\nDeux options se présentent :\n\nOption A — Lit simple avec Franck.\nAvantage : matelas.\nInconvénient : Franck ronfle. Fort. Régulièrement. Sans s\'en rendre compte.\n\nOption B — Lit simple posé par terre, à deux.\nAvantage : silence garanti.\nInconvénient : le sol, quand même.\n\nLes deux partis dormaient mal.\nFranck a ronflé. Le sol a écorché.\n\nLe matin, tout le monde est debout en même temps.\nLe café de Quentin était excellent.\nC\'est ce qui compte.",
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'anecdote du lit fait encore rire)'},{t:'m',v:-30,l:'💸 -30€ (petit-déjeuner chez Quentin)'}],
+    extra:{ invoherence:[{t:'b',v:6,l:'🐰 Incoherence : +6 bonheur (elle dormait comme un bébé pendant que tout le monde souffrait)'}] },
   },
   clement_marie_ange: {
     src:'real', // Clément et Marie-Ange annoncent leur mariage devant la gare en attendant la pizzeria
     title:'💍 L\'Annonce de Clément & Marie-Ange',
     text:"Chaumont. Devant la gare.\nVous attendez une place à la pizzeria.\nLa conversation dérive — comme toujours avec le Schloss.\n\nClément sort son téléphone.\nMarie-Ange sourit.\n\n« On va se marier. »\n\nPersonne ne sait quoi dire pendant exactement 3 secondes.\nPuis tout le monde parle en même temps.\n\nLa pizzeria peut bien prendre son temps.\nCe soir, on a autre chose à célébrer.",
     fx:[{t:'b',v:5,l:'💍 +5 bonheur (une annonce qu\'on n\'oublie pas)'},{t:'m',v:-200,l:'💸 -200€ (champagne improvisé devant la pizzeria)'}],
+    extra:{ invoherence:[{t:'b',v:8,l:'🐰 Incoherence : +8 bonheur (les fiançailles, ça la connaît — elle a posé la question à Toutoon)'}] },
   },
 };
 

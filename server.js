@@ -71,7 +71,10 @@ io.on('connection', socket => {
 
   socket.on('sync_state', ({ state }) => {
     const room = rooms.get(myRoom);
-    if (!room || room.host !== socket.id) return;
+    if (!room) return;
+    const myPid  = room.sockets.get(socket.id);
+    const curPid = room.state?.players?.[room.state?.idx]?.id;
+    if (room.host !== socket.id && myPid !== curPid) return;
     room.state = state;
     socket.to(myRoom).emit('state_updated', { state });
   });
