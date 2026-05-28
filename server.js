@@ -98,6 +98,7 @@ io.on('connection', socket => {
   socket.on('bet_revealed',  data => socket.to(myRoom).emit('bet_revealed', data));
   socket.on('open_event',    data => socket.to(myRoom).emit('open_event', data));
   socket.on('close_event',   ()   => socket.to(myRoom).emit('close_event'));
+  socket.on('player_quit',   data => io.to(myRoom).emit('player_quit', data)); // broadcast sender inclus
 
   // ── REACTIONS ──
   socket.on('reaction', data => {

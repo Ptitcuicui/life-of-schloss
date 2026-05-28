@@ -80,6 +80,22 @@
   <div id="screen-game" class="screen">
     <div class="canvas-wrap">
       <canvas id="game-canvas"></canvas>
+
+      <!-- Menu quitter -->
+      <button id="btn-game-menu" class="game-menu-btn" onclick="toggleGameMenu()">☰</button>
+      <div id="game-menu-panel" class="game-menu-panel hidden">
+        <div id="game-menu-main">
+          <button class="game-menu-item danger" onclick="showQuitConfirm()">🚪 Quitter la partie</button>
+        </div>
+        <div id="game-menu-confirm" class="hidden">
+          <div class="game-menu-confirm-text">Quitter la partie ?<br><small>Tu seras éliminé·e.</small></div>
+          <div style="display:flex;gap:6px;padding:0 6px 8px">
+            <button class="game-menu-item danger" onclick="doQuit()" style="text-align:center;flex:1">✓ Oui</button>
+            <button class="game-menu-item" onclick="closeGameMenu()" style="text-align:center;flex:1">✗ Non</button>
+          </div>
+        </div>
+      </div>
+
       <div class="zoom-controls">
         <button class="zoom-btn" title="Zoom +" onclick="camZoomBy(1.25)">+</button>
         <button class="zoom-btn" title="Recentrer (Espace)" onclick="centerOnPlayer()">⌖</button>

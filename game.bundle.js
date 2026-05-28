@@ -1960,6 +1960,63 @@ function endTurn(){
   fullRender();
 }
 
+// ── QUITTER LA PARTIE ──────────────────────────────────────────────────────────
+function quitPlayer(pid){
+  const p = G.players.find(x=>x.id===pid);
+  if(!p || p.finished) return;
+  p.finished = true;
+  p.eliminated = true;
+  log(`🚪 ${p.emoji} ${p.name} a quitté la partie.`);
+
+  ['event-modal','bet-modal','fork-modal','duel-modal'].forEach(id=>hideModal(id));
+
+  const remaining = G.players.filter(x=>!x.finished);
+  if(remaining.length <= 1){
+    showEnd(); return;
+  }
+
+  // Si c'était son tour, passer au suivant
+  if(cp().id===pid){
+    do{ G.idx=(G.idx+1)%G.players.length; }
+    while(G.players[G.idx].finished && G.players.some(x=>!x.finished));
+    G.phase=PH.ROLL;
+    SFX.turn(); showTurnToast(cp());
+  }
+  updateUI(); fullRender();
+}
+
+function toggleGameMenu(){
+  const panel=document.getElementById('game-menu-panel');
+  const opening=panel.classList.contains('hidden');
+  if(opening){
+    document.getElementById('game-menu-main').classList.remove('hidden');
+    document.getElementById('game-menu-confirm').classList.add('hidden');
+  }
+  panel.classList.toggle('hidden');
+}
+function closeGameMenu(){
+  document.getElementById('game-menu-panel').classList.add('hidden');
+}
+function showQuitConfirm(){
+  document.getElementById('game-menu-main').classList.add('hidden');
+  document.getElementById('game-menu-confirm').classList.remove('hidden');
+}
+function doQuit(){
+  closeGameMenu();
+  if(NET.isOnline()){
+    NET.leaveGame();
+  } else {
+    const pid=cp().id;
+    quitPlayer(pid);
+  }
+}
+
+// Fermer le menu si clic en dehors
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#btn-game-menu')&&!e.target.closest('#game-menu-panel'))
+    document.getElementById('game-menu-panel')?.classList.add('hidden');
+});
+
 function calcScore(p){
   return p.bonheur + Math.floor(p.money/500) + Math.floor(totalAssets(p)/500) + p.wins;
 }
@@ -2608,6 +2665,12 @@ const NET = (() => {
 
     socket.on('state_updated', ({ state }) => applyRemoteState(state));
 
+    socket.on('player_quit', ({ playerId }) => {
+      if(!G) return;
+      quitPlayer(playerId);
+      if(isHost) syncState(); // l'hôte diffuse l'état mis à jour
+    });
+
     socket.on('open_bet', betData => showBetOnline(betData));
 
     socket.on('bet_choices_updated', ({ choices }) => {
@@ -2851,6 +2914,7 @@ const NET = (() => {
 
   function emitOpenEvent(data)  { if(socket) socket.emit('open_event', data); }
   function emitCloseEvent()     { if(socket) socket.emit('close_event'); }
+  function leaveGame()          { if(socket) socket.emit('player_quit', { playerId: myPlayerId }); }
 
   // ── bet in online mode ──
   function openBet(bet) {
@@ -3091,5 +3155,5 @@ const NET = (() => {
     _startGame(ids);
   };
 
-  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, openBet, emitOpenEvent, emitCloseEvent, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep, rejoinRoom, clearSession, sendReaction };
+  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, openBet, emitOpenEvent, emitCloseEvent, leaveGame, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep, rejoinRoom, clearSession, sendReaction };
 })();
