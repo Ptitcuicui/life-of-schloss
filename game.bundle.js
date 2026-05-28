@@ -180,7 +180,7 @@ const STOPS = [
   { id:'f1b',      label:'BTS Électro\nSaint-Dizier',           icon:'🔧', type:'card',   ch:'🎒 Lycée', deck:'money' },
   { id:'f1b2',     label:'Atelier Technique\nSaint-Dizier',     icon:'🔧', type:'card',   ch:'🎒 Lycée', deck:'gaming' },
   { id:'p_lycee',  label:'Lycée Ch. de Gaulle\nSection Scientifique', icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'lycee_manaa' },
-  { id:'p_bac1',   label:'Révisions BAC\nCrise de Panique',     icon:'😱', type:'story',  ch:'🎒 Lycée', storyId:'bac_panique', subtype:'malus' },
+  { id:'p_bac1',   label:'Cours d\'Allemand\nMme Jeanmaire',       icon:'😤', type:'story',  ch:'🎒 Lycée', storyId:'jeanmaire', subtype:'malus' },
   { id:'p_lyc2',   label:'Cantine du Lycée\nLe Plateau Mythique', icon:'🃏', type:'card', ch:'🎒 Lycée', deck:'gaming' },
   { id:'p_lyc3',   label:'EPS Volley\nLe Binôme Officiel',       icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'volley_eps' },
   { id:'p_lyc4',   label:'Le Gars\nde la 2GT7',                  icon:'⭐', type:'story',  ch:'🎒 Lycée', storyId:'ptitcuicui_2gt7' },
@@ -201,7 +201,7 @@ const STOPS = [
   { id:'fe_b3',    label:'Colocation\nà Troyes',                icon:'🃏', type:'card',   ch:'🎓 Études', deck:'love' },
   { id:'fe_b4',    label:'Soirée Étudiante\nFin de Semestre',   icon:'🃏', type:'card',   ch:'🎓 Études', deck:'gaming' },
   { id:'p_arc',    label:'Arc-en-Barrois\nLe Week-end',         icon:'🃏', type:'card',   ch:'🎓 Études', deck:'surprise' },
-  { id:'p_etu1',   label:'Bibliothèque\nUniversitaire',         icon:'🃏', type:'card',   ch:'🎓 Études', deck:'money' },
+  { id:'p_etu1',   label:'Concours Robotique\nSupinfo — 3 ans',   icon:'🤖', type:'story',  ch:'🎓 Études', storyId:'concours_robot', subtype:'bonus' },
   { id:'p_etu2',   label:'Châteauvillain\nRetour en 52',        icon:'🃏', type:'card',   ch:'🎓 Études', deck:'love' },
   { id:'p_etu3',   label:'Cambriolage !\nVeille des Vacances',  icon:'🚨', type:'story',  ch:'🎓 Études', storyId:'cambriolage_supinfo', subtype:'malus' },
   { id:'p_etu4',   label:'Commissariat\nL\'Escalier de Toutoon', icon:'🚔', type:'story',  ch:'🎓 Études', storyId:'commissariat_escalier' },
@@ -222,7 +222,7 @@ const STOPS = [
   { id:'p_job1',   label:'Entrepôt Saisonnier\nEmpaqueter les Casses-Noisettes', icon:'📦', type:'story', ch:'💼 Vie Active', storyId:'casse_noisettes', subtype:'bonus' },
   { id:'p_job2',   label:'Open Space\nSaint-Dizier',            icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'surprise' },
   { id:'p_act1',   label:'D619\n2h Derrière un Tracteur',       icon:'🚜', type:'story',  ch:'💼 Vie Active', storyId:'d619_bouchon', subtype:'malus' },
-  { id:'p_act2',   label:'Contrôle Technique\nRaté',             icon:'🚗', type:'story',  ch:'💼 Vie Active', storyId:'controle_technique', subtype:'malus' },
+  { id:'p_act2',   label:'Le Frein de Franck\nFeu Grillé',         icon:'🚨', type:'story',  ch:'💼 Vie Active', storyId:'frein_casse', subtype:'malus' },
   { id:'p_act3',   label:'Raclette du Schloss\nFin de Semaine', icon:'🃏', type:'card',   ch:'💼 Vie Active', deck:'love' },
   { id:'p_act4',   label:'Impôts\ndu Département 52',            icon:'🧾', type:'story',  ch:'💼 Vie Active', storyId:'impots_52', subtype:'malus' },
   { id:'p_act5',   label:'Joinville\nStage Imprimeries de Champagne', icon:'🖨️', type:'story', ch:'💼 Vie Active', storyId:'imprimeries_champagne', subtype:'bonus' },
@@ -242,7 +242,7 @@ const STOPS = [
   { id:'f3c2',     label:'Infrastructure\nChaumont',             icon:'🖥️', type:'card',   ch:'💼 Carrière', deck:'money' },
   { id:'f3d',      label:'Ingénieur Électronique\nSaint-Dizier',icon:'⚡', type:'card',   ch:'💼 Carrière', deck:'career' },
   { id:'f3d2',     label:'Bureau d\'Études\nNoisy-le-52',        icon:'⚡', type:'card',   ch:'💼 Carrière', deck:'money' },
-  { id:'p_lang',   label:'Langres\nCité Fortifiée',             icon:'⭐', type:'story',  ch:'💼 Carrière', storyId:'langres' },
+  { id:'p_lang',   label:'Langres\nLe Mediégame',                icon:'⚔️', type:'story',  ch:'💼 Carrière', storyId:'mediegame' },
   { id:'p_car1',   label:'Conférence\nà Paris',                 icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'surprise' },
   { id:'p_car2',   label:'Boutique en Ligne\nLes Casses-Noisettes',icon:'🛒', type:'story',  ch:'💼 Carrière', storyId:'ecommerce_cn', subtype:'bonus' },
   { id:'p_mont',   label:'Montigny-le-Roi\nLe Panorama',        icon:'🃏', type:'card',   ch:'💼 Carrière', deck:'gaming' },
@@ -253,12 +253,12 @@ const STOPS = [
   { id:'p_adu1',   label:'Marché de Noël\nde Chaumont',         icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
   { id:'p_adu2',   label:"Festival Européen\nde l'Affiche",     icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'surprise' },
   { id:'p_adu3',   label:'Remparts\nde Langres',                icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'gaming' },
-  { id:'p_adu4',   label:'Héritage Surprise\nGrand-Oncle du 52', icon:'🏡', type:'story',  ch:'🏡 Vie Adulte', storyId:'heritage_52', subtype:'bonus' },
+  { id:'p_adu4',   label:'Soirée chez Quentin\nLe Problème du Lit', icon:'😴', type:'story', ch:'🏡 Vie Adulte', storyId:'soiree_quentin' },
   { id:'p_adu5',   label:'Purée de Pommes\nLe Lait Déborde',    icon:'🥛', type:'story',  ch:'🏡 Vie Adulte', storyId:'lait_deborde', subtype:'malus' },
   { id:'p_adu6',   label:'Chat chez\nle Véto — Urgence',         icon:'🐱', type:'story',  ch:'🏡 Vie Adulte', storyId:'veto_chat', subtype:'malus' },
   { id:'p_adu7',   label:'Lac du Der\nWeek-end Adulte',         icon:'🃏', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
   { id:'p_adu8',   label:'Prime Innovation\nTon Idée a Marché', icon:'💡', type:'story',  ch:'🏡 Vie Adulte', storyId:'prime_innovation', subtype:'bonus' },
-  { id:'p_viad',   label:'Viaduc de Chaumont\nCoucher de Soleil', icon:'⭐', type:'story', ch:'🏡 Vie Adulte', storyId:'viaduc' },
+  { id:'p_viad',   label:'Devant la Gare\nClément & Marie-Ange',  icon:'⭐', type:'story', ch:'🏡 Vie Adulte', storyId:'clement_marie_ange' },
   { id:'fork4',    label:'Un Nouveau\nChapitre',                icon:'🔀', type:'fork',   ch:'🏡 Vie Adulte',
     choices:[{label:'🚗 Road Trip Haute-Marne',next:'f4a'},{label:'🏡 Acheter une Maison',next:'f4b'}] },
   { id:'f4a',      label:'Road Trip\nHaute-Marne',              icon:'🚗', type:'card',   ch:'🏡 Vie Adulte', deck:'love' },
@@ -729,6 +729,48 @@ const STORIES = {
     text:"Soirée tranquille. Tu fais de la purée.\nTu mets le lait à chauffer.\n\nTu regardes ton téléphone 'juste une seconde'.\n\nL'odeur arrive avant le son.\nLe lait est partout. Sur les plaques. Sous les plaques.\nDans le tiroir du dessous.\n\nLa purée est sauvée.\nLa plaque, un peu moins.\n\nLeçon : en Haute-Marne, on ne quitte jamais le lait des yeux.",
     fx:[{t:'m',v:-80,l:'💸 -80€ (nettoyage + joint de plaque remplacé)'},{t:'b',v:-1,l:'💔 -1 bonheur (mais la purée était bonne)'}],
   },
+
+  // ── ANECDOTES RÉELLES (apportées par Whitewarrior) ──
+  jeanmaire: {
+    src:'real', // Cours d'allemand au lycée — Mme Jeanmaire, alias la molère, prof incompétente
+    title:'😤 Cours d\'Allemand — Mme Jeanmaire',
+    text:"Lycée Charles de Gaulle. Cours d\'allemand.\nMme Jeanmaire — alias la molère. La grosse du fond.\n\nMéthode pédagogique : crier, ignorer les questions, confondre les conjugaisons.\nNiveau de la classe en septembre : nul.\nNiveau de la classe en juin : identique.\n\nTu ressors de l\'année avec deux certitudes :\n— Tu ne parleras jamais allemand.\n— Ce n\'est pas entièrement ta faute.\n\nDiplôme quand même. Malgré elle.",
+    fx:[{t:'b',v:-3,l:'💔 -3 bonheur (une année de cours perdus)'},{t:'m',v:-80,l:'💸 -80€ (cours particuliers pour rattraper)'}],
+  },
+  concours_robot: {
+    src:'real', // Labo robotique Supinfo — 3 concours consécutifs : Paris, Lyon, Troyes
+    title:'🤖 Concours Robotique Supinfo — 3 Ans',
+    text:"Supinfo Troyes. Labo robotique.\nTrois ans. Trois concours. Trois villes.\n\nAn 1 — Paris. Le robot tient debout. C\'est déjà ça.\nAn 2 — Lyon. Il fait quelque chose d\'inattendu. Les juges notent.\nAn 3 — Troyes. La maison. Trois ans de travail condensés.\nLe code tient. Le robot tourne.\nC\'est la meilleure des trois participations.\n\nUne équipe. Trois villes. Un seul Schloss.",
+    fx:[{t:'b',v:5,l:'🤖 +5 bonheur (la fierté du labo)'},{t:'m',v:500,l:'💶 +500€ (prix + prime académique)'}],
+    extra:{
+      toutoon:[{t:'b',v:8,l:'😤 Toutoon : +8 bonheur, +500€ (il a codé la logique — 3 ans de suite)'},{t:'m',v:500,l:'💶 +500€'}],
+      ptitcuicui:[{t:'b',v:8,l:'🐦 Ptitcuicui : +8 bonheur, +500€ (il a géré l\'architecture — et les câbles)'},{t:'m',v:500,l:'💶 +500€'}]
+    }
+  },
+  frein_casse: {
+    src:'real', // Franck — frein cassé, grille un feu rouge
+    title:'🚨 Le Frein de Franck',
+    text:"La voiture de Franck.\nLe frein à main. Ou plutôt — son absence.\n\nFeu rouge. Franck freine normalement.\nFeu vert. Il redémarre.\n\nSomeone regarde dans le rétro.\n\n« Euh... t\'as grillé le rouge. »\n« Le frein est cassé. »\n« ...C\'est pas une explication. »\n\nIls arrivent quand même.\nAvant la police.",
+    fx:[{t:'b',v:-2,l:'💔 -2 bonheur (le stress du feu grillé)'},{t:'m',v:-200,l:'💸 -200€ (réparation frein + amende potentielle)'}],
+  },
+  mediegame: {
+    src:'real', // Repas au Mediégame — restaurant médiéval-geek à Langres
+    title:'⚔️ Le Mediégame — Langres',
+    text:"Langres. Rue médiévale.\nLa façade promet : armes, armures, et menu du soir.\n\nLe Mediégame.\nLes assiettes arrivent dans des gamelles de forgeron.\nLa musique joue des ballades de RPG.\nLe serveur vous appelle messeigneurs.\n\nPtitcuicui vérifie si le menu est dans le wiki de Dark Souls.\nCe n\'est pas le cas — mais l\'ambiance y est.\n\nVous repartez repus, légèrement anachroniques, et heureux.\nLangres n\'a jamais semblé aussi juste.",
+    fx:[{t:'b',v:4,l:'⚔️ +4 bonheur (dîner de légende)'},{t:'m',v:-80,l:'💸 -80€ (repas médiéval pour tous)'}],
+  },
+  soiree_quentin: {
+    src:'real', // Soirée chez Quentin — dormir avec Franck qui ronfle ou à 2 dans un lit par terre
+    title:'😴 Soirée chez Quentin — Le Problème du Lit',
+    text:"Soirée chez Quentin. Heure tardive. Plus de place.\n\nDeux options se présentent :\n\nOption A — Lit simple avec Franck.\nAvantage : matelas.\nInconvénient : Franck ronfle. Fort. Régulièrement. Sans s\'en rendre compte.\n\nOption B — Lit simple posé par terre, à deux.\nAvantage : silence garanti.\nInconvénient : le sol, quand même.\n\nLes deux partis dormaient mal.\nFranck a ronflé. Le sol a écorché.\n\nLe matin, tout le monde est debout en même temps.\nLe café de Quentin était excellent.\nC\'est ce qui compte.",
+    fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'anecdote du lit fait encore rire)'},{t:'m',v:-30,l:'💸 -30€ (petit-déjeuner chez Quentin)'}],
+  },
+  clement_marie_ange: {
+    src:'real', // Clément et Marie-Ange annoncent leur mariage devant la gare en attendant la pizzeria
+    title:'💍 L\'Annonce de Clément & Marie-Ange',
+    text:"Chaumont. Devant la gare.\nVous attendez une place à la pizzeria.\nLa conversation dérive — comme toujours avec le Schloss.\n\nClément sort son téléphone.\nMarie-Ange sourit.\n\n« On va se marier. »\n\nPersonne ne sait quoi dire pendant exactement 3 secondes.\nPuis tout le monde parle en même temps.\n\nLa pizzeria peut bien prendre son temps.\nCe soir, on a autre chose à célébrer.",
+    fx:[{t:'b',v:5,l:'💍 +5 bonheur (une annonce qu\'on n\'oublie pas)'},{t:'m',v:-200,l:'💸 -200€ (champagne improvisé devant la pizzeria)'}],
+  },
 };
 
 // ── DESTINY CARDS ──────────────────────────────────────────────────────────────
@@ -801,9 +843,9 @@ const CARDS = {
     {src:'real',         ti:'🚀 Ptitcuicui & Toutoon',  tx:"Tournoi Rocket League.\nTout le monde se fait écraser.\n\nEn finale : Ptitcuicui & Toutoon contre Whitewarrior & Sponge.\nLe seul match difficile de la soirée.\n\nPtitcuicui place le tir décisif.\nToutoon ne dira jamais qu\'il avait peur.", fx:[{t:'b',v:3,l:'🏆 +3 bonheur (duo imbattable)'}]},
     {src:'invented',     ti:'🤝 GG de Whitewarrior',    tx:"Tu étais en train de perdre.\nWhitewarrior aurait pu enfoncer le clou.\nIl a préféré tendre la main.\n\n« GG » — deux lettres qui valent tout.", fx:[{t:'b',v:3,l:'⚔️ +3 bonheur (loyauté > victoire)'}]},
     {src:'invented',     ti:'🎮 Jeu Oublié dans un Carton', tx:"Tu retrouves un vieux jeu de plateau oublié.\nVous jouez jusqu'à minuit.\nPersonne ne se souvient des règles.\nTout le monde s'en fout.", fx:[{t:'b',v:3,l:'🎲 +3 bonheur (les classiques restent classiques)'}]},
-    {src:'invented',     ti:'🎯 Darts Championship 52',     tx:"Fléchettes improvisées au fond du bar.\nPtitcuicui calcule les angles.\nToutoon tire à l\'instinct.\n\nToutoon gagne.\nPtitcuicui recalcule.", fx:[{t:'b',v:3,l:'🎯 +3 bonheur'}]},
+    {src:'real',         ti:'🥌 Concours de Pétanque',      tx:"Villiers-le-Sec. Concours de pétanque.\nTout le Schloss est là.\n\nWhitewarrior et Sponge forment le doublette.\nPtitcuicui et Toutoon jouent aussi.\n\nLes cochonnets volent. Les boules roulent.\nLes stratégies s\'affrontent.\n\nFinale. Whitewarrior pointe.\nSponge tire au millimètre.\n\nVictoire pour le duo.\n\nPtitcuicui réanalyse les lancers.\nToutoon entre en rage silencieuse.\nSponge est ravi. Whitewarrior aussi.", fx:[{t:'b',v:4,l:'🥌 +4 bonheur (le Schloss en terrain neutre)'},{t:'m',v:200,l:'💶 +200€ (prix du concours)'}], spe:'petanque'},
     {src:'invented',     ti:'👾 Speedrun 52',               tx:"Quelqu\'un propose un speedrun.\nLes règles sont inventées sur le moment.\nLe record est battu, contesté, rebattu.\nLa nuit est longue.", fx:[{t:'b',v:4,l:'⚡ +4 bonheur'},{t:'m',v:-100,l:'💸 -100€ (mise au vainqueur contesté)'}]},
-    {src:'invented',     ti:'🎸 Soirée Karaoké',            tx:"Nuit karaoké Schloss.\nWhitewarrior refuse de chanter.\nPuis chante le mieux.\nTout le monde est surpris.", fx:[{t:'b',v:4,l:'🎤 +4 bonheur'}]},
+    {src:'real',         ti:'🕺 Soirée Just Dance',          tx:"Quelqu\'un branche Just Dance.\nTout le monde refuse de se lever — pendant cinq minutes.\n\nDeux heures plus tard, Toutoon danse sur un titre qu\'il ne connaît pas.\nPtitcuicui a 4 étoiles en mode expert.\nWhitewarrior joue en mode bras minimum.\nIncoherence écrase tout le monde.\n\nLe salon du Schloss ne sera plus jamais pareil.", fx:[{t:'b',v:4,l:'🕺 +4 bonheur (la soirée qui fait mal aux mollets)'}]},
     {src:'invented',     ti:'🕹️ Retrogaming Session',       tx:"Vieille console retrouvée chez les parents.\nVous jouez 4 heures à des jeux de 2002.\nLes graphismes ont vieilli.\nLes souvenirs, non.", fx:[{t:'b',v:3,l:'👾 +3 bonheur (la nostalgie, c\'est le meilleur DLC)'}]},
     {src:'invented',     ti:'🃏 Bluff Raté',                tx:"Tu bluffes tout le monde.\nSauf Ptitcuicui.\nIl sourit. Il attendait ça depuis le début.", fx:[{t:'b',v:2,l:'🔵 +2 bonheur (même perdre contre lui, c\'est instructif)'},{t:'m',v:-500,l:'💸 -500€ (la mise)'}]},
     {src:'invented',     ti:'🃏 Belote au Café du Village', tx:"Tournoi de belote au seul bar ouvert.\nLes anciens jouent depuis 1987.\nVous êtes invités par courtoisie.\nVous perdez en souriant.\n\nIls vous offrent une tournée. Vous restez jusqu\'à minuit.", fx:[{t:'b',v:4,l:'🃏 +4 bonheur (la vraie culture de comptoir du 52)'}]},
