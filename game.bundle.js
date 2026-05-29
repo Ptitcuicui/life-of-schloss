@@ -2337,7 +2337,7 @@ function showBetStepLocal(idx){
       </div>`
     ).join('');
     document.getElementById('bet-reveal').classList.remove('hidden');
-    document.getElementById('bet-reveal').onclick = revealBet;
+    document.getElementById('bet-reveal').onclick = () => revealBet();
     return;
   }
 
@@ -2372,9 +2372,7 @@ function showBetStepLocal(idx){
 
 function revealBet(forcedOutcome){
   const bet = activeBet;
-  const outcome = forcedOutcome !== undefined ? forcedOutcome
-    : (bet.outcome && bet.outcome !== 'random') ? bet.outcome
-    : (Math.random() < .5 ? 'A' : 'B');
+  const outcome = forcedOutcome !== undefined ? forcedOutcome : (Math.random() < .5 ? 'A' : 'B');
   const msgs = [];
   msgs.push('<div class="bet-outcome-text">'+bet.outcomeText+'</div>');
   msgs.push('<div style="font-size:11px;color:#888;margin:4px 0">Réponse : <b style="color:#ffd700">'+(outcome==='A'?bet.optA:bet.optB)+'</b></div>');
@@ -3193,7 +3191,7 @@ const NET = (() => {
     const revBtn = document.getElementById('bet-reveal');
     revBtn.classList.toggle('hidden', !isMyTurn());
     revBtn.onclick = () => {
-      const outcome = (activeBet?.outcome && activeBet.outcome !== 'random') ? activeBet.outcome : (Math.random() < .5 ? 'A' : 'B');
+      const outcome = Math.random() < .5 ? 'A' : 'B';
       socket.emit('bet_revealed', { outcome });
       revealBet(outcome);
       syncState();
