@@ -2633,9 +2633,9 @@ function shuffleBoard() {
       if (!bad) break;
     }
 
-    // Write back, preserve original IDs
+    // Write back — preserve original ID and original next (path connectivity must not change)
     section.forEach((id, idx) => {
-      const def = {...defs[idx], id};
+      const def = {...defs[idx], id, next: STOP_MAP_ORIGINAL.get(id).next};
       STOP_MAP.set(id, def);
       boardMap[id] = def;
     });
