@@ -274,7 +274,7 @@ const STOPS = [
   { id:'p_fin3',   label:'Bague de Langres\nLa Tradition',            icon:'🃏', type:'card',  ch:'💍 Vers le Mariage', deck:'surprise' },
   { id:'p_fin4',   label:'Annonce\nà la Famille',                     icon:'🃏', type:'card',  ch:'💍 Vers le Mariage', deck:'gaming' },
   { id:'p_fin5',   label:'Liste de Mariage\nChez Sponge',             icon:'🃏', type:'card',  ch:'💍 Vers le Mariage', deck:'money' },
-  { id:'p_fin6',   label:'Soirée des Amis\nde la Bande',              icon:'🃏', type:'card',  ch:'💍 Vers le Mariage', deck:'love' },
+  { id:'p_fin6',   label:'Whitewarrior\nL\'Espion du Mariage',         icon:'🕵️', type:'story', ch:'💍 Vers le Mariage', storyId:'whitewarrior_espion', subtype:'bonus' },
   { id:'p_fin7',   label:"Mairie de Chaumont\nL'Officiel",            icon:'🃏', type:'card',  ch:'💍 Vers le Mariage', deck:'surprise' },
   { id:'p_fin8',   label:'Dernière Soirée\nSchloss',                  icon:'🃏', type:'card',  ch:'💍 Vers le Mariage', deck:'gaming' },
   { id:'finale',   label:'🏰 Chaumont\nLe Mariage!',                  icon:'💍', type:'finale', ch:'💍 La Vie Commence' },
@@ -566,7 +566,7 @@ const STORIES = {
     fx:[{t:'b',v:3,l:'🐦 +3 bonheur (fidèle à ses amis même en changeant de classe)'}],
     extra:{
       ptitcuicui:[{t:'b',v:6,l:'🐦 Ptitcuicui : +6 bonheur (le gars de la 2GT7 est devenu le stratège du Schloss)'}],
-      sponge:[{t:'b',v:4,l:'🧽 Sponge : +4 bonheur (il l\'a remarqué dès le début, fidèle à sa légende)'}],
+      sponge:[{t:'b',v:5,l:'🧽 Sponge : +5 bonheur (il l\'a remarqué dès le début, fidèle à sa légende)'}],
       whitewarrior:[{t:'b',v:5,l:'⚔️ Whitewarrior : +5 bonheur (il avait noté le gars — le Gardien observe tout)'}]
     }
   },
@@ -783,6 +783,13 @@ const STORIES = {
     text:"Soirée chez Quentin. Heure tardive. Plus de place.\n\nDeux options se présentent :\n\nOption A — Lit simple avec Franck.\nAvantage : matelas.\nInconvénient : Franck ronfle. Fort. Régulièrement. Sans s\'en rendre compte.\n\nOption B — Lit simple posé par terre, à deux.\nAvantage : silence garanti.\nInconvénient : le sol, quand même.\n\nLes deux partis dormaient mal.\nFranck a ronflé. Le sol a écorché.\n\nLe matin, tout le monde est debout en même temps.\nLe café de Quentin était excellent.\nC\'est ce qui compte.",
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'anecdote du lit fait encore rire)'},{t:'m',v:-30,l:'💸 -30€ (petit-déjeuner chez Quentin)'}],
     extra:{ invoherence:[{t:'b',v:6,l:'🐰 Incoherence : +6 bonheur (elle dormait comme un bébé pendant que tout le monde souffrait)'}] },
+  },
+  whitewarrior_espion: {
+    src:'real', // Whitewarrior obtient la liste des invités du mariage pour mettre les gens dans la confidence sur ce jeu
+    title:'🕵️ Whitewarrior — L\'Espion du Mariage',
+    text:"Toutoon et Incoherence préparent le mariage.\nLa liste des invités est confidentielle.\n\nWhitewarrior l'obtient.\n\nDiscrètement. Sûrement.\nSans laisser de traces — c'est son talent.\n\nIl contacte les invités un par un.\nIl leur explique : il y a un jeu.\nUn vrai. Fait pour eux. Sur leur histoire à tous.\n\nLe Schloss sera prêt le jour J.\nLes invités aussi.\n\nToutoon et Incoherence ne savent rien encore.\nC'est parfait comme ça.",
+    fx:[{t:'b',v:4,l:'🕵️ +4 bonheur (être dans la confidence, c\'est un privilège)'}],
+    extra:{ whitewarrior:[{t:'b',v:9,l:'⚔️ Whitewarrior : +9 bonheur (mission accomplie — le Gardien veille sur le Schloss)'}] },
   },
   clement_marie_ange: {
     src:'real', // Clément et Marie-Ange annoncent leur mariage devant la gare en attendant la pizzeria
