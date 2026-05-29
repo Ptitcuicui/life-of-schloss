@@ -1058,7 +1058,8 @@ const OBJECTIVES = [
 ];
 
 function pickObjectiveTrio(){
-  const shuffled = [...OBJECTIVES].sort(()=>Math.random()-.5);
+  const shuffled = [...OBJECTIVES];
+  for(let i=shuffled.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]]; }
   const trio = []; const usedDiffs = new Set();
   for(const obj of shuffled){ if(!usedDiffs.has(obj.diff)){ trio.push(obj); usedDiffs.add(obj.diff); } if(trio.length===3) break; }
   for(const obj of shuffled){ if(trio.length>=3) break; if(!trio.includes(obj)) trio.push(obj); }
@@ -1143,6 +1144,7 @@ function fluctuateAssets(player){
     }
   });
   msgs.forEach(log);
+  trackPlayerMins(player);
 }
 
 // ── GAME STATE ────────────────────────────────────────────────────────────────
@@ -1372,33 +1374,6 @@ function resize(){
 }
 
 // ── BOARD GRID LAYOUT ─────────────────────────────────────────────────────────
-// 9-column snake road × 9 rows — carré comme le Jeu de la Vie
-const GRID_POS = {
-  // Row 0 L→R — Enfance
-  'start':[0,0],'p_sd':[1,0],'p_join':[2,0],'p_col52':[3,0],'p_wassy':[4,0],'p_tractor':[5,0],'p_der':[6,0],'p_sd2':[7,0],'p_math':[8,0],
-  // Row 1 R←L — Enfance → Lycée  (fork1 col3, merge p_lycee col2)
-  'p_chm1':[8,1],'p_colo':[7,1],'p_join2':[6,1],'p_enf3':[5,1],'p_wass2':[4,1],'fork1':[3,1],'p_lycee':[2,1],'p_bac1':[1,1],'p_lyc2':[0,1],
-  // Row 2 L→R — Lycée  (fork_et col7, merge p_arc col8)
-  'p_lyc3':[0,2],'p_lyc4':[1,2],'p_lyc5':[2,2],'p_lyc6':[3,2],'p_lyc7':[4,2],'p_lyc8':[5,2],'p_lyc9':[6,2],'fork_et':[7,2],'p_arc':[8,2],
-  // Row 3 R←L — Études  (fork2 col2, merge f2b3 col1)
-  'p_etu1':[8,3],'p_etu2':[7,3],'p_etu3':[6,3],'p_etu4':[5,3],'p_mid':[4,3],'p_etu5':[3,3],'fork2':[2,3],'f2b3':[1,3],'p8':[0,3],
-  // Row 4 L→R — Vie Active
-  'p8b':[0,4],'p_job1':[1,4],'p_job2':[2,4],'p_act1':[3,4],'p_act2':[4,4],'p_act3':[5,4],'p_act4':[6,4],'p_act5':[7,4],'p_act6':[8,4],
-  // Row 5 R←L — Carrière  (fork3 col5, merge p_lang col4)
-  'p_act7':[8,5],'p_act8':[7,5],'p_act9':[6,5],'fork3':[5,5],'p_lang':[4,5],'p_car1':[3,5],'p_car2':[2,5],'p_mont':[1,5],'p_fayl':[0,5],
-  // Row 6 L→R — Vie Adulte
-  'p_bourm':[0,6],'p_adu1':[1,6],'p_adu2':[2,6],'p_adu3':[3,6],'p_adu4':[4,6],'p_adu5':[5,6],'p_adu6':[6,6],'p_adu7':[7,6],'p_adu8':[8,6],
-  // Row 7 R←L — Vers le Mariage  (fork4 col7, merge p_adu9 col6)
-  'p_viad':[8,7],'fork4':[7,7],'p_adu9':[6,7],'p_gex':[5,7],'p_fin1':[4,7],'p_fin2':[3,7],'p_fin3':[2,7],'p_fin4':[1,7],'p_fin5':[0,7],
-  // Row 8 L→R — Finale
-  'p_fin6':[0,8],'p_fin7':[1,8],'p_fin8':[2,8],'finale':[3,8],
-  // Branch stops — cols hors-grille pour garder la couleur de la bonne rangée
-  'f1a':[9,1],'f1a2':[10,1],'f1b':[11,1],'f1b2':[12,1],
-  'fe_a':[9,2],'fe_a2':[10,2],'fe_a3':[11,2],'fe_b':[12,2],'fe_b2':[13,2],'fe_b3':[14,2],'fe_b4':[15,2],
-  'f2a':[9,3],'f2a2':[10,3],'f2a3':[11,3],'f2b':[12,3],'f2b2':[13,3],
-  'f3a':[9,5],'f3a2':[10,5],'f3b':[11,5],'f3b2':[12,5],
-  'f4a':[9,7],'f4a2':[10,7],'f4b':[11,7],'f4b2':[12,7],
-};
 const BD_COLS = 9, BD_ROWS = 9;
 const BRANCH_STOPS = new Set([
   'f1a','f1a2','f1b','f1b2',
@@ -1993,8 +1968,9 @@ function showTransfer(card){
       actor.money -= amount;
       target.money += amount;
     } else {
-      target.money = Math.max(0, target.money - amount);
-      actor.money += (target.money < amount ? target.money : amount);
+      const stolen = Math.min(target.money, amount);
+      target.money -= stolen;
+      actor.money += stolen;
     }
     const msg = tr.dir==='give'
       ? `💸 ${actor.emoji} ${actor.name} donne ${amount.toLocaleString('fr-FR')}€ à ${target.emoji} ${target.name}`
@@ -2119,6 +2095,7 @@ function doQuit(){
 // ── SAUVEGARDE LOCALE ──────────────────────────────────────────────────────────
 function saveGame(){
   if(!G) return;
+  if(NET.isOnline()){ closeGameMenu(); return; }
   const save = { state: G, boardMap: Object.fromEntries(STOP_MAP), savedAt: Date.now(), version: 1 };
   localStorage.setItem('schloss_save_local', JSON.stringify(save));
   closeGameMenu();
@@ -2905,7 +2882,8 @@ const NET = (() => {
       const activePids = G ? G.players.filter(p => !p.finished).map(p => p.id) : [];
       const allVoted = activePids.every(pid => {
         const entry = (onlineRoomInfo.players || []).find(x => x.pid === pid);
-        return entry && choices.find(c => c.sid === entry.sid);
+        if (!entry) return true; // déconnecté → compté abstenu
+        return choices.find(c => c.sid === entry.sid);
       });
       if (allVoted && isMyTurn()) document.getElementById('bet-reveal').classList.remove('hidden');
     });
@@ -3305,27 +3283,23 @@ const NET = (() => {
         const totalB = bonusB ? `${rawB}+${bonusB}=${rollB}` : `${rollB}`;
         let resultLines = [];
 
-        // Only challenger applies effects and triggers endTurn
+        // Tous les clients appliquent les effets (résultat déterministe)
         if (rollA > rollB) {
-          if (myPlayerId === challengerPid) {
-            if (money) { challenger.money+=money; target.money-=money; }
-            else { challenger.bonheur+=stakes; target.bonheur-=stakes; }
-            challenger.wins++;
-            challenger.duelWins=(challenger.duelWins||0)+1;
-            target.duelLosses=(target.duelLosses||0)+1;
-          }
+          if (money) { challenger.money+=money; target.money-=money; }
+          else { challenger.bonheur+=stakes; target.bonheur-=stakes; }
+          challenger.wins++;
+          challenger.duelWins=(challenger.duelWins||0)+1;
+          target.duelLosses=(target.duelLosses||0)+1;
           document.getElementById('die-a')?.classList.add('winner');
           resultLines = [`✅ ${challenger.name} (${totalA}) bat ${target.name} (${totalB}) !`,
             money ? `💶 +${money}€ pour ${challenger.name}` : `❤️ +${stakes} bonheur pour ${challenger.name}`];
           log(`⚔️ ${challenger.name} bat ${target.name} au duel !`);
         } else if (rollB > rollA) {
-          if (myPlayerId === challengerPid) {
-            if (money) { target.money+=money; challenger.money-=money; }
-            else { target.bonheur+=stakes; challenger.bonheur-=stakes; }
-            target.wins++;
-            target.duelWins=(target.duelWins||0)+1;
-            challenger.duelLosses=(challenger.duelLosses||0)+1;
-          }
+          if (money) { target.money+=money; challenger.money-=money; }
+          else { target.bonheur+=stakes; challenger.bonheur-=stakes; }
+          target.wins++;
+          target.duelWins=(target.duelWins||0)+1;
+          challenger.duelLosses=(challenger.duelLosses||0)+1;
           document.getElementById('die-b')?.classList.add('winner');
           resultLines = [`✅ ${target.name} (${totalB}) bat ${challenger.name} (${totalA}) !`,
             money ? `💶 +${money}€ pour ${target.name}` : `❤️ +${stakes} bonheur pour ${target.name}`];
@@ -3342,7 +3316,9 @@ const NET = (() => {
         document.getElementById('duel-continue').onclick = () => {
           hideModal('duel-modal');
           updateUI(); fullRender();
-          if (myPlayerId === challengerPid) endTurn(); // endTurn syncs state for everyone
+          // challenger appelle endTurn ; si challenger déconnecté, l'hôte prend le relais
+          const challengerConnected = onlineRoomInfo.players.some(x => x.pid === challengerPid);
+          if (myPlayerId === challengerPid || (!challengerConnected && isHost)) endTurn();
         };
         updateUI();
       }
