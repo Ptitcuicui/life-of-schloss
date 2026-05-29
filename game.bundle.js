@@ -895,6 +895,11 @@ const CARDS = {
     {src:'invented',     ti:'🎭 Erreur de Casting',       tx:"Tu joues un rôle que tu n\'aurais jamais pensé jouer.\nToutoon joue le calme. Ptitcuicui improvise.\nWhitewarrior est hilare.\n\nL\'imprévu, c\'est le meilleur scénario.", fx:[{t:'b',v:4,l:'🎭 +4 bonheur'}]},
     {src:'invented',     ti:'🏘️ Village Fantôme du 52',    tx:"Un village abandonné au bout d\'une route forestière.\nMaisons vides. Église condamnée.\nRoute qui finit dans les ronces.\n\nVous écoutez le silence.\nIl a une qualité qu\'on ne trouve nulle part ailleurs.", fx:[{t:'b',v:3,l:'👻 +3 bonheur (beauté mélancolique du 52)'}]},
     {src:'invented',     ti:'🌲 Forêt de Nuit',            tx:"Vous entrez dans la forêt à la tombée de la nuit.\nPas de réseau. Pas de lampe.\nJuste les arbres, la lune et les bruits du 52.\n\nToutoon fait semblant de ne pas avoir peur.\nÇa dure 10 minutes.", fx:[{t:'b',v:3,l:'🌲 +3 bonheur (aventure involontaire)'}]},
+    {src:'invented',     ti:'🍺 Tournée Générale',          tx:"Tu te sens généreux·se ce soir.\nLe Schloss est là, la bonne humeur aussi.\nTu poses un billet sur la table — et tu choisis qui en profite.", transfer:{dir:'give', amount:600, label:'Offrir une tournée à'}},
+    {src:'invented',     ti:'💸 Geste du Cœur',             tx:"Une vieille dette d\'amitié qui traîne.\nUn billet qui circule enfin dans le bon sens.\nLe 52, c\'est comme ça — on s\'entraide.", transfer:{dir:'give', amount:1000, label:'Faire un cadeau à'}},
+    {src:'invented',     ti:'🎁 Cadeau Surprise',            tx:"Tu fouilles dans tes poches.\nTu trouves de quoi offrir quelque chose d\'imprévu.\nChoisis ton destinataire.", transfer:{dir:'give', amount:800, label:'Offrir un cadeau à'}},
+    {src:'invented',     ti:'🎲 Pari Gagné',                tx:"Une mise bien placée. Un bluff parfait.\nL\'adversaire a perdu — maintenant tu encaisses.\nChoisis qui rembourse.", transfer:{dir:'steal', amount:1000, label:'Récupérer le pari de'}},
+    {src:'invented',     ti:'⚖️ Vieille Dette du 52',       tx:"Il y a longtemps, quelqu\'un t\'a emprunté quelque chose.\nLe moment est venu de régler les comptes.\nChoisis qui te rembourse.", transfer:{dir:'steal', amount:800, label:'Récupérer une dette de'}},
     {src:'real',         ti:'❄️ Route Verglacée',           tx:"Novembre. D619 entre Langres et Fayl-Billot.\n-4°C. Verglas. Le sel n\'a pas encore été épandu.\n\nVous avancez à 30km/h.\nLe paysage givre. C\'est magnifique malgré tout.", fx:[{t:'b',v:1,l:'❄️ +1 bonheur (beauté hivernale)'},{t:'m',v:-200,l:'💸 -200€ (accrochage léger)'}], assetDamage:'car'},
     {src:'invented',     ti:'💻 PC qui Rend l\'Âme',        tx:"En plein milieu d\'une LAN.\nEcran noir. Bruit de condensateur.\nTes potes continuent sans toi.\n\nCe soir tu joues sur le portable de ta mère.", fx:[{t:'b',v:-2,l:'😞 -2 bonheur'},{t:'m',v:-200,l:'💸 -200€ (dépannage d\'urgence)'}], assetDamage:'pc'},
     {src:'invented',     ti:'🐱 Le Chat Renverse Tout',     tx:"Le chat traverse le bureau.\nKéyboard. Café. Câble USB.\nTout par terre.\n\nIl te regarde avec mépris et repart.", fx:[{t:'m',v:-300,l:'💸 -300€ (matériel HS)'},{t:'b',v:1,l:'🐱 +1 bonheur (c\'est trop con pour ne pas être drôle)'}]},
@@ -1055,8 +1060,9 @@ function pickObjectiveTrio(){
 }
 
 function trackPlayerMins(p){
-  p.minBonheur = Math.min(p.minBonheur??0, p.bonheur);
-  p.minMoney   = Math.min(p.minMoney??p.money, p.money);
+  p.minBonheur  = Math.min(p.minBonheur??0, p.bonheur);
+  p.minMoney    = Math.min(p.minMoney??p.money, p.money);
+  p.peakBonheur = Math.max(p.peakBonheur??0, p.bonheur);
 }
 
 // ── PLAYERS ──────────────────────────────────────────────────────────────────
@@ -1070,8 +1076,9 @@ const PLAYER_DEFS = [
 ];
 function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, assets:[], finished:false, order:null, negativeTurns:0,
   secretObj:null, eliminated:false,
-  minBonheur:0, minMoney:5000,
+  minBonheur:0, minMoney:5000, peakBonheur:0,
   duelWins:0, duelLosses:0, betWins:0, betParticipations:0, sixes:0, assetDamageCount:0,
+  stopsVisited:0, eventsTriggered:0,
   everHadMaison:false, tookSupinfo:false, tookColombey:false, tookMaisonFork:false, tookStage:false,
 }; }
 
@@ -1903,6 +1910,7 @@ function arrive(n){
   if(!n){ endTurn(); return; }
   log(cp().name+' → '+(n.label||n.ch||''));
   const p=cp();
+  if(n.type!=='start') p.stopsVisited=(p.stopsVisited||0)+1;
   if(n.id==='fe_b2') p.tookSupinfo=true;
   if(n.id==='fe_a2') p.tookColombey=true;
   if(n.id==='f4b')   p.tookMaisonFork=true;
@@ -1918,6 +1926,7 @@ function arrive(n){
 function showStory(id, subtype){
   const st=STORIES[id]; if(!st){ endTurn(); return; }
   G.phase=PH.EVENT;
+  cp().eventsTriggered=(cp().eventsTriggered||0)+1;
   const msgs=applyFx(st, cp().id);
   msgs.forEach(log);
   const icon = subtype === 'malus' ? '💀' : subtype === 'bonus' ? '✨' : '⭐';
@@ -1925,6 +1934,7 @@ function showStory(id, subtype){
 }
 
 function showCard(deck){
+  cp().eventsTriggered=(cp().eventsTriggered||0)+1;
   const r = Math.random();
   // 15% paris collectif, 10% duel (seulement si 2+ joueurs non-finis)
   if(r < 0.15){
@@ -1934,12 +1944,56 @@ function showCard(deck){
     SFX.duel(); showDuel(drawDuel()); return;
   }
   const card=drawCard(deck);
+  if(card.transfer && G.players.filter(p=>!p.finished).length >= 2){ showTransfer(card); return; }
   G.phase=PH.EVENT;
   const msgs=applyFx(card,cp().id);
   msgs.forEach(log);
   const icons={money:'💶',love:'❤️',gaming:'🎮',surprise:'🎴',career:'💼'};
   SFX.card();
   openEvent(icons[deck]||'🃏',card.ti,card.tx,msgs);
+}
+
+function showTransfer(card){
+  G.phase = PH.EVENT;
+  const tr = card.transfer;
+  const targets = G.players.filter(p=>!p.finished && p.id!==cp().id);
+  if(!targets.length){ endTurn(); return; }
+
+  function doTransfer(target){
+    const actor = cp();
+    const amount = tr.amount;
+    if(tr.dir==='give'){
+      actor.money -= amount;
+      target.money += amount;
+    } else {
+      target.money = Math.max(0, target.money - amount);
+      actor.money += (target.money < amount ? target.money : amount);
+    }
+    const msg = tr.dir==='give'
+      ? `💸 ${actor.emoji} ${actor.name} donne ${amount.toLocaleString('fr-FR')}€ à ${target.emoji} ${target.name}`
+      : `💰 ${actor.emoji} ${actor.name} récupère ${amount.toLocaleString('fr-FR')}€ de ${target.emoji} ${target.name}`;
+    log(msg);
+    hideModal('fork-modal');
+    SFX.card();
+    openEvent('💸', card.ti, card.tx, [msg]);
+  }
+
+  if(targets.length === 1){ doTransfer(targets[0]); return; }
+
+  document.getElementById('fork-title').textContent = card.ti;
+  document.getElementById('fork-subtitle').textContent = tr.label + ' — choisir un joueur :';
+  const btns = document.getElementById('fork-choices');
+  btns.innerHTML = '';
+  targets.forEach(t=>{
+    const b = document.createElement('button');
+    b.className = 'btn-choice';
+    b.textContent = t.emoji+' '+t.name+' ('+t.money.toLocaleString('fr-FR')+'€)';
+    b.onclick = () => doTransfer(t);
+    btns.appendChild(b);
+  });
+  SFX.card();
+  showModal('fork-modal');
+  updateUI();
 }
 
 function handleFinale(){
@@ -2035,6 +2089,50 @@ function doQuit(){
   }
 }
 
+// ── SAUVEGARDE LOCALE ──────────────────────────────────────────────────────────
+function saveGame(){
+  if(!G) return;
+  const save = { state: G, boardMap: Object.fromEntries(STOP_MAP), savedAt: Date.now(), version: 1 };
+  localStorage.setItem('schloss_save_local', JSON.stringify(save));
+  closeGameMenu();
+  const toast = document.createElement('div');
+  toast.className = 'save-toast';
+  toast.textContent = '💾 Partie sauvegardée !';
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.classList.add('visible'), 10);
+  setTimeout(()=>{ toast.classList.remove('visible'); setTimeout(()=>toast.remove(), 400); }, 2200);
+}
+window.saveGame = saveGame;
+
+function loadSave(){
+  try {
+    const raw = localStorage.getItem('schloss_save_local');
+    if(!raw) return;
+    const { state, boardMap } = JSON.parse(raw);
+    G = state;
+    PM = new Map(G.players.map(p=>[p.id,p]));
+    if(boardMap) Object.entries(boardMap).forEach(([id,def])=>STOP_MAP.set(id,def));
+    document.getElementById('save-banner')?.classList.add('hidden');
+    showScreen('screen-game');
+    resize();
+    updateUI();
+    fullRender();
+    BGM.start();
+    const btn = document.getElementById('btn-music');
+    if(btn) btn.textContent = '🔇';
+    document.getElementById('btn-roll').disabled = (G.phase !== 'roll');
+    camZoom = (_boardH > 0 && canvas.height > 0) ? Math.min(1, (canvas.height-20)/_boardH) : 1;
+    camPanX = canvas.width/2*(1-camZoom); camPanY = 0;
+  } catch(e){ localStorage.removeItem('schloss_save_local'); }
+}
+window.loadSave = loadSave;
+
+function clearSave(){
+  localStorage.removeItem('schloss_save_local');
+  document.getElementById('save-banner')?.classList.add('hidden');
+}
+window.clearSave = clearSave;
+
 // Fermer le menu si clic en dehors
 document.addEventListener('click',e=>{
   if(!e.target.closest('#btn-game-menu')&&!e.target.closest('#game-menu-panel'))
@@ -2055,6 +2153,7 @@ function showReactionFloat(emoji, playerEmoji) {
 
 function showEnd(){
   localStorage.removeItem('schloss_session');
+  localStorage.removeItem('schloss_save_local');
   SFX.finale();
 
   // Resolve secret objectives — apply bonheur bonus before scoring
@@ -2112,11 +2211,67 @@ function showEnd(){
       <span class="rest-breakdown">${scoreBreakdown(p)}</span>
     </div>`).join('')}</div>` : '';
 
-  document.getElementById('victory-name').textContent = w.emoji+' '+w.name;
-  document.getElementById('victory-name').style.color = w.color;
-  document.getElementById('victory-type').textContent = 'Vainqueur du Schloss — '+w.score+' points !';
-  document.getElementById('victory-stats').innerHTML = podiumHTML + restHTML;
-  showScreen('screen-victory');
+  // Stats section
+  const statsHTML = `<div class="stats-section">
+    <div class="stats-title">📊 Statistiques</div>
+    <div class="stats-grid">${scored.map(p=>`
+      <div class="stat-col">
+        <div class="stat-player" style="color:${p.color}">${p.emoji} ${p.name}</div>
+        <div class="stat-row"><span class="stat-lbl">Cases</span><span class="stat-val">${p.stopsVisited||0}</span></div>
+        <div class="stat-row"><span class="stat-lbl">Événements</span><span class="stat-val">${p.eventsTriggered||0}</span></div>
+        <div class="stat-row"><span class="stat-lbl">Duels</span><span class="stat-val">${p.duelWins||0}W/${p.duelLosses||0}L</span></div>
+        <div class="stat-row"><span class="stat-lbl">Paris</span><span class="stat-val">${p.betWins||0}/${p.betParticipations||0}</span></div>
+        <div class="stat-row"><span class="stat-lbl">Pic ❤️</span><span class="stat-val">${p.peakBonheur||p.bonheur}</span></div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+
+  function showVictory(){
+    document.getElementById('victory-name').textContent = w.emoji+' '+w.name;
+    document.getElementById('victory-name').style.color = w.color;
+    document.getElementById('victory-type').textContent = 'Vainqueur du Schloss — '+w.score+' points !';
+    document.getElementById('victory-stats').innerHTML = podiumHTML + restHTML + statsHTML;
+    showScreen('screen-victory');
+  }
+
+  // Révélation séquentielle des objectifs secrets avant le classement
+  const withObj = scored.filter(p=>p.secretObj);
+  if(!withObj.length){ showVictory(); return; }
+
+  const revModal = document.getElementById('obj-reveal-modal');
+  const revCards = document.getElementById('obj-reveal-cards');
+  const revNext  = document.getElementById('obj-reveal-next');
+  const revSkip  = document.getElementById('obj-reveal-skip');
+  let revIdx = 0;
+
+  function revealNext(){
+    if(revIdx >= withObj.length){
+      revModal.classList.add('hidden');
+      showVictory();
+      return;
+    }
+    const rp = withObj[revIdx++];
+    const obj = OBJECTIVES.find(o=>o.id===rp.secretObj);
+    const ok = rp.objAchieved;
+    const color = ok ? '#4ade80' : '#f87171';
+    const reward = DIFF_REWARDS[obj?.diff||0]||0;
+    revCards.innerHTML = `
+      <div class="rev-player" style="color:${rp.color}">${rp.emoji} ${rp.name}</div>
+      <div class="rev-card ${ok?'rev-ok':'rev-fail'}">
+        <div class="rev-result-icon">${ok?'✅':'❌'}</div>
+        <div class="rev-label">${obj?.label||'?'}</div>
+        <div class="rev-desc">${obj?.desc||''}</div>
+        <div class="rev-outcome" style="color:${color}">
+          ${ok ? `Objectif accompli ! +${rp.objBonus||0}❤️` : 'Objectif non accompli'}
+        </div>
+      </div>`;
+    revNext.textContent = revIdx < withObj.length ? 'Suivant →' : '🏆 Voir le Classement';
+  }
+
+  revNext.onclick = revealNext;
+  revSkip.onclick = ()=>{ revModal.classList.add('hidden'); showVictory(); };
+  revModal.classList.remove('hidden');
+  revealNext();
 }
 document.getElementById('btn-replay').onclick=()=>{ BGM.stop(); G=null; PM=null; buildLobby(); showScreen('screen-lobby'); };
 
@@ -2355,6 +2510,22 @@ function hideModal(id){ document.getElementById(id).classList.add('hidden'); }
 
 // ── LOBBY ─────────────────────────────────────────────────────────────────────
 function buildLobby(){
+  // Check for local save
+  try {
+    const raw = localStorage.getItem('schloss_save_local');
+    const banner = document.getElementById('save-banner');
+    if(raw && banner){
+      const { savedAt, state } = JSON.parse(raw);
+      const d = new Date(savedAt);
+      const label = d.toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+' à '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+      const names = (state?.players||[]).filter(p=>!p.eliminated).map(p=>p.emoji+' '+p.name).join(', ');
+      document.getElementById('save-banner-info').textContent = `${names} — sauvegardée le ${label}`;
+      banner.classList.remove('hidden');
+    } else if(banner){
+      banner.classList.add('hidden');
+    }
+  } catch(e){ localStorage.removeItem('schloss_save_local'); }
+
   const grid=document.getElementById('player-grid');
   grid.innerHTML='';
   const sel=new Set();
