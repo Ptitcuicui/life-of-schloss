@@ -646,7 +646,7 @@ const STORIES = {
     text:"Stage Lafitte Textile.\nPtitcuicui, Incoherence, Toutoon.\nMême bureau. Même mission.\n\nModèles 3D personnalisables d'accessoires de sport — du vélo.\nBeau projet. Bonne ambiance.\n\nSauf la ruche.\n\nUn motif en nid d'abeille sur chaque pièce.\nChaque hexagone tracé à la main.\nChaque trait à refaire si l'alignement dévie d'un demi-pixel.\n\nPtitcuicui recommence. Trois fois. Quatre fois.\nIl ne lâche pas.\n\nToutoon commence à lire les hexagones comme des ennemis personnels.\nIncoherence trouve une solution élégante.\n\nIls refont quand même la ruche à la main.\nC'est comme ça.\n\nLa pièce est parfaite.\nPersonne ne verra jamais la différence.\nPtitcuicui, si.",
     fx:[{t:'b',v:3,l:'🐝 +3 bonheur (l\'anecdote vaut plus que le modèle)'},{t:'m',v:-100,l:'💸 -100€ (café + doliprane)'}],
     extra:{
-      ptitcuicui:[{t:'b',v:6,l:'🐦 Ptitcuicui : +6 bonheur (il a refait la ruche 7 fois — et c\'est parfait)'}],
+      ptitcuicui:[{t:'b',v:3,l:'🐦 Ptitcuicui : +3 bonheur (il a refait la ruche 7 fois — et c\'est parfait)'}],
       toutoon:   [{t:'b',v:5,l:'😤 Toutoon : +5 bonheur (chaque hexagone était un ennemi — il a gagné)'}],
       invoherence:[{t:'b',v:5,l:'🐰 Incoherence : +5 bonheur (sa solution était meilleure — ils auraient dû l\'écouter)'}],
     },

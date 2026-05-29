@@ -197,7 +197,7 @@ const STORIES = {
   d619_bouchon:        { fx:[{t:'m',v:-50},{t:'b',v:-2}], assetDamage:'car' },
   warzone_covid:       { fx:[{t:'b',v:5},{t:'m',v:-40}] },
   reunion_infinie:     { fx:[{t:'b',v:-3},{t:'m',v:-100}] },
-  lafitte_textile:     { fx:[{t:'b',v:3},{t:'m',v:-100}], extra:{ ptitcuicui:[{t:'b',v:6}], toutoon:[{t:'b',v:5}], invoherence:[{t:'b',v:5}] } },
+  lafitte_textile:     { fx:[{t:'b',v:3},{t:'m',v:-100}], extra:{ ptitcuicui:[{t:'b',v:3}], toutoon:[{t:'b',v:5}], invoherence:[{t:'b',v:5}] } },
   internet_coupe:      { fx:[{t:'b',v:-3},{t:'m',v:-120}] },
   prime_refusee:       { fx:[{t:'b',v:-4},{t:'m',v:-500}] },
   vide_grenier_52:     { fx:[{t:'m',v:400},{t:'b',v:2}], assetGain:'console' },
