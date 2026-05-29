@@ -663,12 +663,18 @@ const STORIES = {
     text:"Bilan annuel. Tu as tout donné cette année.\nProjets livrés à temps. Heures supp. Dossiers béton.\n\nLe manager hoche la tête en souriant.\n\n'Excellent travail. Vraiment.'\n\nPuis il ouvre un onglet.\n\n'Malheureusement, le budget primes est gelé cette année.'\n\nTu regardes la fenêtre.\nTu penses à changer de job.\nTu reviens le lendemain quand même.",
     fx:[{t:'b',v:-4,l:'💔 -4 bonheur (le travail non récompensé, c\'est pire que le travail nul)'},{t:'m',v:-500,l:'💸 -500€ (prime attendue, non versée)'}],
   },
-  vide_grenier_52: {
+  vide_grenier_52: { src:'invented', randVariants:['vide_grenier_acheteur','vide_grenier_vendeur'] },
+  vide_grenier_acheteur: {
     src:'invented',
-    title:'🛍️ Vide-Grenier — La Trouvaille du 52',
-    text:"Dimanche matin. Brocante de Wassy.\nTu flânes entre les tables.\n\nTu trouves une vieille console dans une boîte en carton.\n'5 euros, ça te va ?'\n\nCa te va très bien.\n\nTu la revends en ligne la semaine suivante.\nLe 52 a du bon.",
-    fx:[{t:'m',v:400,l:'💶 +400€ (revente console vintage)'},{t:'b',v:2,l:'❤️ +2 bonheur (le thrill de la bonne affaire)'}],
-    assetGain:'console',
+    title:'🛍️ Vide-Grenier — La Bonne Affaire',
+    text:"Dimanche matin. Brocante de Wassy.\nTu flânes entre les tables.\n\nUne vieille console dans une boîte en carton.\nL\'écran est rayé, la manette tient avec du scotch.\n\nTu proposes un billet.\nIl dit oui.\n\nTu rentres avec ta trouvaille.\nElle tourne encore.",
+    spe:'vide_grenier_buy',
+  },
+  vide_grenier_vendeur: {
+    src:'invented',
+    title:'🛍️ Vide-Grenier — La Bonne Vente',
+    text:"Dimanche matin. Brocante de Wassy.\nTu vides des cartons qui traînent depuis le lycée.\n\nUne vieille console. Des câbles. Un chargeur qui marche à moitié.\n\nUn gamin s\'arrête. Ses yeux s\'allument.\n'Combien ?'\n\nTu arrondis un peu au-dessus.\nIl accepte quand même.\n\nLe 52 a du bon.",
+    spe:'vide_grenier_sell',
   },
   bac_reussi: {
     src:'invented',
@@ -1191,6 +1197,26 @@ function applyFx(card, playerId){
     });
   }
   // Special triggers
+  if(card.spe==='vide_grenier_buy'){
+    const wear = 30 + Math.floor(Math.random() * 41); // 30-70%
+    const def = ASSET_TYPES['console'];
+    const value = Math.round(def.baseValue * (100 - wear) / 100);
+    const cost = 80 + Math.floor(Math.random() * 61); // 80-140€
+    p.money -= cost;
+    const existing = (p.assets||[]).find(a=>a.type==='console');
+    if(existing){ existing.value = Math.round(existing.value * 1.1); msgs.push(`🎮 ${p.name} a déjà une console — elle prend de la valeur`); }
+    else { (p.assets=p.assets||[]).push({ type:'console', emoji:def.emoji, name:def.name, value, initialValue:def.baseValue, wear }); msgs.push(`🎮 ${p.name} acquiert Console (usure ${wear}%) — valeur ${value.toLocaleString('fr-FR')}€`); }
+    msgs.push(`💸 ${p.name} : -${cost}€ (achat au vide-grenier)`);
+    G.players.forEach(pl=>trackPlayerMins(pl));
+  }
+  if(card.spe==='vide_grenier_sell'){
+    const gain = 250 + Math.floor(Math.random() * 351); // 250-600€
+    p.money += gain;
+    msgs.push(`💶 ${p.name} : +${gain}€ (vente au vide-grenier)`);
+    msgs.push(`❤️ +2 bonheur (le thrill de la bonne vente)`);
+    p.bonheur += 2;
+    G.players.forEach(pl=>trackPlayerMins(pl));
+  }
   if(card.spe==='coin'){
     const s=G.players.find(x=>x.id==='sponge');
     if(s&&s.id!==pid){ s.money-=800; msgs.push('🧽 Sponge se fait avoir : -800€ !'); }
@@ -1924,7 +1950,8 @@ function arrive(n){
 
 // ── STORY / CARD EVENTS ───────────────────────────────────────────────────────
 function showStory(id, subtype){
-  const st=STORIES[id]; if(!st){ endTurn(); return; }
+  let st=STORIES[id]; if(!st){ endTurn(); return; }
+  if(st.randVariants){ const pick=st.randVariants[Math.floor(Math.random()*st.randVariants.length)]; st=STORIES[pick]||st; }
   G.phase=PH.EVENT;
   cp().eventsTriggered=(cp().eventsTriggered||0)+1;
   const msgs=applyFx(st, cp().id);
