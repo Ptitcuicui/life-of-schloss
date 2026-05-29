@@ -37,6 +37,7 @@ const STOPS = [
   { id:'fe_a',     type:'card',   deck:'money' },
   { id:'fe_a2',    type:'story',  storyId:'colombey' },
   { id:'fe_a3',    type:'card',   deck:'surprise' },
+  { id:'fe_a4',    type:'card',   deck:'love' },
   { id:'fe_b',     type:'card',   deck:'gaming' },
   { id:'fe_b2',    type:'story',  storyId:'supinfo' },
   { id:'fe_b3',    type:'card',   deck:'love' },
@@ -122,7 +123,7 @@ const EDGES = [
   ['p_bac1','p_lyc2'],['p_lyc2','p_lyc3'],['p_lyc3','p_lyc4'],['p_lyc4','p_lyc5'],
   ['p_lyc5','p_lyc6'],
   ['p_lyc6','p_lyc7'],['p_lyc7','p_lyc8'],['p_lyc8','p_lyc9'],['p_lyc9','fork_et'],
-  ['fork_et','fe_a'],['fe_a','fe_a2'],['fe_a2','fe_a3'],['fe_a3','p_arc'],
+  ['fork_et','fe_a'],['fe_a','fe_a2'],['fe_a2','fe_a3'],['fe_a3','fe_a4'],['fe_a4','p_arc'],
   ['fork_et','fe_b'],['fe_b','fe_b2'],['fe_b2','fe_b3'],['fe_b3','fe_b4'],['fe_b4','p_arc'],
   ['p_arc','p_etu1'],['p_etu1','p_etu2'],
   ['p_etu2','p_etu3'],
@@ -174,7 +175,7 @@ const STORIES = {
   controle_technique:  { fx:[{t:'m',v:-600}], assetDamage:'car' },
   impots_52:           { fx:[{t:'m',v:-500}], globalFx:[{t:'m',v:-500}] },
   veto_chat:           { fx:[{t:'m',v:-450},{t:'b',v:1}], assetDamage:'cat' },
-  achat_maison:        { fx:[{t:'m',v:-18000}], assetGain:'maison' },
+  achat_maison:        { fx:[{t:'m',v:-18000},{t:'b',v:5}], assetGain:'maison' },
   martinot:            { fx:[{t:'b',v:4},{t:'m',v:300}] },
   sponge_pseudo:       { fx:[{t:'b',v:3},{t:'m',v:200}], extra:{ sponge:[{t:'b',v:6},{t:'m',v:200}] } },
   gta_sa_rencontre:    { fx:[{t:'b',v:4}], extra:{ toutoon:[{t:'b',v:6}], sponge:[{t:'b',v:6}], whitewarrior:[{t:'b',v:6}] } },
@@ -534,7 +535,7 @@ function score(p) {
 
 // ── SIMULATE ONE GAME ─────────────────────────────────────────────────────────
 function simulateGame() {
-  const players = PLAYER_DEFS.map(mkPlayer);
+  const players = PLAYER_DEFS.map(def => ({ ...mkPlayer(def), forkChoices: {} }));
   let finishCount = 0;
   let turnCount = 0;
   let idx = 0;
@@ -580,8 +581,9 @@ function simulateGame() {
 
       if (node.type === 'fork') {
         // Choose random branch, remaining steps lost
-        const ch = node.choices[Math.floor(Math.random() * node.choices.length)];
-        nodeId = ch.next;
+        const chIdx = Math.floor(Math.random() * node.choices.length);
+        p.forkChoices[node.id] = chIdx;
+        nodeId = node.choices[chIdx].next;
         steps = 0; // Remaining steps lost
         break;
       }
@@ -595,8 +597,9 @@ function simulateGame() {
       // If we hit a fork during movement, apply fork immediately
       const nextNode = STOP_MAP.get(nodeId);
       if (nextNode && nextNode.type === 'fork' && steps > 0) {
-        const ch = nextNode.choices[Math.floor(Math.random() * nextNode.choices.length)];
-        nodeId = ch.next;
+        const chIdx = Math.floor(Math.random() * nextNode.choices.length);
+        p.forkChoices[nodeId] = chIdx;
+        nodeId = nextNode.choices[chIdx].next;
         steps = 0;
         break;
       }
@@ -693,6 +696,15 @@ function simulateGame() {
   return { players, ranked, winner: ranked[0], turns: turnCount };
 }
 
+// ── FORK METADATA ─────────────────────────────────────────────────────────────
+const FORK_INFO = {
+  fork1:   { label: 'Enfance → Lycée',  branches: ['A — Gaming + Surprise', 'B — Money + Gaming'] },
+  fork_et: { label: 'Études',           branches: ['A — Colombey (4 cases)', 'B — Supinfo (4 cases)'] },
+  fork2:   { label: 'Post-diplôme',     branches: ['A — Stage (+bonheur +argent)', 'B — Bourbonne (+bonheur -argent)'] },
+  fork3:   { label: 'Carrière (4 voies)',branches: ['A', 'B', 'C', 'D'] },
+  fork4:   { label: 'Vie adulte',       branches: ['A — Sans maison', 'B — Achat maison'] },
+};
+
 // ── RUN N GAMES ───────────────────────────────────────────────────────────────
 const N = 100000;
 const wins = {};
@@ -706,6 +718,13 @@ PLAYER_DEFS.forEach(p => {
   podiums[p.id] = [0, 0, 0]; // [1st, 2nd, 3rd]
 });
 
+// Fork stats: forkId → branchIdx → { count, totalScore, totalMoney, totalBonheur, wins }
+const forkStats = {};
+Object.keys(FORK_INFO).forEach(fid => {
+  const nBranches = FORK_INFO[fid].branches.length;
+  forkStats[fid] = Array.from({ length: nBranches }, () => ({ count: 0, totalScore: 0, totalMoney: 0, totalBonheur: 0, wins: 0 }));
+});
+
 process.stdout.write(`Simulation de ${N} parties`);
 for (let g = 0; g < N; g++) {
   const result = simulateGame();
@@ -715,6 +734,22 @@ for (let g = 0; g < N; g++) {
     if (i < 3) podiums[p.id][i]++;
   });
   result.players.filter(p => p.eliminated).forEach(p => eliminations[p.id]++);
+
+  // Accumulate fork stats
+  result.players.forEach(p => {
+    const sc = score(p);
+    const isWinner = result.winner.id === p.id;
+    Object.entries(p.forkChoices || {}).forEach(([forkId, chIdx]) => {
+      if (!forkStats[forkId] || !forkStats[forkId][chIdx]) return;
+      const bucket = forkStats[forkId][chIdx];
+      bucket.count++;
+      bucket.totalScore += sc;
+      bucket.totalMoney += p.money;
+      bucket.totalBonheur += p.bonheur;
+      if (isWinner) bucket.wins++;
+    });
+  });
+
   if ((g + 1) % 1000 === 0) process.stdout.write('.');
 }
 console.log(' OK\n');
@@ -760,3 +795,40 @@ console.log('└──────────────────┴──�
 
 const champ = sorted[0];
 console.log(`🏆 Champion sur ${N.toLocaleString('fr-FR')} parties : ${champ.name} avec ${wins[champ.id].toLocaleString('fr-FR')} victoires (${F1(wins[champ.id] / N * 100)}%)\n`);
+
+// ── ANALYSE DES FORKS ─────────────────────────────────────────────────────────
+console.log('╔══════════════════════════════════════════════════════════════════════════════════╗');
+console.log('║                    ANALYSE DES CARREFOURS — MEILLEURS CHOIX                    ║');
+console.log('╚══════════════════════════════════════════════════════════════════════════════════╝\n');
+
+Object.entries(FORK_INFO).forEach(([forkId, info]) => {
+  const branches = forkStats[forkId];
+  if (!branches) return;
+  console.log(`┌─ ${info.label} ${'─'.repeat(Math.max(0, 74 - info.label.length))}┐`);
+  console.log(`│ ${'Branche'.padEnd(30)} ${'ScoreMoy'.padStart(8)} ${'Argent'.padStart(9)} ${'Bonheur'.padStart(8)} ${'%Victoire'.padStart(10)} │`);
+  console.log(`│ ${'─'.repeat(70)} │`);
+
+  const bestScoreIdx = branches.reduce((best, b, i) =>
+    (b.count > 0 && b.totalScore / b.count > (branches[best].count > 0 ? branches[best].totalScore / branches[best].count : -Infinity)) ? i : best, 0);
+
+  branches.forEach((b, i) => {
+    if (b.count === 0) return;
+    const avgScore = b.totalScore / b.count;
+    const avgMoney = b.totalMoney / b.count;
+    const avgBon = b.totalBonheur / b.count;
+    const winPct = b.wins / b.count * 100;
+    const label = (info.branches[i] || `Branche ${i}`).padEnd(30);
+    const star = i === bestScoreIdx ? ' ★' : '  ';
+    console.log(`│${star}${label} ${F1(avgScore).padStart(8)} ${Math.round(avgMoney).toLocaleString('fr-FR').padStart(9)} ${F1(avgBon).padStart(8)} ${F1(winPct).padStart(9)}% │`);
+  });
+
+  const best = branches[bestScoreIdx];
+  const worst = branches.reduce((w, b, i) =>
+    (b.count > 0 && b.totalScore / b.count < (branches[w].count > 0 ? branches[w].totalScore / branches[w].count : Infinity)) ? i : w, 0);
+  if (bestScoreIdx !== worst && branches[worst].count > 0) {
+    const diff = F1(best.totalScore / best.count - branches[worst].totalScore / branches[worst].count);
+    console.log(`│ → Recommandation : ${info.branches[bestScoreIdx]}`.padEnd(73) + ' │');
+    console.log(`│   Avantage score : +${diff} pts vs pire choix`.padEnd(73) + ' │');
+  }
+  console.log(`└${'─'.repeat(72)}┘\n`);
+});

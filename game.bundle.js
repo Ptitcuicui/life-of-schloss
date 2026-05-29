@@ -196,6 +196,7 @@ const STOPS = [
   { id:'fe_a',     label:'Vignory\nFac Locale 52',              icon:'🃏', type:'card',   ch:'🎓 Études', deck:'money' },
   { id:'fe_a2',    label:'Colombey-les-Deux-Églises',           icon:'⭐', type:'story',  ch:'🎓 Études', storyId:'colombey' },
   { id:'fe_a3',    label:'Chaumont\nCours du Soir',             icon:'🃏', type:'card',   ch:'🎓 Études', deck:'surprise' },
+  { id:'fe_a4',    label:'Bar-le-Duc\nSoirée Locale',           icon:'🃏', type:'card',   ch:'🎓 Études', deck:'love' },
   { id:'fe_b',     label:'Bar-sur-Aube\nVers Troyes',           icon:'🃏', type:'card',   ch:'🎓 Études', deck:'gaming' },
   { id:'fe_b2',    label:'Troyes — Supinfo\nLa Rencontre',      icon:'⭐', type:'story',  ch:'🎓 Études', storyId:'supinfo' },
   { id:'fe_b3',    label:'Colocation\nà Troyes',                icon:'🃏', type:'card',   ch:'🎓 Études', deck:'love' },
@@ -304,7 +305,7 @@ const EDGES = [
   // Row 5 R←L (Lycée → BAC)
   ['p_lyc6','p_lyc7'],['p_lyc7','p_lyc8'],['p_lyc8','p_lyc9'],['p_lyc9','fork_et'],
   // Fork_et branches (row 6 L→R) — branch A: local, branch B: Troyes
-  ['fork_et','fe_a'],['fe_a','fe_a2'],['fe_a2','fe_a3'],['fe_a3','p_arc'],
+  ['fork_et','fe_a'],['fe_a','fe_a2'],['fe_a2','fe_a3'],['fe_a3','fe_a4'],['fe_a4','p_arc'],
   ['fork_et','fe_b'],['fe_b','fe_b2'],['fe_b2','fe_b3'],['fe_b3','fe_b4'],['fe_b4','p_arc'],
   // Row 7 R←L (Études convergence)
   ['p_arc','p_etu1'],['p_etu1','p_etu2'],
@@ -522,7 +523,7 @@ const STORIES = {
     src:'invented',
     title:'🏠 Achat de la Maison du 52',
     text:"C'est signé.\nUne maison en Haute-Marne.\nJardin. Cave. Grenier.\n\nPas cher pour Paris.\nHors de prix pour le 52.\n\nMais c'est à toi.\nLa pierre du Schloss.",
-    fx:[{t:'m',v:-18000,l:'💸 -18 000€ (apport + frais de notaire)'}],
+    fx:[{t:'m',v:-18000,l:'💸 -18 000€ (apport + frais de notaire)'},{t:'b',v:5,l:'❤️ +5 bonheur (fierté du propriétaire)'}],
     assetGain:'maison',
   },
   martinot: {
@@ -1377,7 +1378,7 @@ function resize(){
 const BD_COLS = 9, BD_ROWS = 9;
 const BRANCH_STOPS = new Set([
   'f1a','f1a2','f1b','f1b2',
-  'fe_a','fe_a2','fe_a3','fe_b','fe_b2','fe_b3','fe_b4',
+  'fe_a','fe_a2','fe_a3','fe_a4','fe_b','fe_b2','fe_b3','fe_b4',
   'f2a','f2a2','f2a3','f2b','f2b2',
   'f3a','f3a2','f3b','f3b2','f3c','f3c2','f3d','f3d2',
   'f4a','f4a2','f4b','f4b2',
@@ -1385,7 +1386,7 @@ const BRANCH_STOPS = new Set([
 // Fork layout: two parallel tracks that split and rejoin
 const FORK_LAYOUT = {
   fork1:   { pathA:['f1a','f1a2'],           pathB:['f1b','f1b2'],                   mergeId:'p_lycee' },
-  fork_et: { pathA:['fe_a','fe_a2','fe_a3'], pathB:['fe_b','fe_b2','fe_b3','fe_b4'], mergeId:'p_arc' },
+  fork_et: { pathA:['fe_a','fe_a2','fe_a3','fe_a4'], pathB:['fe_b','fe_b2','fe_b3','fe_b4'], mergeId:'p_arc' },
   fork2:   { pathA:['f2a','f2a2','f2a3'],    pathB:['f2b','f2b2'],                   mergeId:'f2b3' },
   fork3:   { pathA:['f3a','f3a2'],           pathB:['f3b','f3b2'],   pathC:['f3c','f3c2'], pathD:['f3d','f3d2'], mergeId:'p_lang' },
   fork4:   { pathA:['f4a','f4a2'],           pathB:['f4b','f4b2'],                   mergeId:'p_adu9' },
