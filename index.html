@@ -93,6 +93,7 @@
       <button id="btn-game-menu" class="game-menu-btn" onclick="toggleGameMenu()">☰</button>
       <div id="game-menu-panel" class="game-menu-panel hidden">
         <div id="game-menu-main">
+          <button class="game-menu-item" onclick="showMyObjective()">🎯 Mon objectif secret</button>
           <button class="game-menu-item" onclick="saveGame()">💾 Sauvegarder la partie</button>
           <button class="game-menu-item danger" onclick="showQuitConfirm()">🚪 Quitter la partie</button>
         </div>
@@ -287,6 +288,16 @@
     <h2 id="obj-modal-player" class="modal-title"></h2>
     <p class="modal-text" style="color:#9999bb;margin-bottom:16px">Ton objectif est secret. Les autres ne le verront pas.<br>Tu gagnes le bonus ❤️ si tu l'accomplis avant la fin.</p>
     <div id="obj-modal-cards" class="obj-cards-row"></div>
+  </div>
+</div>
+
+<!-- OBJ VIEW MODAL — consultation de son objectif secret en cours de partie -->
+<div id="obj-view-modal" class="modal-overlay hidden" onclick="if(event.target===this)hideModal('obj-view-modal')">
+  <div class="modal-card modal-obj">
+    <div class="modal-icon">🎯</div>
+    <h2 id="obj-view-player" class="modal-title"></h2>
+    <div id="obj-view-card" class="obj-cards-row" style="justify-content:center"></div>
+    <button class="modal-btn" onclick="hideModal('obj-view-modal')" style="margin-top:16px">Fermer</button>
   </div>
 </div>
 

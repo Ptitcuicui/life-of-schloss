@@ -2078,6 +2078,36 @@ function toggleGameMenu(){
 function closeGameMenu(){
   document.getElementById('game-menu-panel').classList.add('hidden');
 }
+
+function showMyObjective(){
+  if(!G) return;
+  closeGameMenu();
+  const pid = NET.isOnline() ? NET.getMyPlayerId() : cp().id;
+  const p = G.players.find(x => x.id === pid);
+  if(!p) return;
+  const obj = p.secretObj ? OBJECTIVES.find(o => o.id === p.secretObj) : null;
+  document.getElementById('obj-view-player').innerHTML =
+    `<span style="color:${p.color}">${p.emoji} ${p.name}</span> — Ton objectif secret`;
+  if(obj){
+    const color = DIFF_COLORS[obj.diff];
+    const reward = DIFF_REWARDS[obj.diff];
+    const cond = obj.cond(p);
+    document.getElementById('obj-view-card').innerHTML =
+      `<div class="obj-card" style="border-color:${color}44;--obj-color:${color};cursor:default;max-width:260px">
+        <div class="obj-diff-badge" style="background:${color}22;color:${color}">${DIFF_LABELS[obj.diff]}</div>
+        <div class="obj-label">${obj.label}</div>
+        <div class="obj-desc">${obj.desc}</div>
+        <div class="obj-reward">+${reward} ❤️ si réussi</div>
+        <div style="margin-top:8px;font-size:11px;color:${cond?'#4ade80':'#f87171'}">${cond ? '✓ Condition remplie' : '✗ Pas encore accompli'}</div>
+      </div>`;
+  } else {
+    document.getElementById('obj-view-card').innerHTML =
+      `<p style="color:#9999bb">Aucun objectif sélectionné.</p>`;
+  }
+  showModal('obj-view-modal');
+}
+window.showMyObjective = showMyObjective;
+
 function showQuitConfirm(){
   document.getElementById('game-menu-main').classList.add('hidden');
   document.getElementById('game-menu-confirm').classList.remove('hidden');
@@ -3353,5 +3383,5 @@ const NET = (() => {
     _startGame(ids);
   };
 
-  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, openBet, emitOpenEvent, emitCloseEvent, leaveGame, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep, rejoinRoom, clearSession, sendReaction };
+  return { setMode, createRoom, showJoin, joinRoom, startOnline, startDuel, openBet, emitOpenEvent, emitCloseEvent, leaveGame, sync: syncState, isOnline, isMyTurn, emitDiceRoll, emitMoveStep, rejoinRoom, clearSession, sendReaction, getMyPlayerId: () => myPlayerId };
 })();
