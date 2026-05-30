@@ -464,11 +464,11 @@ const PLAYER_DEFS = [
   { id:'sponge',       name:'Sponge',        stats:{gaming:9,  finance:8,  chance:6,  social:7 } },
   { id:'invoherence',  name:'Incoherence',   stats:{gaming:6,  finance:6,  chance:9,  social:9 } },
   { id:'toutoon',      name:'Toutoon',       stats:{gaming:8,  finance:5,  chance:8,  social:9 } },
-  { id:'don',          name:'Don',           stats:{gaming:7,  finance:6,  chance:4,  social:9 } },
-  { id:'avarod',       name:'Avarod',        stats:{gaming:9,  finance:7,  chance:6,  social:7 } },
-  { id:'guigeek',      name:'Guigeek',       stats:{gaming:9,  finance:5,  chance:7,  social:5 } },
-  { id:'existless',    name:'Existless',     stats:{gaming:7,  finance:6,  chance:9,  social:5 } },
-  { id:'clement',      name:'Clément',       stats:{gaming:5,  finance:7,  chance:7,  social:9 } },
+  { id:'don',          name:'Don',           stats:{gaming:7,  finance:7,  chance:7,  social:9 } },
+  { id:'avarod',       name:'Avarod',        stats:{gaming:9,  finance:7,  chance:6,  social:8 } },
+  { id:'guigeek',      name:'Guigeek',       stats:{gaming:9,  finance:7,  chance:8,  social:6 } },
+  { id:'existless',    name:'Existless',     stats:{gaming:8,  finance:7,  chance:9,  social:6 } },
+  { id:'clement',      name:'Clément',       stats:{gaming:5,  finance:8,  chance:8,  social:9 } },
   { id:'sir_songbird', name:'Sir-Songbird',  stats:{gaming:7,  finance:8,  chance:7,  social:8 } },
 ];
 
