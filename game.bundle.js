@@ -817,7 +817,7 @@ const CARDS = {
     {src:'real',     ti:'🪙 Le Coin Truqué',      tx:"Ptitcuicui propose un pari à Sponge : « devine dans quelle main est la pièce ».\n\nSponge hésite. Réfléchit. Choisit.\n\nLa pièce n'était dans aucune des deux.\n\nClassique.", fx:[{t:'m',v:800,l:'💶 +800€ (escroquerie réussie !)'}], spe:'coin'},
     {src:'invented',     ti:'💰 Prime Surprise',      tx:"Ton employeur distribue une prime inattendue.\nLe viaduc de Chaumont t'inspire l'épargne.", fx:[{t:'m',v:2000,l:'💶 +2000€ (bienvenue dans le monde adulte)'}]},
     {src:'invented',     ti:'💸 Réparation PC',       tx:"Ton ordinateur lâche la veille d'un rendu.\nLes larmes sèchent. La CB saigne.\nTu le fais réparer. Il revient comme neuf.\nPresque.", fx:[{t:'m',v:-800,l:'💸 -800€ (réparation PC)'},{t:'b',v:-1,l:'😞 -1 bonheur'}], assetLose:'pc', assetGain:'pc'},
-    {src:'real',         ti:'🏠 Investissement 52',   tx:"Tu achètes un bien en Haute-Marne.\nMoins cher qu'à Paris et tellement plus beau.", fx:[{t:'m',v:-5000,l:'💸 -5000€ (investissement locatif)'}], assetGain:'maison'},
+    {src:'real',         ti:'🏠 Investissement 52',   tx:"Tu achètes un bien en Haute-Marne.\nMoins cher qu'à Paris et tellement plus beau.\nLes murs sont sains. Le toit... à surveiller.", fx:[{t:'m',v:-13000,l:'💸 -13 000€ (investissement locatif)'}], assetGain:'maison', spe:'invest_52'},
     {src:'invented',     ti:'💻 Nouveau PC Gaming',   tx:"Après des années de lag, tu craques.\nUne tour neuve. Un écran 144Hz.\nLa LAN va enfin te respecter.", fx:[{t:'m',v:-1200,l:'💸 -1200€'}], assetGain:'pc'},
     {src:'invented',     ti:'🚗 Achat Voiture 52',    tx:"Une occasion trouvée sur Le Bon Coin.\nVoisin de Nogent. Propre. Révisée.\nLa bagnole du Schloss.", fx:[{t:'m',v:-8000,l:'💸 -8000€'}], assetGain:'car'},
     {src:'invented',     ti:'🎮 Nouvelle Console',    tx:"Les soldes. Une décision impulsive.\nTu ouvres la boîte dans ta voiture parce que tu ne peux pas attendre.", fx:[{t:'m',v:-450,l:'💸 -450€'},{t:'b',v:2,l:'🎮 +2 bonheur'}], assetGain:'console'},
@@ -1249,6 +1249,10 @@ function applyFx(card, playerId){
   if(card.spe==='inv_graphic'){
     const inv=G.players.find(x=>x.id==='invoherence');
     if(inv){ inv.bonheur+=3; inv.money+=2000; msgs.push('🐰 Incoherence : +3 bonheur et +2000€ en plus !'); }
+  }
+  if(card.spe==='invest_52'){
+    const maison=p.assets.find(a=>a.type==='maison');
+    if(maison){ maison.wear=Math.floor(Math.random()*26)+10; msgs.push(`🏠 La maison a déjà du vécu — usure initiale : ${maison.wear}%`); }
   }
   if(card.spe==='petanque'){
     const ww=G.players.find(x=>x.id==='whitewarrior');

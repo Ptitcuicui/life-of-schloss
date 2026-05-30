@@ -221,7 +221,7 @@ const CARDS = {
     { fx:[{t:'m',v:800}], spe:'coin' },
     { fx:[{t:'m',v:2000}] },
     { fx:[{t:'m',v:-800},{t:'b',v:-1}], assetLose:'pc', assetGain:'pc' },
-    { fx:[{t:'m',v:-5000}], assetGain:'maison' },
+    { fx:[{t:'m',v:-13000}], assetGain:'maison', spe:'invest_52' },
     { fx:[{t:'m',v:-1200}], assetGain:'pc' },
     { fx:[{t:'m',v:-8000}], assetGain:'car' },
     { fx:[{t:'m',v:-450},{t:'b',v:2}], assetGain:'console' },
@@ -530,6 +530,11 @@ function applyCard(card, pid, players) {
   if (card.spe === 'inv_graphic') {
     const inv = players.find(x => x.id === 'invoherence');
     if (inv) { inv.bonheur += 3; inv.money += 2000; }
+  }
+  if (card.spe === 'invest_52') {
+    const p = players.find(x => x.id === pid);
+    const maison = p && (p.assets || []).find(a => a.type === 'maison');
+    if (maison) maison.wear = Math.floor(Math.random() * 26) + 10;
   }
 }
 
