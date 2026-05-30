@@ -190,8 +190,8 @@ const STORIES = {
   imprimeries_champagne:{ fx:[{t:'b',v:3},{t:'m',v:500}], extra:{ toutoon:[{t:'b',v:8},{t:'m',v:500}] } },
   ecommerce_cn:        { fx:[{t:'b',v:3},{t:'m',v:300}], extra:{ toutoon:[{t:'b',v:6},{t:'m',v:500}], whitewarrior:[{t:'b',v:6},{t:'m',v:400}] } },
   frein_casse:         { fx:[{t:'b',v:-2},{t:'m',v:-200}], extra:{ don:[{t:'b',v:3},{t:'m',v:-200}] } },
-  mediegame:           { fx:[{t:'b',v:4},{t:'m',v:-80}], extra:{ invoherence:[{t:'b',v:7}], avarod:[{t:'b',v:7}], guigeek:[{t:'b',v:7}], don:[{t:'b',v:6}], existless:[{t:'b',v:6}], clement:[{t:'b',v:6}] } },
-  soiree_quentin:      { fx:[{t:'b',v:3},{t:'m',v:-30}], extra:{ invoherence:[{t:'b',v:6}], don:[{t:'b',v:5}] } },
+  mediegame:           { fx:[{t:'b',v:4},{t:'m',v:-80}], extra:{ invoherence:[{t:'b',v:7}], avarod:[{t:'b',v:7}], guigeek:[{t:'b',v:7}], don:[{t:'b',v:6}], existless:[{t:'b',v:6}], clement:[{t:'b',v:6}], sir_songbird:[{t:'b',v:6}] } },
+  soiree_quentin:      { fx:[{t:'b',v:3},{t:'m',v:-30}], extra:{ sir_songbird:[{t:'b',v:10}], invoherence:[{t:'b',v:6}], don:[{t:'b',v:5}] } },
   whitewarrior_espion: { fx:[{t:'b',v:4}], extra:{ whitewarrior:[{t:'b',v:9}] } },
   clement_marie_ange:  { fx:[{t:'b',v:5},{t:'m',v:-200}], extra:{ invoherence:[{t:'b',v:8}], clement:[{t:'b',v:12}] } },
   commissariat_escalier:{ fx:[{t:'m',v:400},{t:'b',v:2}], extra:{ ptitcuicui:[{t:'b',v:5},{t:'m',v:400}], toutoon:[{t:'b',v:0},{t:'m',v:400}] } },
@@ -469,6 +469,7 @@ const PLAYER_DEFS = [
   { id:'guigeek',      name:'Guigeek',       stats:{gaming:9,  finance:5,  chance:7,  social:5 } },
   { id:'existless',    name:'Existless',     stats:{gaming:7,  finance:6,  chance:9,  social:5 } },
   { id:'clement',      name:'Clément',       stats:{gaming:5,  finance:7,  chance:7,  social:9 } },
+  { id:'sir_songbird', name:'Sir-Songbird',  stats:{gaming:7,  finance:8,  chance:5,  social:8 } },
 ];
 
 function mkPlayer(def) {

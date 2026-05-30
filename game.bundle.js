@@ -784,14 +784,14 @@ const STORIES = {
     title:'⚔️ Le Mediégame — Langres',
     text:"Langres. Rue médiévale.\nLa façade promet : armes, armures, et menu du soir.\n\nLe Mediégame.\nLes assiettes arrivent dans des gamelles de forgeron.\nLa musique joue des ballades de RPG.\nLe serveur vous appelle messeigneurs.\n\nPtitcuicui vérifie si le menu est dans le wiki de Dark Souls.\nCe n\'est pas le cas — mais l\'ambiance y est.\n\nVous repartez repus, légèrement anachroniques, et heureux.\nLangres n\'a jamais semblé aussi juste.",
     fx:[{t:'b',v:4,l:'⚔️ +4 bonheur (dîner de légende)'},{t:'m',v:-80,l:'💸 -80€ (repas médiéval pour tous)'}],
-    extra:{ invoherence:[{t:'b',v:7,l:'🐰 Incoherence : +7 bonheur (dans son élément — ambiance fantasy, menu mémorable)'}], avarod:[{t:'b',v:7,l:'🦊 Avarod : +7 bonheur (les gamelles de forgeron — il referait ça demain)'}], guigeek:[{t:'b',v:7,l:'🤓 Guigeek : +7 bonheur (le Mediégame c\'est son habitat naturel)'}], don:[{t:'b',v:6,l:'🎩 Don : +6 bonheur (le serveur l\'a appelé messeire — il a adoré)'}], existless:[{t:'b',v:6,l:'🌑 Existless : +6 bonheur (ambiance RPG, musique d\'ambiance — il a disparu dans le lore)'}], clement:[{t:'b',v:6,l:'💍 Clément : +6 bonheur (Marie-Ange a adoré — ce qui compte)'}] },
+    extra:{ invoherence:[{t:'b',v:7,l:'🐰 Incoherence : +7 bonheur (dans son élément — ambiance fantasy, menu mémorable)'}], avarod:[{t:'b',v:7,l:'🦊 Avarod : +7 bonheur (les gamelles de forgeron — il referait ça demain)'}], guigeek:[{t:'b',v:7,l:'🤓 Guigeek : +7 bonheur (le Mediégame c\'est son habitat naturel)'}], don:[{t:'b',v:6,l:'🎩 Don : +6 bonheur (le serveur l\'a appelé messeire — il a adoré)'}], existless:[{t:'b',v:6,l:'🌑 Existless : +6 bonheur (ambiance RPG, musique d\'ambiance — il a disparu dans le lore)'}], clement:[{t:'b',v:6,l:'💍 Clément : +6 bonheur (Marie-Ange a adoré — ce qui compte)'}], sir_songbird:[{t:'b',v:6,l:'🎵 Sir-Songbird : +6 bonheur (table bien organisée, service impeccable — exactement comme il l\'aurait prévu)'}] },
   },
   soiree_quentin: {
     src:'real', // Soirée chez Quentin — dormir avec Franck qui ronfle ou à 2 dans un lit par terre
     title:'😴 Soirée chez Quentin — Le Problème du Lit',
     text:"Soirée chez Quentin. Heure tardive. Plus de place.\n\nDeux options se présentent :\n\nOption A — Lit simple avec Franck.\nAvantage : matelas.\nInconvénient : Franck ronfle. Fort. Régulièrement. Sans s\'en rendre compte.\n\nOption B — Lit simple posé par terre, à deux.\nAvantage : silence garanti.\nInconvénient : le sol, quand même.\n\nLes deux partis dormaient mal.\nFranck a ronflé. Le sol a écorché.\n\nLe matin, tout le monde est debout en même temps.\nLe café de Quentin était excellent.\nC\'est ce qui compte.",
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'anecdote du lit fait encore rire)'},{t:'m',v:-30,l:'💸 -30€ (petit-déjeuner chez Quentin)'}],
-    extra:{ invoherence:[{t:'b',v:6,l:'🐰 Incoherence : +6 bonheur (elle dormait comme un bébé pendant que tout le monde souffrait)'}], don:[{t:'b',v:5,l:'🎩 Don : +5 bonheur (il a ronflé toute la nuit — il a dormi comme un roi)'}] },
+    extra:{ sir_songbird:[{t:'b',v:10,l:"🎵 Sir-Songbird : +10 bonheur (c'est sa soirée, son chez-lui, son café — il s'assure que tout le monde est bien installé)"}], invoherence:[{t:'b',v:6,l:'🐰 Incoherence : +6 bonheur (elle dormait comme un bébé pendant que tout le monde souffrait)'}], don:[{t:'b',v:5,l:'🎩 Don : +5 bonheur (il a ronflé toute la nuit — il a dormi comme un roi)'}] },
   },
   whitewarrior_espion: {
     src:'real', // Whitewarrior obtient la liste des invités du mariage pour mettre les gens dans la confidence sur ce jeu
@@ -1103,6 +1103,7 @@ const PLAYER_DEFS = [
   {id:'guigeek',     name:'Guigeek',      emoji:'🤓', color:'#2ecc71', bg:'#0a2d15', role:'Le Geek Solitaire',           stats:{gaming:9,finance:5,chance:7,social:5}},
   {id:'existless',   name:'Existless',    emoji:'🌑', color:'#6c5ce7', bg:'#1a0d3a', role:'Le Fantôme du Schloss',       stats:{gaming:7,finance:6,chance:9,social:5}},
   {id:'clement',     name:'Clément',      emoji:'💍', color:'#f39c12', bg:'#2d1f00', role:"L'Époux de Marie-Ange",       stats:{gaming:5,finance:7,chance:7,social:9}},
+  {id:'sir_songbird',name:'Sir-Songbird', emoji:'🎵', color:'#48cae4', bg:'#001922', role:"L'Hôte Méticuleux",            stats:{gaming:7,finance:8,chance:5,social:8}},
 ];
 function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, assets:[], finished:false, order:null, negativeTurns:0,
   secretObj:null, eliminated:false,
