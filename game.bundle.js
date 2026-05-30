@@ -941,6 +941,19 @@ const CARDS = {
     {src:'invented',     ti:'✂️ Nogent-en-Bassigny',         tx:"La coutellerie de Nogent.\n70% des ciseaux chirurgicaux français sortent d\'ici.\nUn hôpital te contacte pour un projet sur mesure.\n\nLe 52 exporte son excellence au monde.", fx:[{t:'m',v:2800,l:'💶 +2800€ (contrat de prestige)'},{t:'b',v:2,l:'✂️ +2 bonheur (fierté du 52)'}]},
     {src:'invented',     ti:'🏭 L\'Usine de Saint-Dizier',   tx:"L\'industrie sidérurgique du bassin de Saint-Dizier.\nAmplitudes Zola. Cadence soutenue. Paye cash.\n\nLe 52 fait tourner la France depuis 200 ans.", fx:[{t:'m',v:2200,l:'💶 +2200€ (contrat industriel)'}]},
     {src:'invented',     ti:'🌲 Filière Bois du 52',         tx:"La forêt de Haute-Marne est une ressource.\nTu décroches un contrat de gestion forestière.\nBois d\'œuvre. Biomasse. Circuit court.\n\nLe 52 pense déjà à demain.", fx:[{t:'m',v:1900,l:'💶 +1900€'},{t:'b',v:2,l:'🌳 +2 bonheur (l\'économie verte du 52)'}]},
+    {src:'real',         ti:'🧱 Le Serveur Minecraft du Schloss', tx:"Une adresse IP. Un mot de passe sur un Post-it.\nLe serveur Minecraft du Schloss.\n\nOn a reconstruit le lycée De Gaulle bloc par bloc.\nCouloirs, salles de classe, le CDI.\nEt puis on s\'est mis à se coller dessus avec des épées en fer.\n\nLes premiers mini-jeux du Schloss sont nés là.\nFlint and Steel. D\'autres maps. D\'autres nuits.\n\nPersonne ne dormait pendant les vacances.\nPersonne ne le regrettait.",
+      fx:[{t:'b',v:3,l:'🧱 +3 bonheur (la légende du serveur)'}],
+      extra:{
+        ptitcuicui:[{t:'b',v:7,l:'🐦 Ptitcuicui : +7 bonheur (l\'architecte du serveur — les maps, c\'était lui)'}],
+        whitewarrior:[{t:'b',v:7,l:'⚔️ Whitewarrior : +7 bonheur (PVP dans les couloirs de De Gaulle — invaincu)'}],
+        sponge:[{t:'b',v:7,l:'🧽 Sponge : +7 bonheur (il avait optimisé la ferme de blé — efficacité maximale)'}],
+        toutoon:[{t:'b',v:7,l:'😤 Toutoon : +7 bonheur (Flint and Steel — il a tout brûlé, deux fois)'}],
+        guigeek:[{t:'b',v:8,l:'🤓 Guigeek : +8 bonheur (Minecraft c\'est son territoire — il connaissait chaque recette par cœur)'}],
+        don:[{t:'b',v:5,l:'🎩 Don : +5 bonheur (il était là — il a grillé le spawn à plusieurs reprises)'}],
+        existless:[{t:'b',v:5,l:'🌑 Existless : +5 bonheur (il creusait en silence — et réapparaissait avec des diamants)'}],
+        clement:[{t:'b',v:5,l:'💍 Clément : +5 bonheur (il a construit une maison impeccable — et ne l\'a jamais habitée)'}],
+      }
+    },
   ],
 };
 
