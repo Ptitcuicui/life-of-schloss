@@ -435,7 +435,7 @@ const STORIES = {
     title:'🎓 Supinfo Troyes — La Rencontre Légendaire',
     text:"Un cours d'informatique à Troyes.\nPtitcuicui est au tableau.\nUne étudiante éternue discrètement au fond de la salle.\n\nLa réponse fuse, sans hésiter :\n« Tu peux mourir en silence s'il te plaît ? »\n\nLa classe s'arrête. Puis éclate de rire.\nUne amitié bizarre mais sincère vient de naître.",
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (un running gag qui dure encore)'}],
-    extra:{ ptitcuicui:[{t:'b',v:5,l:'🐦 Ptitcuicui : +5 bonheur (la réplique la plus mémorable de sa scolarité)'}], invoherence:[{t:'b',v:5,l:'🐰 Incoherence : +5 bonheur (et tu peux éternuer maintenant)'}] }
+    extra:{ ptitcuicui:[{t:'b',v:5,l:'🐦 Ptitcuicui : +5 bonheur (la réplique la plus mémorable de sa scolarité)'}], invoherence:[{t:'b',v:5,l:'🐰 Incoherence : +5 bonheur (et tu peux éternuer maintenant)'}], avarod:[{t:'b',v:5,l:'🦊 Avarod : +5 bonheur (il était là — il confirme que c\'est exactement comme ça que ça s\'est passé)'}] }
   },
   stage: {
     src:'real', // Stage : Ptitcuicui arrive exprès en retard pour que Toutoon soit seul avec Incoherence
@@ -776,6 +776,7 @@ const STORIES = {
     title:'🚨 Le Frein de Franck',
     text:"La voiture de Franck.\nLe frein à main. Ou plutôt — son absence.\n\nFeu rouge. Franck freine normalement.\nFeu vert. Il redémarre.\n\nSomeone regarde dans le rétro.\n\n« Euh... t\'as grillé le rouge. »\n« Le frein est cassé. »\n« ...C\'est pas une explication. »\n\nIls arrivent quand même.\nAvant la police.",
     fx:[{t:'b',v:-2,l:'💔 -2 bonheur (le stress du feu grillé)'},{t:'m',v:-200,l:'💸 -200€ (réparation frein + amende potentielle)'}],
+    extra:{ don:[{t:'b',v:1,l:'🎩 Don : +1 bonheur (le frein, il connaît — c\'est son frein)'},{t:'m',v:-400,l:'💸 Don : -400€ (cette fois il répare vraiment)'}] },
   },
   mediegame: {
     src:'real', // Repas au Mediégame — restaurant médiéval-geek à Langres
@@ -789,7 +790,7 @@ const STORIES = {
     title:'😴 Soirée chez Quentin — Le Problème du Lit',
     text:"Soirée chez Quentin. Heure tardive. Plus de place.\n\nDeux options se présentent :\n\nOption A — Lit simple avec Franck.\nAvantage : matelas.\nInconvénient : Franck ronfle. Fort. Régulièrement. Sans s\'en rendre compte.\n\nOption B — Lit simple posé par terre, à deux.\nAvantage : silence garanti.\nInconvénient : le sol, quand même.\n\nLes deux partis dormaient mal.\nFranck a ronflé. Le sol a écorché.\n\nLe matin, tout le monde est debout en même temps.\nLe café de Quentin était excellent.\nC\'est ce qui compte.",
     fx:[{t:'b',v:3,l:'😂 +3 bonheur (l\'anecdote du lit fait encore rire)'},{t:'m',v:-30,l:'💸 -30€ (petit-déjeuner chez Quentin)'}],
-    extra:{ invoherence:[{t:'b',v:6,l:'🐰 Incoherence : +6 bonheur (elle dormait comme un bébé pendant que tout le monde souffrait)'}] },
+    extra:{ invoherence:[{t:'b',v:6,l:'🐰 Incoherence : +6 bonheur (elle dormait comme un bébé pendant que tout le monde souffrait)'}], don:[{t:'b',v:5,l:'🎩 Don : +5 bonheur (il a ronflé toute la nuit — il a dormi comme un roi)'}] },
   },
   whitewarrior_espion: {
     src:'real', // Whitewarrior obtient la liste des invités du mariage pour mettre les gens dans la confidence sur ce jeu
@@ -803,7 +804,7 @@ const STORIES = {
     title:'💍 L\'Annonce de Clément & Marie-Ange',
     text:"Chaumont. Devant la gare.\nVous attendez une place à la pizzeria.\nLa conversation dérive — comme toujours avec le Schloss.\n\nClément sort son téléphone.\nMarie-Ange sourit.\n\n« On va se marier. »\n\nPersonne ne sait quoi dire pendant exactement 3 secondes.\nPuis tout le monde parle en même temps.\n\nLa pizzeria peut bien prendre son temps.\nCe soir, on a autre chose à célébrer.",
     fx:[{t:'b',v:5,l:'💍 +5 bonheur (une annonce qu\'on n\'oublie pas)'},{t:'m',v:-200,l:'💸 -200€ (champagne improvisé devant la pizzeria)'}],
-    extra:{ invoherence:[{t:'b',v:8,l:'🐰 Incoherence : +8 bonheur (les fiançailles, ça la connaît — elle a posé la question à Toutoon)'}] },
+    extra:{ invoherence:[{t:'b',v:8,l:'🐰 Incoherence : +8 bonheur (les fiançailles, ça la connaît — elle a posé la question à Toutoon)'}], clement:[{t:'b',v:12,l:'💍 Clément : +12 bonheur (c\'est lui qui annonce — le plus beau moment de sa vie)'}] },
   },
 };
 
@@ -1081,6 +1082,11 @@ const PLAYER_DEFS = [
   {id:'sponge',      name:'Sponge',       emoji:'🧽', color:'#ff8c42', bg:'#3a1a00', role:'Le Gestionnaire',             stats:{gaming:9,finance:8,chance:6,social:7}},
   {id:'invoherence', name:'Incoherence',  emoji:'🐰', color:'#c084f5', bg:'#2a0a3a', role:'La Rêveuse 💍 future mariée',stats:{gaming:6,finance:6,chance:9,social:9}},
   {id:'toutoon',     name:'Toutoon',      emoji:'😤', color:'#f5c400', bg:'#2a1f00', role:'Le Dormant 💍 futur marié',  stats:{gaming:8,finance:5,chance:8,social:9}},
+  {id:'don',         name:'Don',          emoji:'🎩', color:'#e74c3c', bg:'#2d0a0a', role:'Le Chauffeur Imprévisible',   stats:{gaming:7,finance:6,chance:4,social:9}},
+  {id:'avarod',      name:'Avarod',       emoji:'🦊', color:'#00d4aa', bg:'#002d27', role:'Le Camarade Supinfo',         stats:{gaming:9,finance:7,chance:6,social:7}},
+  {id:'guigeek',     name:'Guigeek',      emoji:'🤓', color:'#2ecc71', bg:'#0a2d15', role:'Le Geek Solitaire',           stats:{gaming:9,finance:5,chance:7,social:5}},
+  {id:'existless',   name:'Existless',    emoji:'🌑', color:'#6c5ce7', bg:'#1a0d3a', role:'Le Fantôme du Schloss',       stats:{gaming:7,finance:6,chance:9,social:5}},
+  {id:'clement',     name:'Clément',      emoji:'💍', color:'#f39c12', bg:'#2d1f00', role:"L'Époux de Marie-Ange",       stats:{gaming:5,finance:7,chance:7,social:9}},
 ];
 function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, assets:[], finished:false, order:null, negativeTurns:0,
   secretObj:null, eliminated:false,
