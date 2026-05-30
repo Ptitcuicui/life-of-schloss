@@ -1250,6 +1250,16 @@ function applyFx(card, playerId){
     const inv=G.players.find(x=>x.id==='invoherence');
     if(inv){ inv.bonheur+=3; inv.money+=2000; msgs.push('🐰 Incoherence : +3 bonheur et +2000€ en plus !'); }
   }
+  if(card.spe==='petanque'){
+    const ww=G.players.find(x=>x.id==='whitewarrior');
+    const sp=G.players.find(x=>x.id==='sponge');
+    const pt=G.players.find(x=>x.id==='ptitcuicui');
+    const tt=G.players.find(x=>x.id==='toutoon');
+    if(ww){ ww.bonheur+=3; msgs.push('⚔️ Whitewarrior : +3 bonheur (pointer au millimètre, c\'est son truc)'); }
+    if(sp){ sp.bonheur+=3; msgs.push('🧽 Sponge : +3 bonheur (tire au millimètre, victoire méritée)'); }
+    if(pt){ pt.bonheur-=1; msgs.push('🐦 Ptitcuicui : -1 bonheur (il analyse encore les lancers)'); }
+    if(tt){ tt.bonheur-=1; msgs.push('😤 Toutoon : -1 bonheur (rage silencieuse — il rejoue la finale dans sa tête)'); }
+  }
   // Snapshot min bonheur/argent pour tous les joueurs après chaque effet
   G.players.forEach(pl => trackPlayerMins(pl));
   return msgs;
