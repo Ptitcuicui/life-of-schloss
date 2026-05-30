@@ -291,7 +291,7 @@ const CARDS = {
     { fx:[{t:'b',v:4}] },
     { fx:[{t:'b',v:2}] },
     { fx:[{t:'b',v:4},{t:'m',v:200}] }, // pétanque Villiers-le-Sec
-    { fx:[{t:'b',v:3}], extra:{ ptitcuicui:[{t:'b',v:7}], whitewarrior:[{t:'b',v:7}], sponge:[{t:'b',v:7}], toutoon:[{t:'b',v:7}], guigeek:[{t:'b',v:8}], don:[{t:'b',v:5}], existless:[{t:'b',v:5}], clement:[{t:'b',v:5}] } }, // serveur Minecraft
+    { fx:[{t:'b',v:3}], extra:{ guigeek:[{t:'b',v:8}], whitewarrior:[{t:'b',v:7}], sponge:[{t:'b',v:7}], toutoon:[{t:'b',v:7}], clement:[{t:'b',v:7}], don:[{t:'b',v:6}], existless:[{t:'b',v:6}], ptitcuicui:[{t:'b',v:5}], avarod:[{t:'b',v:4}], invoherence:[{t:'b',v:4}] } }, // serveur Minecraft
   ],
   surprise:[
     { fx:[{t:'b',v:3},{t:'m',v:1000}] },
