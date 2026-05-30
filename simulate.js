@@ -469,7 +469,7 @@ const PLAYER_DEFS = [
   { id:'guigeek',      name:'Guigeek',       stats:{gaming:9,  finance:5,  chance:7,  social:5 } },
   { id:'existless',    name:'Existless',     stats:{gaming:7,  finance:6,  chance:9,  social:5 } },
   { id:'clement',      name:'Clément',       stats:{gaming:5,  finance:7,  chance:7,  social:9 } },
-  { id:'sir_songbird', name:'Sir-Songbird',  stats:{gaming:7,  finance:8,  chance:5,  social:8 } },
+  { id:'sir_songbird', name:'Sir-Songbird',  stats:{gaming:7,  finance:8,  chance:7,  social:8 } },
 ];
 
 function mkPlayer(def) {

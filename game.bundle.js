@@ -1103,7 +1103,7 @@ const PLAYER_DEFS = [
   {id:'guigeek',     name:'Guigeek',      emoji:'🤓', color:'#2ecc71', bg:'#0a2d15', role:'Le Geek Solitaire',           stats:{gaming:9,finance:5,chance:7,social:5}},
   {id:'existless',   name:'Existless',    emoji:'🌑', color:'#6c5ce7', bg:'#1a0d3a', role:'Le Fantôme du Schloss',       stats:{gaming:7,finance:6,chance:9,social:5}},
   {id:'clement',     name:'Clément',      emoji:'💍', color:'#f39c12', bg:'#2d1f00', role:"L'Époux de Marie-Ange",       stats:{gaming:5,finance:7,chance:7,social:9}},
-  {id:'sir_songbird',name:'Sir-Songbird', emoji:'🎵', color:'#48cae4', bg:'#001922', role:"L'Hôte Méticuleux",            stats:{gaming:7,finance:8,chance:5,social:8}},
+  {id:'sir_songbird',name:'Sir-Songbird', emoji:'🎵', color:'#48cae4', bg:'#001922', role:"L'Hôte Méticuleux",            stats:{gaming:7,finance:8,chance:7,social:8}},
 ];
 function mkPlayer(def){ return {...def, nodeId:'start', money:5000, bonheur:0, wins:0, assets:[], finished:false, order:null, negativeTurns:0,
   secretObj:null, eliminated:false,
