@@ -443,7 +443,7 @@ const STORIES = {
     text:"Un stage. Trois compères : Ptitcuicui, Toutoon, Incoherence.\n\nCe jour-là, Ptitcuicui arrive en retard.\nExprès.\n\nToutoon se retrouve seul avec Incoherence.\nIl prend son courage à deux mains.\nIncoherence dit oui.\n\nLe reste... c'est l'histoire du Schloss. ❤️",
     fx:[{t:'b',v:5,l:'💍 +5 bonheur (le début de quelque chose de grand)'},{t:'m',v:1000,l:'💶 +1000€ (prime de fin de stage)'}],
     extra:{
-      ptitcuicui:[{t:'b',v:8,l:'🐦 Ptitcuicui : +8 bonheur, +1000€ (le plan a fonctionné, le meilleur retard de sa vie)'},{t:'m',v:1000,l:'💶 +1000€ (prime de stage)'}],
+      ptitcuicui:[{t:'b',v:6,l:'🐦 Ptitcuicui : +6 bonheur, +1000€ (le plan a fonctionné, le meilleur retard de sa vie)'},{t:'m',v:1000,l:'💶 +1000€ (prime de stage)'}],
       toutoon:[{t:'b',v:9,l:'😤→❤️ Toutoon : +9 bonheur, +1000€ (pour une fois, pas de rage)'},{t:'m',v:1000,l:'💶 +1000€ (prime de stage)'}],
       invoherence:[{t:'b',v:9,l:'🐰 Incoherence : +9 bonheur, +1000€ (oui, pour la vie)'},{t:'m',v:1000,l:'💶 +1000€ (prime de stage)'}]
     }
@@ -579,7 +579,7 @@ const STORIES = {
     extra:{
       toutoon:[{t:'b',v:11,l:'😤→💍 Toutoon : +11 bonheur (une seconde pour dire oui — une vie pour le mériter)'},{t:'m',v:-500,l:'💸 -500€'}],
       invoherence:[{t:'b',v:11,l:'🐰 Incoherence : +11 bonheur, -2000€ (elle a posé la question — et il a dit oui)'},{t:'m',v:-2000,l:'💸 -2000€ (la bague)'}],
-      ptitcuicui:[{t:'b',v:9,l:'🐦 Ptitcuicui : +9 bonheur (il savait depuis le stage — et maintenant tout le monde sait)'},{t:'m',v:-500,l:'💸 -500€'}]
+      ptitcuicui:[{t:'b',v:7,l:'🐦 Ptitcuicui : +7 bonheur (il savait depuis le stage — et maintenant tout le monde sait)'},{t:'m',v:-500,l:'💸 -500€'}]
     }
   },
   soiree_village: {
@@ -634,6 +634,7 @@ const STORIES = {
     title:'🎮 Confinement — Sessions Warzone',
     text:"Mars 2020. Le monde ferme.\nLes sorties : interdites.\nLes plans du Schloss : annulés.\n\nMais Warzone vient de sortir.\n\nChaque soir, même heure.\nCasques sur les oreilles.\nVoix calme jusqu'au premier engagement.\n\n'Contact — est ! Non, ouest — attend, ils sont deux—'\nCINQ ENNEMIS.\n\nOn finit eliminés. On renchaine.\nOn finit Top 5. On renchaine.\nOn finit champion. On hurle dans le micro.\n\nLe covid dehors.\nLe Schloss ensemble.\nC'était pas si mal, finalement.",
     fx:[{t:'b',v:5,l:'🎮 +5 bonheur (les meilleures soirées du confinement)'},{t:'m',v:-40,l:'💸 -40€ (snacks, abonnements, skins inutiles)'}],
+    extra:{ avarod:[{t:'b',v:8,l:'🦊 Avarod : +8 bonheur (KD ratio positif — il était à fond)'}], guigeek:[{t:'b',v:8,l:'🤓 Guigeek : +8 bonheur (le confinement c\'était son mode de vie depuis toujours)'}], existless:[{t:'b',v:7,l:'🌑 Existless : +7 bonheur (il s\'est connecté en silence — et a éliminé tout le monde)'}] },
   },
   reunion_infinie: {
     src:'invented',
@@ -768,7 +769,7 @@ const STORIES = {
     fx:[{t:'b',v:5,l:'🤖 +5 bonheur (la fierté du labo)'},{t:'m',v:500,l:'💶 +500€ (prix + prime académique)'}],
     extra:{
       toutoon:[{t:'b',v:8,l:'😤 Toutoon : +8 bonheur, +500€ (il a codé la logique — 3 ans de suite)'},{t:'m',v:500,l:'💶 +500€'}],
-      ptitcuicui:[{t:'b',v:8,l:'🐦 Ptitcuicui : +8 bonheur, +500€ (il a géré l\'architecture — et les câbles)'},{t:'m',v:500,l:'💶 +500€'}]
+      ptitcuicui:[{t:'b',v:6,l:'🐦 Ptitcuicui : +6 bonheur, +500€ (il a géré l\'architecture — et les câbles)'},{t:'m',v:500,l:'💶 +500€'}]
     }
   },
   frein_casse: {
@@ -776,14 +777,14 @@ const STORIES = {
     title:'🚨 Le Frein de Franck',
     text:"La voiture de Franck.\nLe frein à main. Ou plutôt — son absence.\n\nFeu rouge. Franck freine normalement.\nFeu vert. Il redémarre.\n\nSomeone regarde dans le rétro.\n\n« Euh... t\'as grillé le rouge. »\n« Le frein est cassé. »\n« ...C\'est pas une explication. »\n\nIls arrivent quand même.\nAvant la police.",
     fx:[{t:'b',v:-2,l:'💔 -2 bonheur (le stress du feu grillé)'},{t:'m',v:-200,l:'💸 -200€ (réparation frein + amende potentielle)'}],
-    extra:{ don:[{t:'b',v:1,l:'🎩 Don : +1 bonheur (le frein, il connaît — c\'est son frein)'},{t:'m',v:-400,l:'💸 Don : -400€ (cette fois il répare vraiment)'}] },
+    extra:{ don:[{t:'b',v:3,l:'🎩 Don : +3 bonheur (le frein, il connaît — c\'est son frein, il gère)'},{t:'m',v:-200,l:'💸 Don : -200€ (il connaît le garage)'}] },
   },
   mediegame: {
     src:'real', // Repas au Mediégame — restaurant médiéval-geek à Langres
     title:'⚔️ Le Mediégame — Langres',
     text:"Langres. Rue médiévale.\nLa façade promet : armes, armures, et menu du soir.\n\nLe Mediégame.\nLes assiettes arrivent dans des gamelles de forgeron.\nLa musique joue des ballades de RPG.\nLe serveur vous appelle messeigneurs.\n\nPtitcuicui vérifie si le menu est dans le wiki de Dark Souls.\nCe n\'est pas le cas — mais l\'ambiance y est.\n\nVous repartez repus, légèrement anachroniques, et heureux.\nLangres n\'a jamais semblé aussi juste.",
     fx:[{t:'b',v:4,l:'⚔️ +4 bonheur (dîner de légende)'},{t:'m',v:-80,l:'💸 -80€ (repas médiéval pour tous)'}],
-    extra:{ invoherence:[{t:'b',v:7,l:'🐰 Incoherence : +7 bonheur (dans son élément — ambiance fantasy, menu mémorable)'}] },
+    extra:{ invoherence:[{t:'b',v:7,l:'🐰 Incoherence : +7 bonheur (dans son élément — ambiance fantasy, menu mémorable)'}], avarod:[{t:'b',v:7,l:'🦊 Avarod : +7 bonheur (les gamelles de forgeron — il referait ça demain)'}], guigeek:[{t:'b',v:7,l:'🤓 Guigeek : +7 bonheur (le Mediégame c\'est son habitat naturel)'}], don:[{t:'b',v:6,l:'🎩 Don : +6 bonheur (le serveur l\'a appelé messeire — il a adoré)'}], existless:[{t:'b',v:6,l:'🌑 Existless : +6 bonheur (ambiance RPG, musique d\'ambiance — il a disparu dans le lore)'}], clement:[{t:'b',v:6,l:'💍 Clément : +6 bonheur (Marie-Ange a adoré — ce qui compte)'}] },
   },
   soiree_quentin: {
     src:'real', // Soirée chez Quentin — dormir avec Franck qui ronfle ou à 2 dans un lit par terre
